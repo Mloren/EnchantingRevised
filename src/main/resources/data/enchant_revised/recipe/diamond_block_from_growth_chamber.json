@@ -1,0 +1,9 @@
+{
+  "type": "enchant_revised:growth_chamber",
+  "ingredient": {
+    "item": "minecraft:diamond"
+  },
+  "result": {
+    "id": "minecraft:diamond_block"
+  }
+}
