@@ -4,7 +4,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.mloren.enchant_revised.MainMod;
-import net.mloren.enchant_revised.screen.custom.GrowthChamberMenu;
+import net.mloren.enchant_revised.screen.custom.EnchantAltarMenu;
 import net.mloren.enchant_revised.screen.custom.PedestalMenu;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
@@ -20,8 +20,8 @@ public class ModMenuTypes
     public static final DeferredHolder<MenuType<?>, MenuType<PedestalMenu>> PEDESTAL_MENU =
             registerMenuType("pedestal_menu", PedestalMenu::new);
 
-    public static final DeferredHolder<MenuType<?>, MenuType<GrowthChamberMenu>> GROWTH_CHAMBER_MENU =
-            registerMenuType("growth_chamber_menu", GrowthChamberMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<EnchantAltarMenu>> ENCHANT_ALTAR_MENU =
+            registerMenuType("enchant_altar_menu", EnchantAltarMenu::new);
 
     private static <T extends AbstractContainerMenu> DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory)
     {

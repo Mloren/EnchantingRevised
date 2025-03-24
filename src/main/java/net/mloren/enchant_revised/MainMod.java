@@ -8,7 +8,7 @@ import net.mloren.enchant_revised.enchantment.ModEnchantmentEffects;
 import net.mloren.enchant_revised.item.ModItems;
 import net.mloren.enchant_revised.recipe.ModRecipes;
 import net.mloren.enchant_revised.screen.ModMenuTypes;
-import net.mloren.enchant_revised.screen.custom.GrowthChamberScreen;
+import net.mloren.enchant_revised.screen.custom.EnchantAltarScreen;
 import net.mloren.enchant_revised.screen.custom.PedestalScreen;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -71,7 +71,7 @@ public class MainMod
         if(event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
         {
             event.accept(ModBlocks.PEDESTAL);
-            event.accept(ModBlocks.GROWTH_CHAMBER);
+            event.accept(ModBlocks.ENCHANT_ALTAR);
         }
     }
 
@@ -100,7 +100,7 @@ public class MainMod
         public static void registerScreens(RegisterMenuScreensEvent event)
         {
             event.register(ModMenuTypes.PEDESTAL_MENU.get(), PedestalScreen::new);
-            event.register(ModMenuTypes.GROWTH_CHAMBER_MENU.get(), GrowthChamberScreen::new);
+            event.register(ModMenuTypes.ENCHANT_ALTAR_MENU.get(), EnchantAltarScreen::new);
         }
     }
 }

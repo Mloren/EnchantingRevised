@@ -19,16 +19,16 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.mloren.enchant_revised.recipe.GrowthChamberRecipe;
-import net.mloren.enchant_revised.recipe.GrowthChamberRecipeInput;
+import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
+import net.mloren.enchant_revised.recipe.EnchantAltarRecipeInput;
 import net.mloren.enchant_revised.recipe.ModRecipes;
-import net.mloren.enchant_revised.screen.custom.GrowthChamberMenu;
+import net.mloren.enchant_revised.screen.custom.EnchantAltarMenu;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class GrowthChamberBlockEntity extends BlockEntity implements MenuProvider
+public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
 {
     public final ItemStackHandler inventory = new ItemStackHandler(2)
     {
@@ -50,9 +50,9 @@ public class GrowthChamberBlockEntity extends BlockEntity implements MenuProvide
     private int progress = 0;
     private int maxProgress = 72;
 
-    public GrowthChamberBlockEntity(BlockPos pos, BlockState blockState)
+    public EnchantAltarBlockEntity(BlockPos pos, BlockState blockState)
     {
-        super(ModBlockEntities.GROWTH_CHAMBER_BE.get(), pos, blockState);
+        super(ModBlockEntities.ENCHANT_ALTAR_BE.get(), pos, blockState);
         data = new ContainerData()
         {
             @Override
@@ -60,8 +60,8 @@ public class GrowthChamberBlockEntity extends BlockEntity implements MenuProvide
             {
                 return switch(index)
                 {
-                    case 0 -> GrowthChamberBlockEntity.this.progress;
-                    case 1 -> GrowthChamberBlockEntity.this.maxProgress;
+                    case 0 -> EnchantAltarBlockEntity.this.progress;
+                    case 1 -> EnchantAltarBlockEntity.this.maxProgress;
                     default -> 0;
                 };
             }
@@ -71,8 +71,8 @@ public class GrowthChamberBlockEntity extends BlockEntity implements MenuProvide
             {
                 switch(index)
                 {
-                    case 0: GrowthChamberBlockEntity.this.progress = value;
-                    case 1: GrowthChamberBlockEntity.this.maxProgress = value;
+                    case 0: EnchantAltarBlockEntity.this.progress = value;
+                    case 1: EnchantAltarBlockEntity.this.maxProgress = value;
                 };
             }
 
@@ -98,13 +98,13 @@ public class GrowthChamberBlockEntity extends BlockEntity implements MenuProvide
     @Override
     public Component getDisplayName()
     {
-        return Component.translatable("block.enchant_revised.growth_chamber");
+        return Component.translatable("block.enchant_revised.enchant_altar");
     }
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player)
     {
-        return new GrowthChamberMenu(containerId, playerInventory, this, this.data);
+        return new EnchantAltarMenu(containerId, playerInventory, this, this.data);
     }
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState)
@@ -128,7 +128,7 @@ public class GrowthChamberBlockEntity extends BlockEntity implements MenuProvide
 
     private void creaftItem()
     {
-        Optional<RecipeHolder<GrowthChamberRecipe>> recipe = getCurrentRecipe();
+        Optional<RecipeHolder<EnchantAltarRecipe>> recipe = getCurrentRecipe();
         ItemStack output = recipe.get().value().output();
 
         inventory.extractItem(INPUT_SLOT, 1, false);
@@ -153,7 +153,7 @@ public class GrowthChamberBlockEntity extends BlockEntity implements MenuProvide
 
     private boolean hasRecipe()
     {
-        Optional<RecipeHolder<GrowthChamberRecipe>> recipe = getCurrentRecipe();
+        Optional<RecipeHolder<EnchantAltarRecipe>> recipe = getCurrentRecipe();
         if(recipe.isEmpty())
             return false;
 
@@ -161,10 +161,10 @@ public class GrowthChamberBlockEntity extends BlockEntity implements MenuProvide
         return canInsertAmountIntoOutputSlot(output.getCount()) && canInsertItemIntoOutputSlot(output);
     }
 
-    private Optional<RecipeHolder<GrowthChamberRecipe>> getCurrentRecipe()
+    private Optional<RecipeHolder<EnchantAltarRecipe>> getCurrentRecipe()
     {
         return this.level.getRecipeManager()
-                .getRecipeFor(ModRecipes.GROWTH_CHAMBER_TYPE.get(), new GrowthChamberRecipeInput(inventory.getStackInSlot(INPUT_SLOT)), level);
+                .getRecipeFor(ModRecipes.ENCHANT_ALTAR_TYPE.get(), new EnchantAltarRecipeInput(inventory.getStackInSlot(INPUT_SLOT)), level);
     }
 
     private boolean canInsertItemIntoOutputSlot(ItemStack output)
@@ -185,8 +185,8 @@ public class GrowthChamberBlockEntity extends BlockEntity implements MenuProvide
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         tag.put("inventory", inventory.serializeNBT(registries));
-        tag.putInt("growth_chamber.progress", progress);
-        tag.putInt("growth_chamber.max_progress", maxProgress);
+        tag.putInt("enchant_altar.progress", progress);
+        tag.putInt("enchant_altar.max_progress", maxProgress);
 
         super.saveAdditional(tag, registries);
     }
@@ -197,8 +197,8 @@ public class GrowthChamberBlockEntity extends BlockEntity implements MenuProvide
         super.loadAdditional(tag, registries);
 
         inventory.deserializeNBT(registries, tag.getCompound("inventory"));
-        progress = tag.getInt("growth_chamber.progress");
-        maxProgress = tag.getInt("growth_chamber.max_progress");
+        progress = tag.getInt("enchant_altar.progress");
+        maxProgress = tag.getInt("enchant_altar.max_progress");
     }
 
     @Override

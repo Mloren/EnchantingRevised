@@ -1,14 +1,11 @@
 package net.mloren.enchant_revised.block;
 
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
-import net.minecraft.world.level.block.state.properties.WoodType;
 import net.mloren.enchant_revised.MainMod;
-import net.mloren.enchant_revised.block.custom.GrowthChamberBlock;
+import net.mloren.enchant_revised.block.custom.EnchantAltarBlock;
 import net.mloren.enchant_revised.block.custom.PedestalBlock;
 import net.mloren.enchant_revised.item.ModItems;
 import net.neoforged.bus.api.IEventBus;
@@ -24,8 +21,8 @@ public class ModBlocks
     public static final DeferredBlock<Block> PEDESTAL = registerBlock("pedestal",
             () -> new PedestalBlock(BlockBehaviour.Properties.of().noOcclusion()));
 
-    public static final DeferredBlock<Block> GROWTH_CHAMBER = registerBlock("growth_chamber",
-            () -> new GrowthChamberBlock(BlockBehaviour.Properties.of()));
+    public static final DeferredBlock<Block> ENCHANT_ALTAR = registerBlock("enchant_altar",
+            () -> new EnchantAltarBlock(BlockBehaviour.Properties.of()));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block)
     {

@@ -3,7 +3,7 @@ package net.mloren.enchant_revised.recipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
 
-public record GrowthChamberRecipeInput(ItemStack input) implements RecipeInput
+public record EnchantAltarRecipeInput(ItemStack input) implements RecipeInput
 {
     @Override
     public ItemStack getItem(int index)

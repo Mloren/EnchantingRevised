@@ -9,14 +9,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.mloren.enchant_revised.MainMod;
 
-public class GrowthChamberScreen extends AbstractContainerScreen<GrowthChamberMenu>
+public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu>
 {
     private static final ResourceLocation GUI_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID, "textures/gui/growth_chamber/growth_chamber_gui.png");
+            ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID, "textures/gui/enchant_altar/enchant_altar_gui.png");
     private static final ResourceLocation ARROW_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID, "textures/gui/arrow_progress.png");
 
-    public GrowthChamberScreen(GrowthChamberMenu menu, Inventory playerInventory, Component title)
+    public EnchantAltarScreen(EnchantAltarMenu menu, Inventory playerInventory, Component title)
     {
         super(menu, playerInventory, title);
     }

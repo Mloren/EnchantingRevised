@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "enchant_revised:block/growth_chamber"
+    "all": "enchant_revised:block/enchant_altar"
   }
 }

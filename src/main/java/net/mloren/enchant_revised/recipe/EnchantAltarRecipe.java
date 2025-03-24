@@ -13,7 +13,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-public record GrowthChamberRecipe(Ingredient inputItem, ItemStack output) implements Recipe<GrowthChamberRecipeInput>
+public record EnchantAltarRecipe(Ingredient inputItem, ItemStack output) implements Recipe<EnchantAltarRecipeInput>
 {
     @Override
     public NonNullList<Ingredient> getIngredients()
@@ -24,7 +24,7 @@ public record GrowthChamberRecipe(Ingredient inputItem, ItemStack output) implem
     }
 
     @Override
-    public boolean matches(GrowthChamberRecipeInput input, Level level)
+    public boolean matches(EnchantAltarRecipeInput input, Level level)
     {
         if(level.isClientSide())
             return false;
@@ -33,7 +33,7 @@ public record GrowthChamberRecipe(Ingredient inputItem, ItemStack output) implem
     }
 
     @Override
-    public ItemStack assemble(GrowthChamberRecipeInput input, HolderLookup.Provider registries)
+    public ItemStack assemble(EnchantAltarRecipeInput input, HolderLookup.Provider registries)
     {
         return output.copy();
     }
@@ -53,39 +53,39 @@ public record GrowthChamberRecipe(Ingredient inputItem, ItemStack output) implem
     @Override
     public RecipeSerializer<?> getSerializer()
     {
-        return ModRecipes.GROWTH_CHAMBER_SERIALIZER.get();
+        return ModRecipes.ENCHANT_ALTAR_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType()
     {
-        return ModRecipes.GROWTH_CHAMBER_TYPE.get();
+        return ModRecipes.ENCHANT_ALTAR_TYPE.get();
     }
 
-    public static class Serializer implements RecipeSerializer<GrowthChamberRecipe>
+    public static class Serializer implements RecipeSerializer<EnchantAltarRecipe>
     {
         //format of the JSON file
         //"ingredient" and "result" are the fields in the JSON file
-        public static final MapCodec<GrowthChamberRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-                Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(GrowthChamberRecipe::inputItem),
-                ItemStack.CODEC.fieldOf("result").forGetter(GrowthChamberRecipe::output)
-        ).apply(inst, GrowthChamberRecipe::new));
+        public static final MapCodec<EnchantAltarRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
+                Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(EnchantAltarRecipe::inputItem),
+                ItemStack.CODEC.fieldOf("result").forGetter(EnchantAltarRecipe::output)
+        ).apply(inst, EnchantAltarRecipe::new));
 
         //synchronized over the network
-        public static final StreamCodec<RegistryFriendlyByteBuf, GrowthChamberRecipe> STEAM_CODEC =
+        public static final StreamCodec<RegistryFriendlyByteBuf, EnchantAltarRecipe> STEAM_CODEC =
                 StreamCodec.composite(
-                        Ingredient.CONTENTS_STREAM_CODEC, GrowthChamberRecipe::inputItem,
-                        ItemStack.STREAM_CODEC, GrowthChamberRecipe::output,
-                        GrowthChamberRecipe::new);
+                        Ingredient.CONTENTS_STREAM_CODEC, EnchantAltarRecipe::inputItem,
+                        ItemStack.STREAM_CODEC, EnchantAltarRecipe::output,
+                        EnchantAltarRecipe::new);
 
         @Override
-        public MapCodec<GrowthChamberRecipe> codec()
+        public MapCodec<EnchantAltarRecipe> codec()
         {
             return CODEC;
         }
 
         @Override
-        public StreamCodec<RegistryFriendlyByteBuf, GrowthChamberRecipe> streamCodec()
+        public StreamCodec<RegistryFriendlyByteBuf, EnchantAltarRecipe> streamCodec()
         {
             return STEAM_CODEC;
         }

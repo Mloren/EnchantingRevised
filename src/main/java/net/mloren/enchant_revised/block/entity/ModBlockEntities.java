@@ -18,9 +18,9 @@ public class ModBlockEntities
             BLOCK_ENTITIES.register("pedestal_be", () -> BlockEntityType.Builder.of(
                     PedestalBlockEntity::new, ModBlocks.PEDESTAL.get()).build(null));
 
-    public static final Supplier<BlockEntityType<GrowthChamberBlockEntity>> GROWTH_CHAMBER_BE =
-            BLOCK_ENTITIES.register("growth_chamber_be", () -> BlockEntityType.Builder.of(
-                    GrowthChamberBlockEntity::new, ModBlocks.GROWTH_CHAMBER.get()).build(null));
+    public static final Supplier<BlockEntityType<EnchantAltarBlockEntity>> ENCHANT_ALTAR_BE =
+            BLOCK_ENTITIES.register("enchant_altar_be", () -> BlockEntityType.Builder.of(
+                    EnchantAltarBlockEntity::new, ModBlocks.ENCHANT_ALTAR.get()).build(null));
 
     public static void register(IEventBus eventBus)
     {

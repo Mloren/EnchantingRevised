@@ -13,37 +13,37 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.block.ModBlocks;
-import net.mloren.enchant_revised.recipe.GrowthChamberRecipe;
+import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
 import org.jetbrains.annotations.Nullable;
 
-public class GrowthChamberRecipeCategory implements IRecipeCategory<GrowthChamberRecipe>
+public class EnchantAltarRecipeCategory implements IRecipeCategory<EnchantAltarRecipe>
 {
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID, "growth_chamber");
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID, "enchant_altar");
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID,
-            "textures/gui/growth_chamber/growth_chamber_gui.png");
+            "textures/gui/enchant_altar/enchant_altar_gui.png");
 
-    public static final RecipeType<GrowthChamberRecipe> GROWTH_CHAMBER_RECIPE_RECIPE_TYPE =
-            new RecipeType<>(UID, GrowthChamberRecipe.class);
+    public static final RecipeType<EnchantAltarRecipe> ENCHANT_ALTAR_RECIPE_RECIPE_TYPE =
+            new RecipeType<>(UID, EnchantAltarRecipe.class);
 
     public final IDrawable background;
     public final IDrawable icon;
 
-    public GrowthChamberRecipeCategory(IGuiHelper helper)
+    public EnchantAltarRecipeCategory(IGuiHelper helper)
     {
         this.background = helper.createDrawable(TEXTURE, 0, 0, 176, 85);
-        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.GROWTH_CHAMBER));
+        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.ENCHANT_ALTAR));
     }
 
     @Override
-    public RecipeType<GrowthChamberRecipe> getRecipeType()
+    public RecipeType<EnchantAltarRecipe> getRecipeType()
     {
-        return GROWTH_CHAMBER_RECIPE_RECIPE_TYPE;
+        return ENCHANT_ALTAR_RECIPE_RECIPE_TYPE;
     }
 
     @Override
     public Component getTitle()
     {
-        return Component.translatable("block.enchant_revised.growth_chamber");
+        return Component.translatable("block.enchant_revised.enchant_altar");
     }
 
     @Override
@@ -53,7 +53,7 @@ public class GrowthChamberRecipeCategory implements IRecipeCategory<GrowthChambe
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, GrowthChamberRecipe recipe, IFocusGroup focuses)
+    public void setRecipe(IRecipeLayoutBuilder builder, EnchantAltarRecipe recipe, IFocusGroup focuses)
     {
         builder.addSlot(RecipeIngredientRole.INPUT, 54, 34).addIngredients(recipe.getIngredients().get(0));
         builder.addSlot(RecipeIngredientRole.OUTPUT, 104, 34).addItemStack(recipe.getResultItem(null));

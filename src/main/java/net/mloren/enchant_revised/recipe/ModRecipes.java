@@ -16,16 +16,16 @@ public class ModRecipes
     public static final DeferredRegister<RecipeType<?>> TYPES =
             DeferredRegister.create(Registries.RECIPE_TYPE, MainMod.MOD_ID);
 
-    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<GrowthChamberRecipe>> GROWTH_CHAMBER_SERIALIZER =
-            SERIALIZERS.register("growth_chamber", GrowthChamberRecipe.Serializer::new);
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<EnchantAltarRecipe>> ENCHANT_ALTAR_SERIALIZER =
+            SERIALIZERS.register("enchant_altar", EnchantAltarRecipe.Serializer::new);
 
-    public static final DeferredHolder<RecipeType<?>, RecipeType<GrowthChamberRecipe>> GROWTH_CHAMBER_TYPE =
-            TYPES.register("growth_chamber", () -> new RecipeType<GrowthChamberRecipe>()
+    public static final DeferredHolder<RecipeType<?>, RecipeType<EnchantAltarRecipe>> ENCHANT_ALTAR_TYPE =
+            TYPES.register("enchant_altar", () -> new RecipeType<EnchantAltarRecipe>()
             {
                 @Override
                 public String toString()
                 {
-                    return "growth_chamber";
+                    return "enchant_altar";
                 }
             });
 

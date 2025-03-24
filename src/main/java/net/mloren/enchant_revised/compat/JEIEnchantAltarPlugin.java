@@ -13,9 +13,9 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.block.ModBlocks;
-import net.mloren.enchant_revised.recipe.GrowthChamberRecipe;
+import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
 import net.mloren.enchant_revised.recipe.ModRecipes;
-import net.mloren.enchant_revised.screen.custom.GrowthChamberScreen;
+import net.mloren.enchant_revised.screen.custom.EnchantAltarScreen;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class JEIEnchantAltarPlugin implements IModPlugin
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration)
     {
-        registration.addRecipeCategories(new GrowthChamberRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new EnchantAltarRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
@@ -39,22 +39,22 @@ public class JEIEnchantAltarPlugin implements IModPlugin
     {
         RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
 
-        List<GrowthChamberRecipe> growthChamberRecipes = recipeManager
-                .getAllRecipesFor(ModRecipes.GROWTH_CHAMBER_TYPE.get()).stream().map(RecipeHolder::value).toList();
-        registration.addRecipes(GrowthChamberRecipeCategory.GROWTH_CHAMBER_RECIPE_RECIPE_TYPE, growthChamberRecipes);
+        List<EnchantAltarRecipe> enchantAltarRecipes = recipeManager
+                .getAllRecipesFor(ModRecipes.ENCHANT_ALTAR_TYPE.get()).stream().map(RecipeHolder::value).toList();
+        registration.addRecipes(EnchantAltarRecipeCategory.ENCHANT_ALTAR_RECIPE_RECIPE_TYPE, enchantAltarRecipes);
     }
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration)
     {
-        registration.addRecipeClickArea(GrowthChamberScreen.class, 74, 30, 22, 20,
-                GrowthChamberRecipeCategory.GROWTH_CHAMBER_RECIPE_RECIPE_TYPE);
+        registration.addRecipeClickArea(EnchantAltarScreen.class, 74, 30, 22, 20,
+                EnchantAltarRecipeCategory.ENCHANT_ALTAR_RECIPE_RECIPE_TYPE);
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration)
     {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.GROWTH_CHAMBER.asItem()),
-                GrowthChamberRecipeCategory.GROWTH_CHAMBER_RECIPE_RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ENCHANT_ALTAR.asItem()),
+                EnchantAltarRecipeCategory.ENCHANT_ALTAR_RECIPE_RECIPE_TYPE);
     }
 }

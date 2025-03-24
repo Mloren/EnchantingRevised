@@ -17,15 +17,15 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.mloren.enchant_revised.block.entity.GrowthChamberBlockEntity;
+import net.mloren.enchant_revised.block.entity.EnchantAltarBlockEntity;
 import net.mloren.enchant_revised.block.entity.ModBlockEntities;
 import org.jetbrains.annotations.Nullable;
 
-public class GrowthChamberBlock extends BaseEntityBlock
+public class EnchantAltarBlock extends BaseEntityBlock
 {
-    public static final MapCodec<GrowthChamberBlock> CODEC = simpleCodec(GrowthChamberBlock::new);
+    public static final MapCodec<EnchantAltarBlock> CODEC = simpleCodec(EnchantAltarBlock::new);
 
-    public GrowthChamberBlock(Properties properties)
+    public EnchantAltarBlock(Properties properties)
     {
         super(properties);
     }
@@ -45,7 +45,7 @@ public class GrowthChamberBlock extends BaseEntityBlock
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state)
     {
-        return new GrowthChamberBlockEntity(pos, state);
+        return new EnchantAltarBlockEntity(pos, state);
     }
 
     @Override
@@ -53,9 +53,9 @@ public class GrowthChamberBlock extends BaseEntityBlock
     {
         if(state.getBlock() != newState.getBlock())
         {
-            if(level.getBlockEntity(pos) instanceof GrowthChamberBlockEntity growthChamberBlockEntity)
+            if(level.getBlockEntity(pos) instanceof EnchantAltarBlockEntity enchantAltarBlockEntity)
             {
-                growthChamberBlockEntity.drops();
+                enchantAltarBlockEntity.drops();
                 level.updateNeighbourForOutputSignal(pos, this);
             }
         }
@@ -69,9 +69,9 @@ public class GrowthChamberBlock extends BaseEntityBlock
         if(!level.isClientSide())
         {
             BlockEntity entity = level.getBlockEntity(pos);
-            if(entity instanceof GrowthChamberBlockEntity growthChamberBlockEntity)
+            if(entity instanceof EnchantAltarBlockEntity enchantAltarBlockEntity)
             {
-                ((ServerPlayer) player).openMenu(new SimpleMenuProvider(growthChamberBlockEntity, Component.literal("Growth Chamber")), pos);
+                ((ServerPlayer) player).openMenu(new SimpleMenuProvider(enchantAltarBlockEntity, Component.literal("Enchant Altar")), pos);
             }
             else
             {
@@ -90,7 +90,7 @@ public class GrowthChamberBlock extends BaseEntityBlock
             return null;
         }
 
-        return createTickerHelper(blockEntityType, ModBlockEntities.GROWTH_CHAMBER_BE.get(),
+        return createTickerHelper(blockEntityType, ModBlockEntities.ENCHANT_ALTAR_BE.get(),
                 (level1, blockPos, blockState, blockEntity) -> blockEntity.tick(level1, blockPos, blockState));
     }
 }

@@ -1,40 +1,52 @@
 package net.mloren.enchant_revised.screen.custom;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.mloren.enchant_revised.block.ModBlocks;
-import net.mloren.enchant_revised.block.entity.GrowthChamberBlockEntity;
+import net.mloren.enchant_revised.block.entity.EnchantAltarBlockEntity;
 import net.mloren.enchant_revised.screen.ModMenuTypes;
 import net.neoforged.neoforge.items.SlotItemHandler;
 
-public class GrowthChamberMenu extends AbstractContainerMenu
+public class EnchantAltarMenu extends AbstractContainerMenu
 {
-    public final GrowthChamberBlockEntity blockEntity;
+    static final ResourceLocation EMPTY_SLOT_LAPIS_LAZULI = ResourceLocation.withDefaultNamespace("item/empty_slot_lapis_lazuli");
+    public final EnchantAltarBlockEntity blockEntity;
     private final Level level;
     private final ContainerData data;
 
-    public GrowthChamberMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData)
+    public EnchantAltarMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData)
     {
         this(containerId, inventory, inventory.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
 
-    public GrowthChamberMenu(int containerId, Inventory inventory, BlockEntity blockEntity, ContainerData data)
+    public EnchantAltarMenu(int containerId, Inventory inventory, BlockEntity blockEntity, ContainerData data)
     {
-        super(ModMenuTypes.GROWTH_CHAMBER_MENU.get(), containerId);
-        this.blockEntity = ((GrowthChamberBlockEntity) blockEntity);
+        super(ModMenuTypes.ENCHANT_ALTAR_MENU.get(), containerId);
+        this.blockEntity = ((EnchantAltarBlockEntity) blockEntity);
         this.level = inventory.player.level();
         this.data = data;
 
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
 
-        this.addSlot(new SlotItemHandler(this.blockEntity.inventory, 0, 54, 34));
-        this.addSlot(new SlotItemHandler(this.blockEntity.inventory, 1, 104, 34));
+        this.addSlot(new SlotItemHandler(this.blockEntity.inventory, 0, 27, 53) {
+            public boolean mayPlace(ItemStack itemStack) {
+                return itemStack.is(Items.LAPIS_LAZULI);
+            }
+
+            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_LAPIS_LAZULI);
+            }
+        });
+        this.addSlot(new SlotItemHandler(this.blockEntity.inventory, 1, 130, 35));
 
         addDataSlots(data);
     }
@@ -122,7 +134,7 @@ public class GrowthChamberMenu extends AbstractContainerMenu
     @Override
     public boolean stillValid(Player player)
     {
-        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, ModBlocks.GROWTH_CHAMBER.get());
+        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, ModBlocks.ENCHANT_ALTAR.get());
     }
 
     private void addPlayerInventory(Inventory playerInventory)

@@ -20,7 +20,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider
     protected void generate()
     {
         dropSelf(ModBlocks.PEDESTAL.get());
-        dropSelf(ModBlocks.GROWTH_CHAMBER.get());
+        dropSelf(ModBlocks.ENCHANT_ALTAR.get());
     }
 
     @Override

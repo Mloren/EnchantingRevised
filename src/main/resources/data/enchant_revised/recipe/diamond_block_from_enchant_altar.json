@@ -1,5 +1,5 @@
 {
-  "type": "enchant_revised:growth_chamber",
+  "type": "enchant_revised:enchant_altar",
   "ingredient": {
     "item": "minecraft:diamond"
   },

@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "enchant_revised:growth_chamber"
+          "name": "enchant_revised:enchant_altar"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "enchant_revised:blocks/growth_chamber"
+  "random_sequence": "enchant_revised:blocks/enchant_altar"
 }
