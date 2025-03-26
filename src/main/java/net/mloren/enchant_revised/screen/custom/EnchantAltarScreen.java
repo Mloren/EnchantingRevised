@@ -32,16 +32,16 @@ public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu
 
         guiGraphics.blit(GUI_TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
 
-        renderProgressArrow(guiGraphics, x, y);
+        //renderProgressArrow(guiGraphics, x, y);
     }
 
-    private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y)
-    {
-        if(menu.isCrafting())
-        {
-            guiGraphics.blit(ARROW_TEXTURE, x + 73, y + 35, 0, 0, menu.getScaledArrowProgress(), 16, 24, 16);
-        }
-    }
+//    private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y)
+//    {
+//        if(menu.isCrafting())
+//        {
+//            guiGraphics.blit(ARROW_TEXTURE, x + 73, y + 35, 0, 0, menu.getScaledArrowProgress(), 16, 24, 16);
+//        }
+//    }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
