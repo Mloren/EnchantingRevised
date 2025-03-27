@@ -68,7 +68,7 @@ public class EnchantAltarBlock extends BaseEntityBlock
             BlockEntity entity = level.getBlockEntity(pos);
             if(entity instanceof EnchantAltarBlockEntity enchantAltarBlockEntity)
             {
-                ((ServerPlayer) player).openMenu(new SimpleMenuProvider(enchantAltarBlockEntity, Component.literal("Enchant Altar")), pos);
+                ((ServerPlayer) player).openMenu(new SimpleMenuProvider(enchantAltarBlockEntity, Component.translatable("block.enchant_revised.enchant_altar")), pos);
             }
             else
             {
