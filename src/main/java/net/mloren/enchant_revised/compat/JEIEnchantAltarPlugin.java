@@ -47,8 +47,8 @@ public class JEIEnchantAltarPlugin implements IModPlugin
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration)
     {
-        registration.addRecipeClickArea(EnchantAltarScreen.class, 74, 30, 22, 20,
-                EnchantAltarRecipeCategory.ENCHANT_ALTAR_RECIPE_RECIPE_TYPE);
+//        registration.addRecipeClickArea(EnchantAltarScreen.class, 74, 30, 22, 20,
+//                EnchantAltarRecipeCategory.ENCHANT_ALTAR_RECIPE_RECIPE_TYPE);
     }
 
     @Override

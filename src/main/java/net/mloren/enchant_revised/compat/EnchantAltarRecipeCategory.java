@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
+import net.mloren.enchant_revised.util.Constants;
 import org.jetbrains.annotations.Nullable;
 
 public class EnchantAltarRecipeCategory implements IRecipeCategory<EnchantAltarRecipe>
@@ -55,8 +56,11 @@ public class EnchantAltarRecipeCategory implements IRecipeCategory<EnchantAltarR
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, EnchantAltarRecipe recipe, IFocusGroup focuses)
     {
-        builder.addSlot(RecipeIngredientRole.INPUT, 54, 34).addIngredients(recipe.getIngredients().get(0));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 104, 34).addItemStack(recipe.getResultItem(null));
+        //builder.addSlot(RecipeIngredientRole.INPUT, 27, 53).addIngredients(recipe.getIngredients().get(Constants.LAPIS_SLOT));
+        builder.addSlot(RecipeIngredientRole.INPUT, 27, 35).addIngredients(recipe.getIngredients().get(Constants.PRIMARY_INGREDIENT_SLOT));
+        //builder.addSlot(RecipeIngredientRole.INPUT, 27, 17).addIngredients(recipe.getIngredients().get(Constants.SECONDARY_INGREDIENT_SLOT));
+        //builder.addSlot(RecipeIngredientRole.INPUT, 72, 35).addIngredients(recipe.getIngredients().get(Constants.TARGET_ITEM_SLOT));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 130, 35).addItemStack(recipe.getResultItem(null));
     }
 
     @Override

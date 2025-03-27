@@ -7,33 +7,33 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.mloren.enchant_revised.util.Constants;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public record EnchantAltarRecipe(Ingredient inputItem, ItemStack output) implements Recipe<EnchantAltarRecipeInput>
+public record EnchantAltarRecipe(Ingredient primaryIngredient, ItemStack output) implements Recipe<EnchantAltarRecipeInput>
 {
     @Override
-    public NonNullList<Ingredient> getIngredients()
+    public @NotNull NonNullList<Ingredient> getIngredients()
     {
         NonNullList<Ingredient> list = NonNullList.create();
-        list.add(inputItem);
+        list.add(primaryIngredient);
         return list;
     }
 
     @Override
-    public boolean matches(EnchantAltarRecipeInput input, Level level)
+    public boolean matches(@NotNull EnchantAltarRecipeInput input, Level level)
     {
         if(level.isClientSide())
             return false;
 
-        return inputItem.test(input.getItem(0));
+        return primaryIngredient.test(input.getItem(Constants.PRIMARY_INGREDIENT_SLOT));
     }
 
     @Override
-    public ItemStack assemble(EnchantAltarRecipeInput input, HolderLookup.Provider registries)
+    public @NotNull ItemStack assemble(@NotNull EnchantAltarRecipeInput input, HolderLookup.@NotNull Provider registries)
     {
         return output.copy();
     }
@@ -45,19 +45,19 @@ public record EnchantAltarRecipe(Ingredient inputItem, ItemStack output) impleme
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries)
+    public @NotNull ItemStack getResultItem(HolderLookup.@Nullable Provider registries)
     {
         return output;
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer()
+    public @NotNull RecipeSerializer<?> getSerializer()
     {
         return ModRecipes.ENCHANT_ALTAR_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType()
+    public @NotNull RecipeType<?> getType()
     {
         return ModRecipes.ENCHANT_ALTAR_TYPE.get();
     }
@@ -67,14 +67,14 @@ public record EnchantAltarRecipe(Ingredient inputItem, ItemStack output) impleme
         //format of the JSON file
         //"ingredient" and "result" are the fields in the JSON file
         public static final MapCodec<EnchantAltarRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-                Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(EnchantAltarRecipe::inputItem),
+                Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(EnchantAltarRecipe::primaryIngredient),
                 ItemStack.CODEC.fieldOf("result").forGetter(EnchantAltarRecipe::output)
         ).apply(inst, EnchantAltarRecipe::new));
 
         //synchronized over the network
-        public static final StreamCodec<RegistryFriendlyByteBuf, EnchantAltarRecipe> STEAM_CODEC =
+        public static final StreamCodec<RegistryFriendlyByteBuf, EnchantAltarRecipe> STREAM_CODEC =
                 StreamCodec.composite(
-                        Ingredient.CONTENTS_STREAM_CODEC, EnchantAltarRecipe::inputItem,
+                        Ingredient.CONTENTS_STREAM_CODEC, EnchantAltarRecipe::primaryIngredient,
                         ItemStack.STREAM_CODEC, EnchantAltarRecipe::output,
                         EnchantAltarRecipe::new);
 
@@ -87,7 +87,7 @@ public record EnchantAltarRecipe(Ingredient inputItem, ItemStack output) impleme
         @Override
         public StreamCodec<RegistryFriendlyByteBuf, EnchantAltarRecipe> streamCodec()
         {
-            return STEAM_CODEC;
+            return STREAM_CODEC;
         }
     }
 }

@@ -10,12 +10,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.block.entity.EnchantAltarBlockEntity;
 import net.mloren.enchant_revised.screen.ModMenuTypes;
+import net.mloren.enchant_revised.util.Constants;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class EnchantAltarMenu extends AbstractContainerMenu
 {
@@ -23,10 +24,6 @@ public class EnchantAltarMenu extends AbstractContainerMenu
     public final EnchantAltarBlockEntity blockEntity;
     private final Level level;
     public final ItemStackHandler itemStackHandler;
-
-    private static final int FIRST_SLOT_ID = 36; //To skip over 36 player inventory slots
-    private static final int LAPIS_SLOT = 0;
-    private static final int OUTPUT_SLOT = 1;
 
     public EnchantAltarMenu(int containerId, Inventory playerInventory, FriendlyByteBuf extraData)
     {
@@ -42,19 +39,29 @@ public class EnchantAltarMenu extends AbstractContainerMenu
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
+        addSlots();
+    }
 
-        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, LAPIS_SLOT, 27, 53) {
-            public boolean mayPlace(ItemStack itemStack) {
+    private void addSlots()
+    {
+        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.LAPIS_SLOT, 27, 53)
+        {
+            public boolean mayPlace(@NotNull ItemStack itemStack)
+            {
                 return itemStack.is(Items.LAPIS_LAZULI);
             }
 
-            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon()
+            {
                 return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_LAPIS_LAZULI);
             }
         });
-        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, OUTPUT_SLOT, 130, 35));
 
-        //addDataSlots(data);
+        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.PRIMARY_INGREDIENT_SLOT, 27, 35));
+        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.SECONDARY_INGREDIENT_SLOT, 27, 17));
+        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.TARGET_ITEM_SLOT, 72, 35));
+
+        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.OUTPUT_SLOT, 130, 35));
     }
     
 //    @Override
@@ -153,10 +160,10 @@ public class EnchantAltarMenu extends AbstractContainerMenu
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 2;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = Constants.TOTAL_SLOT_COUNT;  // must be the number of slots you have!
 
     @Override
-    public ItemStack quickMoveStack(Player playerIn, int pIndex)
+    public @NotNull ItemStack quickMoveStack(@NotNull Player playerIn, int pIndex)
     {
         Slot sourceSlot = slots.get(pIndex);
         if (sourceSlot == null || !sourceSlot.hasItem())
@@ -204,7 +211,7 @@ public class EnchantAltarMenu extends AbstractContainerMenu
     }
 
     @Override
-    public boolean stillValid(Player player)
+    public boolean stillValid(@NotNull Player player)
     {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, ModBlocks.ENCHANT_ALTAR.get());
     }

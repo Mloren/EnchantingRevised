@@ -13,12 +13,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.mloren.enchant_revised.block.entity.EnchantAltarBlockEntity;
-import net.mloren.enchant_revised.block.entity.ModBlockEntities;
 import org.jetbrains.annotations.Nullable;
 
 public class EnchantAltarBlock extends BaseEntityBlock
@@ -80,17 +77,5 @@ public class EnchantAltarBlock extends BaseEntityBlock
         }
 
         return ItemInteractionResult.sidedSuccess(level.isClientSide());
-    }
-
-    @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType)
-    {
-        if(level.isClientSide())
-        {
-            return null;
-        }
-
-        return createTickerHelper(blockEntityType, ModBlockEntities.ENCHANT_ALTAR_BE.get(),
-                (level1, blockPos, blockState, blockEntity) -> blockEntity.tick(level1, blockPos, blockState));
     }
 }

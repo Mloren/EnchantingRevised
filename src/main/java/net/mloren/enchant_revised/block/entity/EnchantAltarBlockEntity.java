@@ -14,79 +14,151 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipeInput;
 import net.mloren.enchant_revised.recipe.ModRecipes;
 import net.mloren.enchant_revised.screen.custom.EnchantAltarMenu;
+import net.mloren.enchant_revised.util.Constants;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
 {
-    public final ItemStackHandler itemStackHandler = new ItemStackHandler(2)
+    public final ItemStackHandler itemStackHandler = new ItemStackHandler(Constants.TOTAL_SLOT_COUNT)
     {
         @Override
         protected void onContentsChanged(int slot)
         {
             setChanged();
-            if(!level.isClientSide())
+            if(level != null && !level.isClientSide())
             {
-                OnSlotChanged(slot);
-                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), (Block.UPDATE_NEIGHBORS | Block.UPDATE_CLIENTS));
+                onSlotChanged(slot);
             }
         }
     };
 
-    private static final int INPUT_SLOT = 0;
-    private static final int OUTPUT_SLOT = 1;
-
-//    protected final ContainerData data;
-//    private int progress = 0;
-//    private int maxProgress = 72;
-
     public EnchantAltarBlockEntity(BlockPos pos, BlockState blockState)
     {
         super(ModBlockEntities.ENCHANT_ALTAR_BE.get(), pos, blockState);
-//        data = new ContainerData()
+    }
+
+    @Override
+    public @NotNull Component getDisplayName()
+    {
+        return Component.translatable("block.enchant_revised.enchant_altar");
+    }
+
+    @Override
+    public @Nullable AbstractContainerMenu createMenu(int containerId, @NotNull Inventory playerInventory, @NotNull Player player)
+    {
+        return new EnchantAltarMenu(containerId, playerInventory, this);
+    }
+
+    public void onSlotChanged(int slot)
+    {
+        if(slot == Constants.OUTPUT_SLOT)
+            completeItemCrafting();
+        else
+            updateItemCrafting();
+
+//        ItemStack itemStack = itemStackHandler.getStackInSlot(slot);
+//        if(slot == 0)
 //        {
-//            @Override
-//            public int get(int index)
+//            ItemStack outputSlot = itemStackHandler.getStackInSlot(1);
+//            if(!itemStack.isEmpty() && itemStack.is(Items.LAPIS_LAZULI))
 //            {
-//                return switch(index)
+//                if(outputSlot.isEmpty())
 //                {
-//                    case 0 -> EnchantAltarBlockEntity.this.progress;
-//                    case 1 -> EnchantAltarBlockEntity.this.maxProgress;
-//                    default -> 0;
-//                };
+//                    itemStackHandler.setStackInSlot(1, new ItemStack(Items.LAPIS_BLOCK, 1));
+//                }
 //            }
-//
-//            @Override
-//            public void set(int index, int value)
+//            else
 //            {
-//                switch(index)
+//                if(!outputSlot.isEmpty())
 //                {
-//                    case 0: EnchantAltarBlockEntity.this.progress = value;
-//                    case 1: EnchantAltarBlockEntity.this.maxProgress = value;
-//                };
+//                    itemStackHandler.setStackInSlot(1, ItemStack.EMPTY);
+//                }
 //            }
-//
-//            @Override
-//            public int getCount()
+//        }
+//        else if(slot == 1)
+//        {
+//            if(itemStack.isEmpty())
 //            {
-//                return 2;
+//                ItemStack inputSlot = itemStackHandler.getStackInSlot(0);
+//                if (!inputSlot.isEmpty()) {
+//                    itemStackHandler.setStackInSlot(0, ItemStack.EMPTY);
+//                }
 //            }
-//        };
+//        }
+    }
+
+    private void updateItemCrafting()
+    {
+        Optional<RecipeHolder<EnchantAltarRecipe>> recipe = getCurrentRecipe();
+        if(recipe.isPresent())
+        {
+            ItemStack outputStack = itemStackHandler.getStackInSlot(Constants.OUTPUT_SLOT);
+            if(outputStack.isEmpty())
+            {
+                ItemStack recipeOutput = recipe.get().value().output();
+                itemStackHandler.setStackInSlot(Constants.OUTPUT_SLOT, new ItemStack(recipeOutput.getItem(), 1));
+            }
+        }
+        else
+        {
+            ItemStack outputStack = itemStackHandler.getStackInSlot(Constants.OUTPUT_SLOT);
+            if(!outputStack.isEmpty())
+                itemStackHandler.setStackInSlot(Constants.OUTPUT_SLOT, ItemStack.EMPTY);
+        }
+    }
+
+    private Optional<RecipeHolder<EnchantAltarRecipe>> getCurrentRecipe()
+    {
+        if(this.level == null)
+            return Optional.empty();
+
+        RecipeManager recipeManager = this.level.getRecipeManager();
+        EnchantAltarRecipeInput recipeInput = new EnchantAltarRecipeInput(itemStackHandler.getStackInSlot(Constants.PRIMARY_INGREDIENT_SLOT));
+
+        return recipeManager.getRecipeFor(ModRecipes.ENCHANT_ALTAR_TYPE.get(), recipeInput, level);
+    }
+
+    private void completeItemCrafting()
+    {
+        Optional<RecipeHolder<EnchantAltarRecipe>> recipe = getCurrentRecipe();
+        if(recipe.isPresent())
+        {
+            ItemStack outputStack = itemStackHandler.getStackInSlot(Constants.OUTPUT_SLOT);
+            if(outputStack.isEmpty())
+            {
+                //Ingredient lapis = recipe.get().value().lapisInput();
+                Ingredient primary = recipe.get().value().primaryIngredient();
+                //Ingredient secondary = recipe.get().value().secondaryIngredient();
+                //Ingredient item = recipe.get().value().targetItem();
+
+                //itemStackHandler.extractItem(Constants.LAPIS_SLOT, 1, false);
+                itemStackHandler.extractItem(Constants.PRIMARY_INGREDIENT_SLOT, 1, false);
+                //itemStackHandler.extractItem(Constants.SECONDARY_INGREDIENT_SLOT, 1, false);
+                //itemStackHandler.extractItem(Constants.TARGET_ITEM_SLOT, 1, false);
+            }
+        }
     }
 
     public void drops()
     {
+        if (this.level == null)
+            return;
+
         SimpleContainer inv = new SimpleContainer(itemStackHandler.getSlots());
         for(int i = 0; i < itemStackHandler.getSlots(); i++)
         {
@@ -96,143 +168,46 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
         Containers.dropContents(this.level, this.worldPosition, inv);
     }
 
-    @Override
-    public Component getDisplayName()
-    {
-        return Component.translatable("block.enchant_revised.enchant_altar");
-    }
-
-    @Override
-    public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player)
-    {
-        return new EnchantAltarMenu(containerId, playerInventory, this);
-    }
-
-    public void OnSlotChanged(int slot)
-    {
-        ItemStack itemStack = itemStackHandler.getStackInSlot(slot);
-        if(slot == 0)
-        {
-            ItemStack outputSlot = itemStackHandler.getStackInSlot(1);
-            if(!itemStack.isEmpty() && itemStack.is(Items.LAPIS_LAZULI))
-            {
-                if(outputSlot.isEmpty())
-                {
-                    itemStackHandler.setStackInSlot(1, new ItemStack(Items.LAPIS_BLOCK, 1));
-                }
-            }
-            else
-            {
-                if(!outputSlot.isEmpty())
-                {
-                    itemStackHandler.setStackInSlot(1, ItemStack.EMPTY);
-                }
-            }
-        }
-        else if(slot == 1)
-        {
-            if(itemStack.isEmpty())
-            {
-                ItemStack inputSlot = itemStackHandler.getStackInSlot(0);
-                if (!inputSlot.isEmpty()) {
-                    itemStackHandler.setStackInSlot(0, ItemStack.EMPTY);
-                }
-            }
-        }
-    }
-
-    public void tick(Level level, BlockPos blockPos, BlockState blockState)
-    {
-//        if(hasRecipe())
-//        {
-//            increaseCraftingProgress();
-//            setChanged(level, blockPos, blockState);
-//
-//            if(hasCraftingFinished())
-//            {
-//                creaftItem();
-//                resetProgress();
-//            }
-//        }
-//        else
-//        {
-//            resetProgress();
-//        }
-    }
-
-    private void creaftItem()
-    {
-        Optional<RecipeHolder<EnchantAltarRecipe>> recipe = getCurrentRecipe();
-        ItemStack output = recipe.get().value().output();
-
-        itemStackHandler.extractItem(INPUT_SLOT, 1, false);
-        itemStackHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(output.getItem(), itemStackHandler.getStackInSlot(OUTPUT_SLOT).getCount() + output.getCount()));
-    }
-
-//    private void resetProgress()
+//    private boolean hasRecipe()
 //    {
-//        progress = 0;
-//        maxProgress = 72;
-//    }
+//        Optional<RecipeHolder<EnchantAltarRecipe>> recipe = getCurrentRecipe();
+//        if(recipe.isEmpty())
+//            return false;
 //
-//    private boolean hasCraftingFinished()
-//    {
-//        return progress >= maxProgress;
-//    }
-//
-//    private void increaseCraftingProgress()
-//    {
-//        progress++;
+//        ItemStack output = recipe.get().value().output();
+//        return canInsertAmountIntoOutputSlot(output.getCount()) && canInsertItemIntoOutputSlot(output);
 //    }
 
-    private boolean hasRecipe()
-    {
-        Optional<RecipeHolder<EnchantAltarRecipe>> recipe = getCurrentRecipe();
-        if(recipe.isEmpty())
-            return false;
 
-        ItemStack output = recipe.get().value().output();
-        return canInsertAmountIntoOutputSlot(output.getCount()) && canInsertItemIntoOutputSlot(output);
-    }
 
-    private Optional<RecipeHolder<EnchantAltarRecipe>> getCurrentRecipe()
-    {
-        return this.level.getRecipeManager()
-                .getRecipeFor(ModRecipes.ENCHANT_ALTAR_TYPE.get(), new EnchantAltarRecipeInput(itemStackHandler.getStackInSlot(INPUT_SLOT)), level);
-    }
+//    private boolean canInsertItemIntoOutputSlot(ItemStack output)
+//    {
+//        return itemStackHandler.getStackInSlot(OUTPUT_SLOT).isEmpty()
+//                || itemStackHandler.getStackInSlot(OUTPUT_SLOT).getItem() == output.getItem();
+//    }
 
-    private boolean canInsertItemIntoOutputSlot(ItemStack output)
-    {
-        return itemStackHandler.getStackInSlot(OUTPUT_SLOT).isEmpty()
-                || itemStackHandler.getStackInSlot(OUTPUT_SLOT).getItem() == output.getItem();
-    }
-
-    private boolean canInsertAmountIntoOutputSlot(int count)
-    {
-        int maxCount = itemStackHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() ? 64 : itemStackHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize();
-        int currentCount = itemStackHandler.getStackInSlot(OUTPUT_SLOT).getCount();
-
-        return maxCount >= currentCount + count;
-    }
+//    private boolean canInsertAmountIntoOutputSlot(int count)
+//    {
+//        int maxCount = itemStackHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() ? 64 : itemStackHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize();
+//        int currentCount = itemStackHandler.getStackInSlot(OUTPUT_SLOT).getCount();
+//
+//        return maxCount >= currentCount + count;
+//    }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void saveAdditional(CompoundTag tag, HolderLookup.@NotNull Provider registries)
     {
         tag.put("inventory", itemStackHandler.serializeNBT(registries));
-        //tag.putInt("enchant_altar.progress", progress);
-        //tag.putInt("enchant_altar.max_progress", maxProgress);
 
         super.saveAdditional(tag, registries);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries)
     {
         super.loadAdditional(tag, registries);
 
         itemStackHandler.deserializeNBT(registries, tag.getCompound("inventory"));
-        //progress = tag.getInt("enchant_altar.progress");
-        //maxProgress = tag.getInt("enchant_altar.max_progress");
     }
 
     @Override
@@ -242,7 +217,7 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries)
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider registries)
     {
         return saveWithoutMetadata(registries);
     }
