@@ -8,141 +8,150 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SmithingRecipe;
+import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.block.entity.EnchantAltarBlockEntity;
+import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
+import net.mloren.enchant_revised.recipe.EnchantAltarRecipeInput;
+import net.mloren.enchant_revised.recipe.ModRecipes;
 import net.mloren.enchant_revised.screen.ModMenuTypes;
 import net.mloren.enchant_revised.util.Constants;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class EnchantAltarMenu extends AbstractContainerMenu
+import java.util.List;
+
+public class EnchantAltarMenu extends ItemCombinerMenu
 {
     static final ResourceLocation EMPTY_SLOT_LAPIS_LAZULI = ResourceLocation.withDefaultNamespace("item/empty_slot_lapis_lazuli");
     public final EnchantAltarBlockEntity blockEntity;
     private final Level level;
-    public final ItemStackHandler itemStackHandler;
+    //public final ItemStackHandler itemStackHandler;
+
+    private RecipeHolder<EnchantAltarRecipe> selectedRecipe;
 
     public EnchantAltarMenu(int containerId, Inventory playerInventory, FriendlyByteBuf extraData)
     {
-        this(containerId, playerInventory, playerInventory.player.level().getBlockEntity(extraData.readBlockPos()));
+        this(containerId, playerInventory, ContainerLevelAccess.NULL, playerInventory.player.level().getBlockEntity(extraData.readBlockPos()));
     }
 
-    public EnchantAltarMenu(int containerId, Inventory playerInventory, BlockEntity blockEntity)
+    public EnchantAltarMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, BlockEntity blockEntity)
     {
-        super(ModMenuTypes.ENCHANT_ALTAR_MENU.get(), containerId);
+        super(ModMenuTypes.ENCHANT_ALTAR_MENU.get(), containerId, playerInventory, access);
         this.blockEntity = ((EnchantAltarBlockEntity) blockEntity);
         this.level = playerInventory.player.level();
-        this.itemStackHandler = this.blockEntity.itemStackHandler;
+        //this.itemStackHandler = this.blockEntity.itemStackHandler;
 
-        addPlayerInventory(playerInventory);
-        addPlayerHotbar(playerInventory);
-        addSlots();
+        //addPlayerInventory(playerInventory);
+        //addPlayerHotbar(playerInventory);
+        //addSlots();
     }
 
-    private void addSlots()
+    @Override
+    protected ItemCombinerMenuSlotDefinition createInputSlotDefinitions()
     {
-        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.LAPIS_SLOT, 27, 53)
-        {
-            public boolean mayPlace(@NotNull ItemStack itemStack)
-            {
-                return itemStack.is(Items.LAPIS_LAZULI);
-            }
-
-            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon()
-            {
-                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_LAPIS_LAZULI);
-            }
-        });
-
-        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.PRIMARY_INGREDIENT_SLOT, 27, 35));
-        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.SECONDARY_INGREDIENT_SLOT, 27, 17));
-        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.TARGET_ITEM_SLOT, 72, 35));
-
-        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.OUTPUT_SLOT, 130, 35));
+        return ItemCombinerMenuSlotDefinition.create()
+                .withSlot(0, 8, 48, itemStack -> { return true; })
+                .withSlot(1, 26, 48, itemStack -> { return true; })
+                .withSlot(2, 44, 48, itemStack -> { return true; })
+                .withResultSlot(3, 98, 48)
+                .build();
     }
-    
-//    @Override
-//    public void clicked(int slotId, int dragType, ClickType clickTypeIn, Player player)
+
+    @Override
+    protected boolean isValidBlock(BlockState state)
+    {
+        return state.is(ModBlocks.ENCHANT_ALTAR.get());
+    }
+
+    @Override
+    protected boolean mayPickup(Player player, boolean hasStack)
+    {
+        return this.selectedRecipe != null && this.selectedRecipe.value().matches(this.createRecipeInput(), this.level);
+    }
+
+    @Override
+    protected void onTake(Player player, ItemStack stack)
+    {
+        stack.onCraftedBy(player.level(), player, stack.getCount());
+        this.resultSlots.awardUsedRecipes(player, this.getRelevantItems());
+        this.shrinkStackInSlot(0);
+        this.shrinkStackInSlot(1);
+        this.shrinkStackInSlot(2);
+        this.access.execute((p_40263_, p_40264_) -> p_40263_.levelEvent(1044, p_40264_, 0));
+    }
+
+    private List<ItemStack> getRelevantItems()
+    {
+        return List.of(this.inputSlots.getItem(0), this.inputSlots.getItem(1), this.inputSlots.getItem(2));
+    }
+
+    private EnchantAltarRecipeInput createRecipeInput()
+    {
+        return new EnchantAltarRecipeInput(this.inputSlots.getItem(Constants.PRIMARY_INGREDIENT_SLOT));
+    }
+
+    private void shrinkStackInSlot(int index)
+    {
+        ItemStack itemstack = this.inputSlots.getItem(index);
+        if (!itemstack.isEmpty())
+        {
+            itemstack.shrink(1);
+            this.inputSlots.setItem(index, itemstack);
+        }
+    }
+
+    @Override
+    public void createResult()
+    {
+        EnchantAltarRecipeInput enchantAltarRecipeInput = this.createRecipeInput();
+        List<RecipeHolder<EnchantAltarRecipe>> list = this.level.getRecipeManager().getRecipesFor(ModRecipes.ENCHANT_ALTAR_TYPE.get(), enchantAltarRecipeInput, this.level);
+        if (list.isEmpty())
+        {
+            this.resultSlots.setItem(0, ItemStack.EMPTY);
+        } else
+        {
+            RecipeHolder<EnchantAltarRecipe> recipeholder = list.get(0);
+            ItemStack itemstack = recipeholder.value().assemble(enchantAltarRecipeInput, this.level.registryAccess());
+            if (itemstack.isItemEnabled(this.level.enabledFeatures()))
+            {
+                this.selectedRecipe = recipeholder;
+                this.resultSlots.setRecipeUsed(recipeholder);
+                this.resultSlots.setItem(0, itemstack);
+                this.resultSlots.setChanged();
+            }
+        }
+    }
+
+//    private void addSlots()
 //    {
-//        if(slotId < FIRST_SLOT_ID || level.isClientSide())
+//        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.LAPIS_SLOT, 27, 53)
 //        {
-//            super.clicked(slotId, dragType, clickTypeIn, player);
-//            return;
-//        }
-//
-//        ItemStack lapisSlot = itemStackHandler.getStackInSlot(LAPIS_SLOT);
-//        ItemStack outputSlot = itemStackHandler.getStackInSlot(OUTPUT_SLOT);
-//        if(slotId == FIRST_SLOT_ID + LAPIS_SLOT)
-//        {
-//
-//            if(!lapisSlot.isEmpty() && lapisSlot.is(Items.LAPIS_LAZULI))
+//            public boolean mayPlace(@NotNull ItemStack itemStack)
 //            {
-//                if(outputSlot.isEmpty())
-//                {
-//                    itemStackHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(Items.LAPIS_BLOCK, 1));
-//                }
+//                return itemStack.is(Items.LAPIS_LAZULI);
 //            }
-//            else
+//
+//            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon()
 //            {
-//                if(!outputSlot.isEmpty())
-//                {
-//                    itemStackHandler.setStackInSlot(OUTPUT_SLOT, ItemStack.EMPTY);
-//                }
+//                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_LAPIS_LAZULI);
 //            }
-//        }
-//        else if(slotId == FIRST_SLOT_ID + OUTPUT_SLOT)
-//        {
-//            if(outputSlot.isEmpty())
-//            {
-//                if (!lapisSlot.isEmpty()) {
-//                    itemStackHandler.setStackInSlot(LAPIS_SLOT, ItemStack.EMPTY);
-//                }
-//            }
-//        }
+//        });
 //
-//        super.clicked(slotId, dragType, clickTypeIn, player);
-//    }
-
-//    public boolean isCrafting()
-//    {
-//        return data.get(0) > 0;
-//    }
-
-//    public int getScaledArrowProgress()
-//    {
-//        int progress = this.data.get(0);
-//        int maxProgress = this.data.get(1);
-//        int arrowPixelSize = 24;
+//        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.PRIMARY_INGREDIENT_SLOT, 27, 35));
+//        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.SECONDARY_INGREDIENT_SLOT, 27, 17));
+//        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.TARGET_ITEM_SLOT, 72, 35));
 //
-//        return maxProgress != 0 && progress != 0 ? progress * arrowPixelSize / maxProgress : 0;
+//        this.addSlot(new SlotItemHandler(this.blockEntity.itemStackHandler, Constants.OUTPUT_SLOT, 130, 35));
 //    }
-
-//    @Override
-//    public void slotsChanged(Container inventory)
-//    {
-//        if (inventory == this.enchantSlots) {
-//            ItemStack itemstack = inventory.getItem(0);
-//            ItemStack itemstack2 = inventory.getItem(1);
-//            if (!itemstack.isEmpty() && itemstack.is(Items.LAPIS_LAZULI) && itemstack2.isEmpty()) {
-//                inventory.setItem(1, new ItemStack(Items.LAPIS_BLOCK, itemstack.getCount()));
-//            }
-//        }
-//
-//        super.slotsChanged(inventory);
-//    }
-
-//    @Override
-//    public void removed(Player player) {
-//        super.removed(player);
-//        ItemStack itemstack2 = this.enchantSlots.getItem(1);
-//        if(!itemstack2.isEmpty())
-//            this.enchantSlots.removeItemNoUpdate(1);
-//        this.clearContainer(player, this.enchantSlots);
-//    }
-
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
