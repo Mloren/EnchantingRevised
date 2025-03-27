@@ -52,7 +52,7 @@ public class EnchantAltarBlock extends BaseEntityBlock
         {
             if(level.getBlockEntity(pos) instanceof EnchantAltarBlockEntity enchantAltarBlockEntity)
             {
-                //enchantAltarBlockEntity.drops();
+                enchantAltarBlockEntity.drops();
                 level.updateNeighbourForOutputSignal(pos, this);
             }
         }

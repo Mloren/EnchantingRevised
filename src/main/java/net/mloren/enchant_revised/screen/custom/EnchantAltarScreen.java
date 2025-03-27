@@ -13,8 +13,6 @@ public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu
 {
     private static final ResourceLocation GUI_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID, "textures/gui/enchant_altar/enchant_altar_gui.png");
-    private static final ResourceLocation ARROW_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID, "textures/gui/arrow_progress.png");
 
     public EnchantAltarScreen(EnchantAltarMenu menu, Inventory playerInventory, Component title)
     {
@@ -31,17 +29,7 @@ public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu
         int y = (height - imageHeight) / 2;
 
         guiGraphics.blit(GUI_TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
-
-        //renderProgressArrow(guiGraphics, x, y);
     }
-
-//    private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y)
-//    {
-//        if(menu.isCrafting())
-//        {
-//            guiGraphics.blit(ARROW_TEXTURE, x + 73, y + 35, 0, 0, menu.getScaledArrowProgress(), 16, 24, 16);
-//        }
-//    }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)

@@ -7,11 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 public record EnchantAltarRecipeInput(ItemStack primaryIngredient) implements RecipeInput
 {
-    public EnchantAltarRecipeInput(ItemStack primaryIngredient)
-    {
-        this.primaryIngredient = primaryIngredient;
-    }
-
     @Override
     public @NotNull ItemStack getItem(int index)
     {
