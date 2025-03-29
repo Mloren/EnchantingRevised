@@ -10,5 +10,6 @@
     "item": "minecraft:lapis_lazuli",
     "count": 3
   },
-  "result": "minecraft:unbreaking"
+  "enchantment": "minecraft:fortune",
+  "enchant_level": 2
 }

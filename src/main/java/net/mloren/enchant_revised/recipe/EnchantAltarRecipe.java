@@ -1,24 +1,26 @@
 package net.mloren.enchant_revised.recipe;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.mloren.enchant_revised.util.Constants;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public record EnchantAltarRecipe(Ingredient primaryIngredient, Ingredient secondaryIngredient, SizedIngredient fuel, Holder<Enchantment> output) implements Recipe<EnchantAltarRecipeInput>
+public record EnchantAltarRecipe(Ingredient primaryIngredient, Ingredient secondaryIngredient, SizedIngredient fuel, Holder<Enchantment> enchantment, int enchantLevel) implements Recipe<EnchantAltarRecipeInput>
 {
     @Override
     public @NotNull NonNullList<Ingredient> getIngredients()
@@ -40,8 +42,12 @@ public record EnchantAltarRecipe(Ingredient primaryIngredient, Ingredient second
         if(targetItem.isEmpty())
            return false;
 
-        //EnchantmentHelper.canStoreEnchantments(itemstack)
-        if(!targetItem.getItem().isEnchantable(targetItem))
+        boolean enchantable = targetItem.getItem().isEnchantable(targetItem) || EnchantmentHelper.canStoreEnchantments(targetItem);
+        if(!enchantable)
+            return false;
+
+        boolean supportsEnchantment = targetItem.supportsEnchantment(enchantment) || targetItem.is(Items.BOOK);
+        if(!supportsEnchantment)
             return false;
 
         return primaryIngredient.test(input.getItem(Constants.PRIMARY_INGREDIENT_SLOT)) &&
@@ -52,16 +58,16 @@ public record EnchantAltarRecipe(Ingredient primaryIngredient, Ingredient second
     @Override
     public @NotNull ItemStack assemble(@NotNull EnchantAltarRecipeInput input, HolderLookup.@NotNull Provider registries)
     {
-        ItemStack inputItem = input.targetItem();
-        ItemStack outputItem = inputItem.copy();
+        ItemStack targetItem = input.targetItem();
+        ItemStack outputItem;
 
-        outputItem.enchant(output, 1);
+        if(targetItem.is(Items.BOOK))
+            outputItem = new ItemStack(Items.ENCHANTED_BOOK);
+        else
+            outputItem = targetItem.copy();
 
-//        inputItem.()
-//        DataComponentMap componentsMap = inputItem.getComponents();
-//        for()
-//        //ItemEnchantments itemenchantments = EnchantmentHelper.getEnchantmentsForCrafting(itemstack2);
-//        ItemStack result = input.targetItem().copy();
+        outputItem.enchant(enchantment, enchantLevel);
+
         return outputItem;
     }
 
@@ -97,7 +103,8 @@ public record EnchantAltarRecipe(Ingredient primaryIngredient, Ingredient second
                 Ingredient.CODEC_NONEMPTY.fieldOf("primary").forGetter(EnchantAltarRecipe::primaryIngredient),
                 Ingredient.CODEC_NONEMPTY.fieldOf("secondary").forGetter(EnchantAltarRecipe::secondaryIngredient),
                 SizedIngredient.FLAT_CODEC.fieldOf("fuel").forGetter(EnchantAltarRecipe::fuel),
-                Enchantment.CODEC.fieldOf("result").forGetter(EnchantAltarRecipe::output)
+                Enchantment.CODEC.fieldOf("enchantment").forGetter(EnchantAltarRecipe::enchantment),
+                Codec.INT.fieldOf("enchant_level").forGetter(EnchantAltarRecipe::enchantLevel)
         ).apply(inst, EnchantAltarRecipe::new));
 
         //synchronized over the network
@@ -106,7 +113,8 @@ public record EnchantAltarRecipe(Ingredient primaryIngredient, Ingredient second
                         Ingredient.CONTENTS_STREAM_CODEC, EnchantAltarRecipe::primaryIngredient,
                         Ingredient.CONTENTS_STREAM_CODEC, EnchantAltarRecipe::secondaryIngredient,
                         SizedIngredient.STREAM_CODEC, EnchantAltarRecipe::fuel,
-                        Enchantment.STREAM_CODEC, EnchantAltarRecipe::output,
+                        Enchantment.STREAM_CODEC, EnchantAltarRecipe::enchantment,
+                        ByteBufCodecs.INT, EnchantAltarRecipe::enchantLevel,
                         EnchantAltarRecipe::new);
 
         @Override

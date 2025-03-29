@@ -25,6 +25,7 @@ import net.mloren.enchant_revised.recipe.EnchantAltarRecipeInput;
 import net.mloren.enchant_revised.recipe.ModRecipes;
 import net.mloren.enchant_revised.screen.custom.EnchantAltarMenu;
 import net.mloren.enchant_revised.util.Constants;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -125,14 +126,14 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
             ItemStack outputStack = resultStackHandler.getStackInSlot(Constants.OUTPUT_SLOT);
             if(outputStack.isEmpty())
             {
-                //Ingredient lapis = recipe.get().value().fuel();
+                SizedIngredient fuel = recipe.get().value().fuel();
                 //Ingredient primary = recipe.get().value().primaryIngredient();
                 //Ingredient secondary = recipe.get().value().secondaryIngredient();
 
-                inputStackHandler.extractItem(Constants.LAPIS_SLOT, 1, false);
+                inputStackHandler.extractItem(Constants.LAPIS_SLOT, fuel.count(), false);
                 inputStackHandler.extractItem(Constants.PRIMARY_INGREDIENT_SLOT, 1, false);
                 inputStackHandler.extractItem(Constants.SECONDARY_INGREDIENT_SLOT, 1, false);
-                inputStackHandler.setStackInSlot(Constants.TARGET_ITEM_SLOT, ItemStack.EMPTY);
+                inputStackHandler.extractItem(Constants.TARGET_ITEM_SLOT, 1, false);
             }
         }
     }
