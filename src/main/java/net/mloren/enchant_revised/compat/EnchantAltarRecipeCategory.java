@@ -12,10 +12,14 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.Nullable;
 
 public class EnchantAltarRecipeCategory implements IRecipeCategory<EnchantAltarRecipe>
@@ -62,11 +66,25 @@ public class EnchantAltarRecipeCategory implements IRecipeCategory<EnchantAltarR
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, EnchantAltarRecipe recipe, IFocusGroup focuses)
     {
-        //builder.addSlot(RecipeIngredientRole.INPUT, 27, 53).addIngredients(recipe.getIngredients().get(EnchantAltar.LAPIS_SLOT));
-        builder.addSlot(RecipeIngredientRole.INPUT, 1, 19).addIngredients(recipe.getIngredients().get(0));
-        //builder.addSlot(RecipeIngredientRole.INPUT, 27, 17).addIngredients(recipe.getIngredients().get(EnchantAltar.SECONDARY_INGREDIENT_SLOT));
-        //builder.addSlot(RecipeIngredientRole.INPUT, 72, 35).addIngredients(recipe.getIngredients().get(EnchantAltar.TARGET_ITEM_SLOT));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 104, 19).addItemStack(recipe.getResultItem(null));
+        builder.addSlot(RecipeIngredientRole.INPUT, 1, 1).addItemStack(itemStackFromIngredient(recipe.secondaryIngredient()));
+        builder.addSlot(RecipeIngredientRole.INPUT, 1, 19).addItemStack(itemStackFromIngredient(recipe.primaryIngredient()));
+        builder.addSlot(RecipeIngredientRole.INPUT, 1, 37).addItemStack(new ItemStack(Items.LAPIS_LAZULI, recipe.lapisCost()));
+
+        builder.addSlot(RecipeIngredientRole.INPUT, 46, 19).addItemStack(new ItemStack(Items.BOOK, 1));
+
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 104, 19).addItemStack(recipe.getExampleResult());
+    }
+
+    private ItemStack itemStackFromIngredient(SizedIngredient ingredient)
+    {
+        if(ingredient.getItems().length == 0)
+            return ItemStack.EMPTY;
+
+        ItemStack itemStack = ingredient.getItems()[0];
+        if(itemStack == null || itemStack.isEmpty())
+            return ItemStack.EMPTY;
+
+        return new ItemStack(itemStack.getItem(), ingredient.count());
     }
 
     @Override

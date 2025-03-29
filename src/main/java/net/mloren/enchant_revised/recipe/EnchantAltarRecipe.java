@@ -83,6 +83,14 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredi
         return ItemStack.EMPTY;
     }
 
+    public @NotNull ItemStack getExampleResult()
+    {
+        // Returns an enchanted book as an example item
+        ItemStack result = new ItemStack(Items.ENCHANTED_BOOK, 1);
+        result.enchant(enchantment, enchantLevel);
+        return result;
+    }
+
     @Override
     public @NotNull RecipeSerializer<?> getSerializer()
     {
