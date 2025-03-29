@@ -15,28 +15,18 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.mloren.enchant_revised.util.Constants;
+import net.mloren.enchant_revised.util.EnchantAltar;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredient secondaryIngredient, SizedIngredient fuel, Holder<Enchantment> enchantment, int enchantLevel) implements Recipe<EnchantAltarRecipeInput>
+public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredient secondaryIngredient, int lapisCost, Holder<Enchantment> enchantment, int enchantLevel) implements Recipe<EnchantAltarRecipeInput>
 {
-//    @Override
-//    public @NotNull NonNullList<Ingredient> getIngredients()
-//    {
-//        NonNullList<Ingredient> list = NonNullList.create();
-//        list.add(primaryIngredient);
-//        list.add(secondaryIngredient);
-//        return list;
-//    }
-
     public @NotNull NonNullList<SizedIngredient> getIngredientList()
     {
         NonNullList<SizedIngredient> list = NonNullList.create();
         list.add(primaryIngredient);
         list.add(secondaryIngredient);
-        list.add(fuel);
         return list;
     }
 
@@ -59,9 +49,10 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredi
         if(!supportsEnchantment)
             return false;
 
-        return primaryIngredient.test(input.getItem(Constants.PRIMARY_INGREDIENT_SLOT)) &&
-                secondaryIngredient.test(input.getItem(Constants.SECONDARY_INGREDIENT_SLOT)) &&
-                fuel.test(input.getItem(Constants.LAPIS_SLOT));
+        return input.getItem(EnchantAltar.LAPIS_SLOT).is(Items.LAPIS_LAZULI) &&
+                input.getItem(EnchantAltar.LAPIS_SLOT).getCount() >= lapisCost &&
+                primaryIngredient.test(input.getItem(EnchantAltar.PRIMARY_INGREDIENT_SLOT)) &&
+                secondaryIngredient.test(input.getItem(EnchantAltar.SECONDARY_INGREDIENT_SLOT));
     }
 
     @Override
@@ -107,11 +98,10 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredi
     public static class Serializer implements RecipeSerializer<EnchantAltarRecipe>
     {
         //format of the JSON file
-        //"ingredient" and "result" are the fields in the JSON file
         public static final MapCodec<EnchantAltarRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
                 SizedIngredient.FLAT_CODEC.fieldOf("primary").forGetter(EnchantAltarRecipe::primaryIngredient),
                 SizedIngredient.FLAT_CODEC.fieldOf("secondary").forGetter(EnchantAltarRecipe::secondaryIngredient),
-                SizedIngredient.FLAT_CODEC.fieldOf("fuel").forGetter(EnchantAltarRecipe::fuel),
+                Codec.INT.fieldOf("lapis_cost").forGetter(EnchantAltarRecipe::lapisCost),
                 Enchantment.CODEC.fieldOf("enchantment").forGetter(EnchantAltarRecipe::enchantment),
                 Codec.INT.fieldOf("enchant_level").forGetter(EnchantAltarRecipe::enchantLevel)
         ).apply(inst, EnchantAltarRecipe::new));
@@ -121,7 +111,7 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredi
                 StreamCodec.composite(
                         SizedIngredient.STREAM_CODEC, EnchantAltarRecipe::primaryIngredient,
                         SizedIngredient.STREAM_CODEC, EnchantAltarRecipe::secondaryIngredient,
-                        SizedIngredient.STREAM_CODEC, EnchantAltarRecipe::fuel,
+                        ByteBufCodecs.INT, EnchantAltarRecipe::lapisCost,
                         Enchantment.STREAM_CODEC, EnchantAltarRecipe::enchantment,
                         ByteBufCodecs.INT, EnchantAltarRecipe::enchantLevel,
                         EnchantAltarRecipe::new);

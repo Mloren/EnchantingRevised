@@ -62,10 +62,10 @@ public class EnchantAltarRecipeCategory implements IRecipeCategory<EnchantAltarR
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, EnchantAltarRecipe recipe, IFocusGroup focuses)
     {
-        //builder.addSlot(RecipeIngredientRole.INPUT, 27, 53).addIngredients(recipe.getIngredients().get(Constants.LAPIS_SLOT));
+        //builder.addSlot(RecipeIngredientRole.INPUT, 27, 53).addIngredients(recipe.getIngredients().get(EnchantAltar.LAPIS_SLOT));
         builder.addSlot(RecipeIngredientRole.INPUT, 1, 19).addIngredients(recipe.getIngredients().get(0));
-        //builder.addSlot(RecipeIngredientRole.INPUT, 27, 17).addIngredients(recipe.getIngredients().get(Constants.SECONDARY_INGREDIENT_SLOT));
-        //builder.addSlot(RecipeIngredientRole.INPUT, 72, 35).addIngredients(recipe.getIngredients().get(Constants.TARGET_ITEM_SLOT));
+        //builder.addSlot(RecipeIngredientRole.INPUT, 27, 17).addIngredients(recipe.getIngredients().get(EnchantAltar.SECONDARY_INGREDIENT_SLOT));
+        //builder.addSlot(RecipeIngredientRole.INPUT, 72, 35).addIngredients(recipe.getIngredients().get(EnchantAltar.TARGET_ITEM_SLOT));
         builder.addSlot(RecipeIngredientRole.OUTPUT, 104, 19).addItemStack(recipe.getResultItem(null));
     }
 

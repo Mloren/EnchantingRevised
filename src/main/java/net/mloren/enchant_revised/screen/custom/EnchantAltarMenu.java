@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.block.entity.EnchantAltarBlockEntity;
 import net.mloren.enchant_revised.screen.ModMenuTypes;
-import net.mloren.enchant_revised.util.Constants;
+import net.mloren.enchant_revised.util.EnchantAltar;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +44,7 @@ public class EnchantAltarMenu extends ModdedContainerMenu
 
     private void addSlots()
     {
-        this.addSlot(new SlotItemHandler(this.inputStackHandler, Constants.LAPIS_SLOT, 27, 53)
+        this.addSlot(new SlotItemHandler(this.inputStackHandler, EnchantAltar.LAPIS_SLOT, 27, 53)
         {
             @Override
             public boolean mayPlace(@NotNull ItemStack itemStack)
@@ -59,11 +59,11 @@ public class EnchantAltarMenu extends ModdedContainerMenu
             }
         });
 
-        this.addSlot(new SlotItemHandler(this.inputStackHandler, Constants.PRIMARY_INGREDIENT_SLOT, 27, 35));
-        this.addSlot(new SlotItemHandler(this.inputStackHandler, Constants.SECONDARY_INGREDIENT_SLOT, 27, 17));
-        this.addSlot(new SlotItemHandler(this.inputStackHandler, Constants.TARGET_ITEM_SLOT, 72, 35));
+        this.addSlot(new SlotItemHandler(this.inputStackHandler, EnchantAltar.PRIMARY_INGREDIENT_SLOT, 27, 35));
+        this.addSlot(new SlotItemHandler(this.inputStackHandler, EnchantAltar.SECONDARY_INGREDIENT_SLOT, 27, 17));
+        this.addSlot(new SlotItemHandler(this.inputStackHandler, EnchantAltar.TARGET_ITEM_SLOT, 72, 35));
 
-        this.addSlot(new SlotItemHandler(this.resultStackHandler, Constants.OUTPUT_SLOT, 130, 35)
+        this.addSlot(new SlotItemHandler(this.resultStackHandler, EnchantAltar.OUTPUT_SLOT, 130, 35)
         {
             @Override
             public boolean mayPlace(@NotNull ItemStack itemStack)
@@ -88,13 +88,13 @@ public class EnchantAltarMenu extends ModdedContainerMenu
     @Override
     protected int getInputSlotCount()
     {
-        return Constants.INPUT_SLOT_COUNT;
+        return EnchantAltar.INPUT_SLOT_COUNT;
     }
 
     @Override
     protected int getOutputSlotCount()
     {
-        return Constants.OUTPUT_SLOT_COUNT;
+        return EnchantAltar.OUTPUT_SLOT_COUNT;
     }
 
     @Override

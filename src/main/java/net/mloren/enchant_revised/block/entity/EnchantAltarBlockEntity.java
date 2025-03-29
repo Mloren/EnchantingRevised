@@ -14,7 +14,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.Block;
@@ -24,7 +23,7 @@ import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipeInput;
 import net.mloren.enchant_revised.recipe.ModRecipes;
 import net.mloren.enchant_revised.screen.custom.EnchantAltarMenu;
-import net.mloren.enchant_revised.util.Constants;
+import net.mloren.enchant_revised.util.EnchantAltar;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +33,7 @@ import java.util.Optional;
 
 public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
 {
-    public final ItemStackHandler inputStackHandler = new ItemStackHandler(Constants.INPUT_SLOT_COUNT)
+    public final ItemStackHandler inputStackHandler = new ItemStackHandler(EnchantAltar.INPUT_SLOT_COUNT)
     {
         @Override
         protected void onContentsChanged(int slot)
@@ -47,7 +46,7 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
             }
         }
     };
-    public final ItemStackHandler resultStackHandler = new ItemStackHandler(Constants.OUTPUT_SLOT_COUNT)
+    public final ItemStackHandler resultStackHandler = new ItemStackHandler(EnchantAltar.OUTPUT_SLOT_COUNT)
     {
         @Override
         protected void onContentsChanged(int slot)
@@ -84,28 +83,28 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
         Optional<RecipeHolder<EnchantAltarRecipe>> recipe = getCurrentRecipe(recipeInput);
         if(recipe.isPresent())
         {
-            ItemStack outputStack = resultStackHandler.getStackInSlot(Constants.OUTPUT_SLOT);
+            ItemStack outputStack = resultStackHandler.getStackInSlot(EnchantAltar.OUTPUT_SLOT);
             if(outputStack.isEmpty())
             {
                 ItemStack recipeOutput = recipe.get().value().assemble(recipeInput, level.registryAccess());
-                resultStackHandler.setStackInSlot(Constants.OUTPUT_SLOT, recipeOutput);
+                resultStackHandler.setStackInSlot(EnchantAltar.OUTPUT_SLOT, recipeOutput);
             }
         }
         else
         {
-            ItemStack outputStack = resultStackHandler.getStackInSlot(Constants.OUTPUT_SLOT);
+            ItemStack outputStack = resultStackHandler.getStackInSlot(EnchantAltar.OUTPUT_SLOT);
             if(!outputStack.isEmpty())
-                resultStackHandler.setStackInSlot(Constants.OUTPUT_SLOT, ItemStack.EMPTY);
+                resultStackHandler.setStackInSlot(EnchantAltar.OUTPUT_SLOT, ItemStack.EMPTY);
         }
     }
 
     private EnchantAltarRecipeInput GetRecipeInput()
     {
         return new EnchantAltarRecipeInput(
-                inputStackHandler.getStackInSlot(Constants.PRIMARY_INGREDIENT_SLOT),
-                inputStackHandler.getStackInSlot(Constants.SECONDARY_INGREDIENT_SLOT),
-                inputStackHandler.getStackInSlot(Constants.LAPIS_SLOT),
-                inputStackHandler.getStackInSlot(Constants.TARGET_ITEM_SLOT));
+                inputStackHandler.getStackInSlot(EnchantAltar.PRIMARY_INGREDIENT_SLOT),
+                inputStackHandler.getStackInSlot(EnchantAltar.SECONDARY_INGREDIENT_SLOT),
+                inputStackHandler.getStackInSlot(EnchantAltar.LAPIS_SLOT),
+                inputStackHandler.getStackInSlot(EnchantAltar.TARGET_ITEM_SLOT));
     }
 
     private Optional<RecipeHolder<EnchantAltarRecipe>> getCurrentRecipe(EnchantAltarRecipeInput recipeInput)
@@ -123,17 +122,17 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
         Optional<RecipeHolder<EnchantAltarRecipe>> recipe = getCurrentRecipe(recipeInput);
         if(recipe.isPresent())
         {
-            ItemStack outputStack = resultStackHandler.getStackInSlot(Constants.OUTPUT_SLOT);
+            ItemStack outputStack = resultStackHandler.getStackInSlot(EnchantAltar.OUTPUT_SLOT);
             if(outputStack.isEmpty())
             {
-                SizedIngredient fuel = recipe.get().value().fuel();
                 SizedIngredient primary = recipe.get().value().primaryIngredient();
                 SizedIngredient secondary = recipe.get().value().secondaryIngredient();
+                int lapisCost = recipe.get().value().lapisCost();
 
-                inputStackHandler.extractItem(Constants.LAPIS_SLOT, fuel.count(), false);
-                inputStackHandler.extractItem(Constants.PRIMARY_INGREDIENT_SLOT, primary.count(), false);
-                inputStackHandler.extractItem(Constants.SECONDARY_INGREDIENT_SLOT, secondary.count(), false);
-                inputStackHandler.extractItem(Constants.TARGET_ITEM_SLOT, 1, false);
+                inputStackHandler.extractItem(EnchantAltar.PRIMARY_INGREDIENT_SLOT, primary.count(), false);
+                inputStackHandler.extractItem(EnchantAltar.SECONDARY_INGREDIENT_SLOT, secondary.count(), false);
+                inputStackHandler.extractItem(EnchantAltar.LAPIS_SLOT, lapisCost, false);
+                inputStackHandler.extractItem(EnchantAltar.TARGET_ITEM_SLOT, 1, false);
             }
         }
     }
