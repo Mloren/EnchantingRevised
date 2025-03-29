@@ -1,9 +1,14 @@
 {
   "type": "enchant_revised:enchant_altar",
-  "ingredient": {
+  "primary": {
     "item": "minecraft:diamond"
   },
-  "result": {
-    "id": "minecraft:diamond_block"
-  }
+  "secondary": {
+    "item": "minecraft:stick"
+  },
+  "fuel": {
+    "item": "minecraft:lapis_lazuli",
+    "count": 3
+  },
+  "result": "minecraft:unbreaking"
 }

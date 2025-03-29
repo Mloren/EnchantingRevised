@@ -2,24 +2,30 @@ package net.mloren.enchant_revised.recipe;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.mloren.enchant_revised.util.Constants;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public record EnchantAltarRecipe(Ingredient primaryIngredient, ItemStack output) implements Recipe<EnchantAltarRecipeInput>
+public record EnchantAltarRecipe(Ingredient primaryIngredient, Ingredient secondaryIngredient, SizedIngredient fuel, Holder<Enchantment> output) implements Recipe<EnchantAltarRecipeInput>
 {
     @Override
     public @NotNull NonNullList<Ingredient> getIngredients()
     {
         NonNullList<Ingredient> list = NonNullList.create();
         list.add(primaryIngredient);
+        list.add(secondaryIngredient);
         return list;
     }
 
@@ -29,13 +35,34 @@ public record EnchantAltarRecipe(Ingredient primaryIngredient, ItemStack output)
         if(level.isClientSide())
             return false;
 
-        return primaryIngredient.test(input.getItem(Constants.PRIMARY_INGREDIENT_SLOT));
+        ItemStack targetItem = input.targetItem();
+
+        if(targetItem.isEmpty())
+           return false;
+
+        //EnchantmentHelper.canStoreEnchantments(itemstack)
+        if(!targetItem.getItem().isEnchantable(targetItem))
+            return false;
+
+        return primaryIngredient.test(input.getItem(Constants.PRIMARY_INGREDIENT_SLOT)) &&
+                secondaryIngredient.test(input.getItem(Constants.SECONDARY_INGREDIENT_SLOT)) &&
+                fuel.test(input.getItem(Constants.LAPIS_SLOT));
     }
 
     @Override
     public @NotNull ItemStack assemble(@NotNull EnchantAltarRecipeInput input, HolderLookup.@NotNull Provider registries)
     {
-        return output.copy();
+        ItemStack inputItem = input.targetItem();
+        ItemStack outputItem = inputItem.copy();
+
+        outputItem.enchant(output, 1);
+
+//        inputItem.()
+//        DataComponentMap componentsMap = inputItem.getComponents();
+//        for()
+//        //ItemEnchantments itemenchantments = EnchantmentHelper.getEnchantmentsForCrafting(itemstack2);
+//        ItemStack result = input.targetItem().copy();
+        return outputItem;
     }
 
     @Override
@@ -47,7 +74,7 @@ public record EnchantAltarRecipe(Ingredient primaryIngredient, ItemStack output)
     @Override
     public @NotNull ItemStack getResultItem(HolderLookup.@Nullable Provider registries)
     {
-        return output;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -67,15 +94,19 @@ public record EnchantAltarRecipe(Ingredient primaryIngredient, ItemStack output)
         //format of the JSON file
         //"ingredient" and "result" are the fields in the JSON file
         public static final MapCodec<EnchantAltarRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-                Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(EnchantAltarRecipe::primaryIngredient),
-                ItemStack.CODEC.fieldOf("result").forGetter(EnchantAltarRecipe::output)
+                Ingredient.CODEC_NONEMPTY.fieldOf("primary").forGetter(EnchantAltarRecipe::primaryIngredient),
+                Ingredient.CODEC_NONEMPTY.fieldOf("secondary").forGetter(EnchantAltarRecipe::secondaryIngredient),
+                SizedIngredient.FLAT_CODEC.fieldOf("fuel").forGetter(EnchantAltarRecipe::fuel),
+                Enchantment.CODEC.fieldOf("result").forGetter(EnchantAltarRecipe::output)
         ).apply(inst, EnchantAltarRecipe::new));
 
         //synchronized over the network
         public static final StreamCodec<RegistryFriendlyByteBuf, EnchantAltarRecipe> STREAM_CODEC =
                 StreamCodec.composite(
                         Ingredient.CONTENTS_STREAM_CODEC, EnchantAltarRecipe::primaryIngredient,
-                        ItemStack.STREAM_CODEC, EnchantAltarRecipe::output,
+                        Ingredient.CONTENTS_STREAM_CODEC, EnchantAltarRecipe::secondaryIngredient,
+                        SizedIngredient.STREAM_CODEC, EnchantAltarRecipe::fuel,
+                        Enchantment.STREAM_CODEC, EnchantAltarRecipe::output,
                         EnchantAltarRecipe::new);
 
         @Override
