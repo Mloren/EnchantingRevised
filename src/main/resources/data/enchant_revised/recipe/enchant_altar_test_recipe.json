@@ -1,10 +1,12 @@
 {
   "type": "enchant_revised:enchant_altar",
   "primary": {
-    "item": "minecraft:diamond"
+    "item": "minecraft:diamond",
+    "count": 1
   },
   "secondary": {
-    "item": "minecraft:stick"
+    "item": "minecraft:stick",
+    "count": 1
   },
   "fuel": {
     "item": "minecraft:lapis_lazuli",

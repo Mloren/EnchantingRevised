@@ -20,14 +20,23 @@ import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public record EnchantAltarRecipe(Ingredient primaryIngredient, Ingredient secondaryIngredient, SizedIngredient fuel, Holder<Enchantment> enchantment, int enchantLevel) implements Recipe<EnchantAltarRecipeInput>
+public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredient secondaryIngredient, SizedIngredient fuel, Holder<Enchantment> enchantment, int enchantLevel) implements Recipe<EnchantAltarRecipeInput>
 {
-    @Override
-    public @NotNull NonNullList<Ingredient> getIngredients()
+//    @Override
+//    public @NotNull NonNullList<Ingredient> getIngredients()
+//    {
+//        NonNullList<Ingredient> list = NonNullList.create();
+//        list.add(primaryIngredient);
+//        list.add(secondaryIngredient);
+//        return list;
+//    }
+
+    public @NotNull NonNullList<SizedIngredient> getIngredientList()
     {
-        NonNullList<Ingredient> list = NonNullList.create();
+        NonNullList<SizedIngredient> list = NonNullList.create();
         list.add(primaryIngredient);
         list.add(secondaryIngredient);
+        list.add(fuel);
         return list;
     }
 
@@ -100,8 +109,8 @@ public record EnchantAltarRecipe(Ingredient primaryIngredient, Ingredient second
         //format of the JSON file
         //"ingredient" and "result" are the fields in the JSON file
         public static final MapCodec<EnchantAltarRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-                Ingredient.CODEC_NONEMPTY.fieldOf("primary").forGetter(EnchantAltarRecipe::primaryIngredient),
-                Ingredient.CODEC_NONEMPTY.fieldOf("secondary").forGetter(EnchantAltarRecipe::secondaryIngredient),
+                SizedIngredient.FLAT_CODEC.fieldOf("primary").forGetter(EnchantAltarRecipe::primaryIngredient),
+                SizedIngredient.FLAT_CODEC.fieldOf("secondary").forGetter(EnchantAltarRecipe::secondaryIngredient),
                 SizedIngredient.FLAT_CODEC.fieldOf("fuel").forGetter(EnchantAltarRecipe::fuel),
                 Enchantment.CODEC.fieldOf("enchantment").forGetter(EnchantAltarRecipe::enchantment),
                 Codec.INT.fieldOf("enchant_level").forGetter(EnchantAltarRecipe::enchantLevel)
@@ -110,8 +119,8 @@ public record EnchantAltarRecipe(Ingredient primaryIngredient, Ingredient second
         //synchronized over the network
         public static final StreamCodec<RegistryFriendlyByteBuf, EnchantAltarRecipe> STREAM_CODEC =
                 StreamCodec.composite(
-                        Ingredient.CONTENTS_STREAM_CODEC, EnchantAltarRecipe::primaryIngredient,
-                        Ingredient.CONTENTS_STREAM_CODEC, EnchantAltarRecipe::secondaryIngredient,
+                        SizedIngredient.STREAM_CODEC, EnchantAltarRecipe::primaryIngredient,
+                        SizedIngredient.STREAM_CODEC, EnchantAltarRecipe::secondaryIngredient,
                         SizedIngredient.STREAM_CODEC, EnchantAltarRecipe::fuel,
                         Enchantment.STREAM_CODEC, EnchantAltarRecipe::enchantment,
                         ByteBufCodecs.INT, EnchantAltarRecipe::enchantLevel,

@@ -127,12 +127,12 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
             if(outputStack.isEmpty())
             {
                 SizedIngredient fuel = recipe.get().value().fuel();
-                //Ingredient primary = recipe.get().value().primaryIngredient();
-                //Ingredient secondary = recipe.get().value().secondaryIngredient();
+                SizedIngredient primary = recipe.get().value().primaryIngredient();
+                SizedIngredient secondary = recipe.get().value().secondaryIngredient();
 
                 inputStackHandler.extractItem(Constants.LAPIS_SLOT, fuel.count(), false);
-                inputStackHandler.extractItem(Constants.PRIMARY_INGREDIENT_SLOT, 1, false);
-                inputStackHandler.extractItem(Constants.SECONDARY_INGREDIENT_SLOT, 1, false);
+                inputStackHandler.extractItem(Constants.PRIMARY_INGREDIENT_SLOT, primary.count(), false);
+                inputStackHandler.extractItem(Constants.SECONDARY_INGREDIENT_SLOT, secondary.count(), false);
                 inputStackHandler.extractItem(Constants.TARGET_ITEM_SLOT, 1, false);
             }
         }
