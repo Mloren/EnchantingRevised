@@ -18,7 +18,7 @@ public class ModBlockStateProvider extends BlockStateProvider
     @Override
     protected void registerStatesAndModels()
     {
-        blockWithItem(ModBlocks.ENCHANT_ALTAR);
+        //blockWithItem(ModBlocks.ENCHANT_ALTAR);
     }
 
     private void blockWithItem(DeferredBlock<?> deferredBlock)

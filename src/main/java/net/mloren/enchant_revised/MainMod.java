@@ -3,6 +3,7 @@ package net.mloren.enchant_revised;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.block.entity.ModBlockEntities;
+import net.mloren.enchant_revised.block.entity.renderer.EnchantAltarRenderer;
 import net.mloren.enchant_revised.block.entity.renderer.PedestalBlockEntityRenderer;
 import net.mloren.enchant_revised.enchantment.ModEnchantmentEffects;
 import net.mloren.enchant_revised.item.ModItems;
@@ -97,6 +98,7 @@ public class MainMod
         public static void registerBER(EntityRenderersEvent.RegisterRenderers event)
         {
             event.registerBlockEntityRenderer(ModBlockEntities.PEDESTAL_BE.get(), PedestalBlockEntityRenderer::new);
+            event.registerBlockEntityRenderer(ModBlockEntities.ENCHANT_ALTAR_BE.get(), EnchantAltarRenderer::new);
         }
 
         @SubscribeEvent

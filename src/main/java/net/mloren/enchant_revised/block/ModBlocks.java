@@ -4,6 +4,8 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.block.custom.EnchantAltarBlock;
 import net.mloren.enchant_revised.block.custom.PedestalBlock;
@@ -22,7 +24,12 @@ public class ModBlocks
             () -> new PedestalBlock(BlockBehaviour.Properties.of().noOcclusion()));
 
     public static final DeferredBlock<Block> ENCHANT_ALTAR = registerBlock("enchant_altar",
-            () -> new EnchantAltarBlock(BlockBehaviour.Properties.of()));
+            () -> new EnchantAltarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .requiresCorrectToolForDrops()
+                    .lightLevel(blockState -> 7)
+                    .strength(5.0F, 1200.0F)));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block)
     {
