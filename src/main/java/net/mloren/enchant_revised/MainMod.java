@@ -72,7 +72,7 @@ public class MainMod
     // Add the example items to the Creative mode tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        if(event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
+        if(event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
         {
             event.accept(ModBlocks.PEDESTAL);
             event.accept(ModBlocks.ENCHANT_ALTAR);

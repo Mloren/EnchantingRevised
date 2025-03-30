@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "Category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:cobbled_deepslate"
+    },
+    "B": {
+      "item": "minecraft:book"
+    },
+    "L": {
+      "item": "minecraft:lapis_lazuli"
+    }
+  },
+  "pattern": [
+    " B ",
+    "L#L",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "enchant_revised:enchant_altar"
+  }
+}
