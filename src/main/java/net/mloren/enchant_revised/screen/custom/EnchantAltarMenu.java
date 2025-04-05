@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.block.entity.EnchantAltarBlockEntity;
 import net.mloren.enchant_revised.screen.ModMenuTypes;
@@ -72,11 +73,33 @@ public class EnchantAltarMenu extends ModdedContainerMenu
             }
 
             @Override
+            public boolean mayPickup(Player playerIn)
+            {
+                return blockEntity.getBookshelvesValid() && super.mayPickup(playerIn);
+            }
+
+            @Override
+            public boolean isHighlightable()
+            {
+                return blockEntity.getBookshelvesValid() && super.isHighlightable();
+            }
+
+            @Override
             public boolean isFake()
             {
                 return true;
             }
         });
+    }
+
+    public boolean getBookshelvesValid()
+    {
+        return blockEntity.getBookshelvesValid();
+    }
+
+    public int getBookshelvesRequired()
+    {
+        return blockEntity.getBookshelvesRequired();
     }
 
     @Override

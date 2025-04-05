@@ -20,7 +20,7 @@ import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredient secondaryIngredient, int lapisCost, Holder<Enchantment> enchantment, int enchantLevel) implements Recipe<EnchantAltarRecipeInput>
+public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredient secondaryIngredient, int lapisCost, int bookshelvesRequired, Holder<Enchantment> enchantment, int enchantLevel) implements Recipe<EnchantAltarRecipeInput>
 {
     public @NotNull NonNullList<SizedIngredient> getIngredientList()
     {
@@ -33,9 +33,6 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredi
     @Override
     public boolean matches(@NotNull EnchantAltarRecipeInput input, Level level)
     {
-        if(level.isClientSide())
-            return false;
-
         ItemStack targetItem = input.targetItem();
 
         if(targetItem.isEmpty())
@@ -110,6 +107,7 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredi
                 SizedIngredient.FLAT_CODEC.fieldOf("primary").forGetter(EnchantAltarRecipe::primaryIngredient),
                 SizedIngredient.FLAT_CODEC.fieldOf("secondary").forGetter(EnchantAltarRecipe::secondaryIngredient),
                 Codec.INT.fieldOf("lapis_cost").forGetter(EnchantAltarRecipe::lapisCost),
+                Codec.INT.fieldOf("bookshelves_required").forGetter(EnchantAltarRecipe::bookshelvesRequired),
                 Enchantment.CODEC.fieldOf("enchantment").forGetter(EnchantAltarRecipe::enchantment),
                 Codec.INT.fieldOf("enchant_level").forGetter(EnchantAltarRecipe::enchantLevel)
         ).apply(inst, EnchantAltarRecipe::new));
@@ -120,6 +118,7 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredi
                         SizedIngredient.STREAM_CODEC, EnchantAltarRecipe::primaryIngredient,
                         SizedIngredient.STREAM_CODEC, EnchantAltarRecipe::secondaryIngredient,
                         ByteBufCodecs.INT, EnchantAltarRecipe::lapisCost,
+                        ByteBufCodecs.INT, EnchantAltarRecipe::bookshelvesRequired,
                         Enchantment.STREAM_CODEC, EnchantAltarRecipe::enchantment,
                         ByteBufCodecs.INT, EnchantAltarRecipe::enchantLevel,
                         EnchantAltarRecipe::new);

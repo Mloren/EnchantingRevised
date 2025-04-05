@@ -20,8 +20,10 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EnchantingTableBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.mloren.enchant_revised.block.custom.EnchantAltarBlock;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipeInput;
 import net.mloren.enchant_revised.recipe.ModRecipes;
@@ -152,6 +154,43 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
         }
     }
 
+    private int getBookshelfCount()
+    {
+        int count = 0;
+        for (BlockPos bookshelfPos : EnchantAltarBlock.BOOKSHELF_OFFSETS)
+        {
+            if (EnchantingTableBlock.isValidBookShelf(level, getBlockPos(), bookshelfPos))
+            {
+                ++count;
+            }
+        }
+        return count;
+    }
+
+    public boolean getBookshelvesValid()
+    {
+        EnchantAltarRecipeInput recipeInput = GetRecipeInput();
+        Optional<RecipeHolder<EnchantAltarRecipe>> recipe = getCurrentRecipe(recipeInput);
+        if(recipe.isPresent())
+        {
+            int bookshelvesRequired = recipe.get().value().bookshelvesRequired();
+            int bookshelfCount = getBookshelfCount();
+            return bookshelfCount >= bookshelvesRequired;
+        }
+        return true;
+    }
+
+    public int getBookshelvesRequired()
+    {
+        EnchantAltarRecipeInput recipeInput = GetRecipeInput();
+        Optional<RecipeHolder<EnchantAltarRecipe>> recipe = getCurrentRecipe(recipeInput);
+        if(recipe.isPresent())
+        {
+            return recipe.get().value().bookshelvesRequired();
+        }
+        return 0;
+    }
+
     public void drops()
     {
         if (this.level == null)
@@ -166,6 +205,7 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
         Containers.dropContents(this.level, this.worldPosition, inv);
     }
 
+    //Client-side tick
     public static void bookAnimationTick(Level level, BlockPos pos, BlockState state, EnchantAltarBlockEntity enchantAltar)
     {
         enchantAltar.oOpen = enchantAltar.open;

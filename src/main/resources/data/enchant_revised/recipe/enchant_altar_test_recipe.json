@@ -9,6 +9,7 @@
     "count": 1
   },
   "lapis_cost": 3,
+  "bookshelves_required": 15,
   "enchantment": "minecraft:fortune",
   "enchant_level": 2
 }
