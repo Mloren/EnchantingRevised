@@ -7,6 +7,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
@@ -100,12 +102,8 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
         Optional<RecipeHolder<EnchantAltarRecipe>> recipe = getCurrentRecipe(recipeInput);
         if(recipe.isPresent())
         {
-            ItemStack outputStack = resultStackHandler.getStackInSlot(EnchantAltar.OUTPUT_SLOT);
-            if(outputStack.isEmpty())
-            {
-                ItemStack recipeOutput = recipe.get().value().assemble(recipeInput, level.registryAccess());
-                resultStackHandler.setStackInSlot(EnchantAltar.OUTPUT_SLOT, recipeOutput);
-            }
+            ItemStack recipeOutput = recipe.get().value().assemble(recipeInput, level.registryAccess());
+            resultStackHandler.setStackInSlot(EnchantAltar.OUTPUT_SLOT, recipeOutput);
         }
         else
         {
@@ -150,6 +148,8 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
                 inputStackHandler.extractItem(EnchantAltar.SECONDARY_INGREDIENT_SLOT, secondary.count(), false);
                 inputStackHandler.extractItem(EnchantAltar.LAPIS_SLOT, lapisCost, false);
                 inputStackHandler.extractItem(EnchantAltar.TARGET_ITEM_SLOT, 1, false);
+
+                level.playSound(null, getBlockPos(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0F, level.random.nextFloat() * 0.1F + 0.9F);
             }
         }
     }

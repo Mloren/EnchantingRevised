@@ -46,10 +46,11 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredi
         if(!supportsEnchantment)
             return false;
 
-        return input.getItem(EnchantAltar.LAPIS_SLOT).is(Items.LAPIS_LAZULI) &&
-                input.getItem(EnchantAltar.LAPIS_SLOT).getCount() >= lapisCost &&
-                primaryIngredient.test(input.getItem(EnchantAltar.PRIMARY_INGREDIENT_SLOT)) &&
-                secondaryIngredient.test(input.getItem(EnchantAltar.SECONDARY_INGREDIENT_SLOT));
+        ItemStack lapisStack = input.getItem(EnchantAltar.LAPIS_SLOT);
+        boolean hasLapis = lapisCost == 0 || (lapisStack.is(Items.LAPIS_LAZULI) && lapisStack.getCount() >= lapisCost);
+        return hasLapis &&
+               primaryIngredient.test(input.getItem(EnchantAltar.PRIMARY_INGREDIENT_SLOT)) &&
+               secondaryIngredient.test(input.getItem(EnchantAltar.SECONDARY_INGREDIENT_SLOT));
     }
 
     @Override
