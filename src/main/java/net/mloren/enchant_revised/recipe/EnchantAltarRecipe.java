@@ -5,7 +5,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -20,16 +19,10 @@ import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredient secondaryIngredient, int lapisCost, int bookshelvesRequired, Holder<Enchantment> enchantment, int enchantLevel) implements Recipe<EnchantAltarRecipeInput>
-{
-    public @NotNull NonNullList<SizedIngredient> getIngredientList()
-    {
-        NonNullList<SizedIngredient> list = NonNullList.create();
-        list.add(primaryIngredient);
-        list.add(secondaryIngredient);
-        return list;
-    }
+import java.util.Optional;
 
+public record EnchantAltarRecipe(SizedIngredient primaryIngredient, Optional<SizedIngredient> secondaryIngredient, int lapisCost, int bookshelvesRequired, Holder<Enchantment> enchantment, int enchantLevel) implements Recipe<EnchantAltarRecipeInput>
+{
     @Override
     public boolean matches(@NotNull EnchantAltarRecipeInput input, Level level)
     {
@@ -50,7 +43,7 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredi
         boolean hasLapis = lapisCost == 0 || (lapisStack.is(Items.LAPIS_LAZULI) && lapisStack.getCount() >= lapisCost);
         return hasLapis &&
                primaryIngredient.test(input.getItem(EnchantAltar.PRIMARY_INGREDIENT_SLOT)) &&
-               secondaryIngredient.test(input.getItem(EnchantAltar.SECONDARY_INGREDIENT_SLOT));
+                (secondaryIngredient.isEmpty() || secondaryIngredient.get().test(input.getItem(EnchantAltar.SECONDARY_INGREDIENT_SLOT)));
     }
 
     @Override
@@ -106,9 +99,9 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredi
         //format of the JSON file
         public static final MapCodec<EnchantAltarRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
                 SizedIngredient.FLAT_CODEC.fieldOf("primary").forGetter(EnchantAltarRecipe::primaryIngredient),
-                SizedIngredient.FLAT_CODEC.fieldOf("secondary").forGetter(EnchantAltarRecipe::secondaryIngredient),
-                Codec.INT.fieldOf("lapis_cost").forGetter(EnchantAltarRecipe::lapisCost),
-                Codec.INT.fieldOf("bookshelves_required").forGetter(EnchantAltarRecipe::bookshelvesRequired),
+                SizedIngredient.FLAT_CODEC.optionalFieldOf("secondary").forGetter(EnchantAltarRecipe::secondaryIngredient),
+                Codec.INT.optionalFieldOf("lapis_cost", 0).forGetter(EnchantAltarRecipe::lapisCost),
+                Codec.INT.optionalFieldOf("bookshelves_required", 0).forGetter(EnchantAltarRecipe::bookshelvesRequired),
                 Enchantment.CODEC.fieldOf("enchantment").forGetter(EnchantAltarRecipe::enchantment),
                 Codec.INT.fieldOf("enchant_level").forGetter(EnchantAltarRecipe::enchantLevel)
         ).apply(inst, EnchantAltarRecipe::new));
@@ -117,7 +110,7 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, SizedIngredi
         public static final StreamCodec<RegistryFriendlyByteBuf, EnchantAltarRecipe> STREAM_CODEC =
                 StreamCodec.composite(
                         SizedIngredient.STREAM_CODEC, EnchantAltarRecipe::primaryIngredient,
-                        SizedIngredient.STREAM_CODEC, EnchantAltarRecipe::secondaryIngredient,
+                        ByteBufCodecs.optional(SizedIngredient.STREAM_CODEC), EnchantAltarRecipe::secondaryIngredient,
                         ByteBufCodecs.INT, EnchantAltarRecipe::lapisCost,
                         ByteBufCodecs.INT, EnchantAltarRecipe::bookshelvesRequired,
                         Enchantment.STREAM_CODEC, EnchantAltarRecipe::enchantment,

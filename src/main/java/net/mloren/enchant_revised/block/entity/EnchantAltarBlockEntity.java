@@ -141,11 +141,15 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
             if(outputStack.isEmpty())
             {
                 SizedIngredient primary = recipe.get().value().primaryIngredient();
-                SizedIngredient secondary = recipe.get().value().secondaryIngredient();
                 int lapisCost = recipe.get().value().lapisCost();
 
+                if(recipe.get().value().secondaryIngredient().isPresent())
+                {
+                    SizedIngredient secondary = recipe.get().value().secondaryIngredient().get();
+                    inputStackHandler.extractItem(EnchantAltar.SECONDARY_INGREDIENT_SLOT, secondary.count(), false);
+                }
+
                 inputStackHandler.extractItem(EnchantAltar.PRIMARY_INGREDIENT_SLOT, primary.count(), false);
-                inputStackHandler.extractItem(EnchantAltar.SECONDARY_INGREDIENT_SLOT, secondary.count(), false);
                 inputStackHandler.extractItem(EnchantAltar.LAPIS_SLOT, lapisCost, false);
                 inputStackHandler.extractItem(EnchantAltar.TARGET_ITEM_SLOT, 1, false);
 
