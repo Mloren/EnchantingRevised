@@ -4,13 +4,11 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.block.entity.ModBlockEntities;
 import net.mloren.enchant_revised.block.entity.renderer.EnchantAltarRenderer;
-import net.mloren.enchant_revised.block.entity.renderer.PedestalBlockEntityRenderer;
 import net.mloren.enchant_revised.enchantment.ModEnchantmentEffects;
 import net.mloren.enchant_revised.item.ModItems;
 import net.mloren.enchant_revised.recipe.ModRecipes;
 import net.mloren.enchant_revised.screen.ModMenuTypes;
 import net.mloren.enchant_revised.screen.custom.EnchantAltarScreen;
-import net.mloren.enchant_revised.screen.custom.PedestalScreen;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -74,7 +72,6 @@ public class MainMod
     {
         if(event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
         {
-            event.accept(ModBlocks.PEDESTAL);
             event.accept(ModBlocks.ENCHANT_ALTAR);
         }
     }
@@ -97,14 +94,12 @@ public class MainMod
         @SubscribeEvent
         public static void registerBER(EntityRenderersEvent.RegisterRenderers event)
         {
-            event.registerBlockEntityRenderer(ModBlockEntities.PEDESTAL_BE.get(), PedestalBlockEntityRenderer::new);
             event.registerBlockEntityRenderer(ModBlockEntities.ENCHANT_ALTAR_BE.get(), EnchantAltarRenderer::new);
         }
 
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event)
         {
-            event.register(ModMenuTypes.PEDESTAL_MENU.get(), PedestalScreen::new);
             event.register(ModMenuTypes.ENCHANT_ALTAR_MENU.get(), EnchantAltarScreen::new);
         }
     }

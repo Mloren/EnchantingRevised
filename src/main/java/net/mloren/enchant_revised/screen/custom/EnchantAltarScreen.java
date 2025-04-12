@@ -6,14 +6,12 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.CubicSpline;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.util.EnchantAltar;
 
-import java.awt.*;
 import java.util.Optional;
 
 public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu>

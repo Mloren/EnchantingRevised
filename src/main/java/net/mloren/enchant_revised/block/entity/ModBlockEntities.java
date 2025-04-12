@@ -14,10 +14,6 @@ public class ModBlockEntities
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, MainMod.MOD_ID);
 
-    public static final Supplier<BlockEntityType<PedestalBlockEntity>> PEDESTAL_BE =
-            BLOCK_ENTITIES.register("pedestal_be", () -> BlockEntityType.Builder.of(
-                    PedestalBlockEntity::new, ModBlocks.PEDESTAL.get()).build(null));
-
     public static final Supplier<BlockEntityType<EnchantAltarBlockEntity>> ENCHANT_ALTAR_BE =
             BLOCK_ENTITIES.register("enchant_altar_be", () -> BlockEntityType.Builder.of(
                     EnchantAltarBlockEntity::new, ModBlocks.ENCHANT_ALTAR.get()).build(null));

@@ -5,7 +5,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.screen.custom.EnchantAltarMenu;
-import net.mloren.enchant_revised.screen.custom.PedestalMenu;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.network.IContainerFactory;
@@ -16,9 +15,6 @@ public class ModMenuTypes
 {
     public static final DeferredRegister<MenuType<?>> MENUS =
             DeferredRegister.create(Registries.MENU, MainMod.MOD_ID);
-
-    public static final DeferredHolder<MenuType<?>, MenuType<PedestalMenu>> PEDESTAL_MENU =
-            registerMenuType("pedestal_menu", PedestalMenu::new);
 
     public static final DeferredHolder<MenuType<?>, MenuType<EnchantAltarMenu>> ENCHANT_ALTAR_MENU =
             registerMenuType("enchant_altar_menu", EnchantAltarMenu::new);

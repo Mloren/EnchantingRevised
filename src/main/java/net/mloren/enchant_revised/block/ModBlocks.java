@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.block.custom.EnchantAltarBlock;
-import net.mloren.enchant_revised.block.custom.PedestalBlock;
 import net.mloren.enchant_revised.item.ModItems;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -19,9 +18,6 @@ import java.util.function.Supplier;
 public class ModBlocks
 {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MainMod.MOD_ID);
-
-    public static final DeferredBlock<Block> PEDESTAL = registerBlock("pedestal",
-            () -> new PedestalBlock(BlockBehaviour.Properties.of().noOcclusion()));
 
     public static final DeferredBlock<Block> ENCHANT_ALTAR = registerBlock("enchant_altar",
             () -> new EnchantAltarBlock(BlockBehaviour.Properties.of()
