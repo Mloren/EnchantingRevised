@@ -1,8 +1,10 @@
 package net.mloren.enchant_revised.block.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -11,13 +13,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Containers;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -38,8 +39,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
+public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider, WorldlyContainer
 {
+    private static final int[] SLOTS_FOR_SIDES = new int[]{0};
+
     public int time;
     public float flip;
     public float oFlip;
@@ -290,5 +293,110 @@ public class EnchantAltarBlockEntity extends BlockEntity implements MenuProvider
     public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider registries)
     {
         return saveWithoutMetadata(registries);
+    }
+
+    @Override
+    public int[] getSlotsForFace(Direction side)
+    {
+        return SLOTS_FOR_SIDES;
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int index, ItemStack itemStack, @Nullable Direction direction)
+    {
+        return (index == EnchantAltar.LAPIS_SLOT) &&
+                direction != Direction.DOWN &&
+                direction != Direction.UP &&
+                itemStack.is(Items.LAPIS_LAZULI);
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction)
+    {
+        return false;
+    }
+
+    @Override
+    public int getContainerSize()
+    {
+        return this.inputStackHandler.getSlots();
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+        int slotCount = inputStackHandler.getSlots();
+        for(int i = 0; i < slotCount; ++i)
+        {
+            ItemStack itemstack = inputStackHandler.getStackInSlot(i);
+            if (!itemstack.isEmpty())
+                return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public ItemStack getItem(int slot)
+    {
+        return inputStackHandler.getStackInSlot(slot);
+    }
+
+    @Override
+    public ItemStack removeItem(int slot, int amount)
+    {
+        ItemStack itemstack = inputStackHandler.extractItem(slot, amount, false);
+        if (!itemstack.isEmpty())
+            this.setChanged();
+
+        return itemstack;
+    }
+
+    @Override
+    public ItemStack removeItemNoUpdate(int slot)
+    {
+        ItemStack itemstack = inputStackHandler.getStackInSlot(slot);
+        inputStackHandler.setStackInSlot(slot, ItemStack.EMPTY);
+        return itemstack;
+    }
+
+    @Override
+    public void setItem(int slot, ItemStack stack)
+    {
+        inputStackHandler.setStackInSlot(slot, stack);
+        stack.limitSize(this.getMaxStackSize(stack));
+        this.setChanged();
+    }
+
+    @Override
+    public boolean stillValid(Player player)
+    {
+        return Container.stillValidBlockEntity(this, player);
+    }
+
+    @Override
+    public void clearContent()
+    {
+        int slotCount = inputStackHandler.getSlots();
+        for(int i = 0; i < slotCount; ++i)
+        {
+            inputStackHandler.setStackInSlot(i, ItemStack.EMPTY);
+        }
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    {
+        tag.put("inventory", inputStackHandler.serializeNBT(registries));
+
+        super.saveAdditional(tag, registries);
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    {
+        super.loadAdditional(tag, registries);
+
+        inputStackHandler.deserializeNBT(registries, tag.getCompound("inventory"));
     }
 }

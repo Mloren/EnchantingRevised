@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.mloren.enchant_revised.util.EnchantAltar;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -125,6 +126,9 @@ public abstract class ModdedContainerMenu extends AbstractContainerMenu
         {
             for (int j = 0; j < itemStackHandler.getSlots(); j++)
             {
+                if (j == EnchantAltar.LAPIS_SLOT)
+                    continue;
+
                 ItemStack itemStack = itemStackHandler.getStackInSlot(j);
                 if(!itemStack.isEmpty())
                 {
@@ -137,6 +141,9 @@ public abstract class ModdedContainerMenu extends AbstractContainerMenu
         {
             for (int i = 0; i < itemStackHandler.getSlots(); i++)
             {
+                if (i == EnchantAltar.LAPIS_SLOT)
+                    continue;
+
                 ItemStack itemStack = itemStackHandler.getStackInSlot(i);
                 if(!itemStack.isEmpty())
                 {
