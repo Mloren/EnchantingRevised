@@ -1,0 +1,15 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:prismarine_shard",
+    "count": 1
+  },
+  "secondary": {
+    "item": "minecraft:diamond",
+    "count": 1
+  },
+  "lapis_cost": 8,
+  "bookshelves_required": 8,
+  "enchantment": "minecraft:aqua_affinity",
+  "enchant_level": 1
+}

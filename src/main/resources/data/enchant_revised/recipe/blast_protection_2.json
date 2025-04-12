@@ -1,0 +1,15 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:obsidian",
+    "count": 1
+  },
+  "secondary": {
+    "item": "minecraft:gold_ingot",
+    "count": 1
+  },
+  "lapis_cost": 8,
+  "bookshelves_required": 4,
+  "enchantment": "minecraft:blast_protection",
+  "enchant_level": 2
+}

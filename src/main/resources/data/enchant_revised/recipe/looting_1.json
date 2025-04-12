@@ -1,0 +1,15 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:rabbit_foot",
+    "count": 1
+  },
+  "secondary": {
+    "item": "minecraft:gold_ingot",
+    "count": 1
+  },
+  "lapis_cost": 4,
+  "bookshelves_required": 0,
+  "enchantment": "minecraft:looting",
+  "enchant_level": 1
+}

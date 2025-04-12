@@ -1,0 +1,15 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:ink_sac",
+    "count": 1
+  },
+  "secondary": {
+    "item": "minecraft:diamond",
+    "count": 1
+  },
+  "lapis_cost": 8,
+  "bookshelves_required": 8,
+  "enchantment": "minecraft:riptide",
+  "enchant_level": 3
+}

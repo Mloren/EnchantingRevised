@@ -1,0 +1,15 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:diamond",
+    "count": 1
+  },
+  "secondary": {
+    "item": "minecraft:dragon_breath",
+    "count": 1
+  },
+  "lapis_cost": 32,
+  "bookshelves_required": 15,
+  "enchantment": "minecraft:sharpness",
+  "enchant_level": 5
+}

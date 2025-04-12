@@ -1,0 +1,11 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:arrow",
+    "count": 1
+  },
+  "lapis_cost": 8,
+  "bookshelves_required":8,
+  "enchantment": "minecraft:multishot",
+  "enchant_level": 1
+}

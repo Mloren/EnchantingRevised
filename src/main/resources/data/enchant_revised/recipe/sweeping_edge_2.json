@@ -1,0 +1,15 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:iron_sword",
+    "count": 1
+  },
+  "secondary": {
+    "item": "minecraft:gold_ingot",
+    "count": 1
+  },
+  "lapis_cost": 4,
+  "bookshelves_required": 9,
+  "enchantment": "minecraft:sweeping_edge",
+  "enchant_level": 2
+}

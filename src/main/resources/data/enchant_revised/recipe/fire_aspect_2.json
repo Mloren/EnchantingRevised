@@ -1,0 +1,15 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:coal",
+    "count": 1
+  },
+  "secondary": {
+    "item": "minecraft:diamond",
+    "count": 1
+  },
+  "lapis_cost": 8,
+  "bookshelves_required": 4,
+  "enchantment": "minecraft:fire_aspect",
+  "enchant_level": 2
+}

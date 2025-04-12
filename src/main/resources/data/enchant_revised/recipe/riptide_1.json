@@ -1,0 +1,11 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:ink_sac",
+    "count": 1
+  },
+  "lapis_cost": 2,
+  "bookshelves_required": 0,
+  "enchantment": "minecraft:riptide",
+  "enchant_level": 1
+}

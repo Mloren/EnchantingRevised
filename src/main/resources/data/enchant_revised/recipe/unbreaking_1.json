@@ -1,0 +1,15 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:quartz",
+    "count": 1
+  },
+  "secondary": {
+    "item": "minecraft:gold_ingot",
+    "count": 1
+  },
+  "lapis_cost": 2,
+  "bookshelves_required": 0,
+  "enchantment": "minecraft:unbreaking",
+  "enchant_level": 1
+}

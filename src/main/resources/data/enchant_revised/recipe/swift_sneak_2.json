@@ -1,0 +1,15 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:sculk",
+    "count": 1
+  },
+  "secondary": {
+    "item": "minecraft:diamond",
+    "count": 1
+  },
+  "lapis_cost": 8,
+  "bookshelves_required": 12,
+  "enchantment": "minecraft:swift_sneak",
+  "enchant_level": 2
+}

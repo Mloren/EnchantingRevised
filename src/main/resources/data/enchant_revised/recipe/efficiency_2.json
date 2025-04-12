@@ -1,0 +1,15 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:amethyst_shard",
+    "count": 1
+  },
+  "secondary": {
+    "item": "minecraft:gold_ingot",
+    "count": 1
+  },
+  "lapis_cost": 4,
+  "bookshelves_required": 4,
+  "enchantment": "minecraft:efficiency",
+  "enchant_level": 2
+}

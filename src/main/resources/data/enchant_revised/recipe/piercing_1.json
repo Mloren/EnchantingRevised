@@ -1,0 +1,11 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:flint",
+    "count": 1
+  },
+  "lapis_cost": 2,
+  "bookshelves_required": 0,
+  "enchantment": "minecraft:piercing",
+  "enchant_level": 1
+}

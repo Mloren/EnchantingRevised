@@ -1,0 +1,15 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:fire_charge",
+    "count": 1
+  },
+  "secondary": {
+    "item": "minecraft:gold_ingot",
+    "count": 1
+  },
+  "lapis_cost": 4,
+  "bookshelves_required": 4,
+  "enchantment": "minecraft:flame",
+  "enchant_level": 1
+}

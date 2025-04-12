@@ -1,0 +1,11 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:diamond",
+    "count": 1
+  },
+  "lapis_cost": 2,
+  "bookshelves_required": 0,
+  "enchantment": "minecraft:sharpness",
+  "enchant_level": 1
+}

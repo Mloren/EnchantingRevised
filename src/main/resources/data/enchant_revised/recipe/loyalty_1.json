@@ -1,0 +1,11 @@
+{
+  "type": "enchant_revised:enchant_altar",
+  "primary": {
+    "item": "minecraft:lead",
+    "count": 1
+  },
+  "lapis_cost": 4,
+  "bookshelves_required": 0,
+  "enchantment": "minecraft:loyalty",
+  "enchant_level": 1
+}
