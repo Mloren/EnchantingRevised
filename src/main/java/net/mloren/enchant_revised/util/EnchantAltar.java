@@ -10,4 +10,6 @@ public class EnchantAltar
 
     public static final int OUTPUT_SLOT = 0;
     public static final int OUTPUT_SLOT_COUNT = 1;
+
+    public static final int INVENTORY_SLOT_COUNT = 36;
 }

@@ -45,7 +45,7 @@ public class EnchantAltarMenu extends ModdedContainerMenu
 
     private void addSlots()
     {
-        this.addSlot(new SlotItemHandler(this.inputStackHandler, EnchantAltar.LAPIS_SLOT, 27, 53)
+        this.addSlot(new SlotItemHandler(this.inputStackHandler, EnchantAltar.LAPIS_SLOT, 27, 17)
         {
             @Override
             public boolean mayPlace(@NotNull ItemStack itemStack)
@@ -61,7 +61,7 @@ public class EnchantAltarMenu extends ModdedContainerMenu
         });
 
         this.addSlot(new SlotItemHandler(this.inputStackHandler, EnchantAltar.PRIMARY_INGREDIENT_SLOT, 27, 35));
-        this.addSlot(new SlotItemHandler(this.inputStackHandler, EnchantAltar.SECONDARY_INGREDIENT_SLOT, 27, 17));
+        this.addSlot(new SlotItemHandler(this.inputStackHandler, EnchantAltar.SECONDARY_INGREDIENT_SLOT, 27, 53));
         this.addSlot(new SlotItemHandler(this.inputStackHandler, EnchantAltar.TARGET_ITEM_SLOT, 72, 35));
 
         this.addSlot(new SlotItemHandler(this.resultStackHandler, EnchantAltar.OUTPUT_SLOT, 130, 35)

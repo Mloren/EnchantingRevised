@@ -2,5 +2,10 @@
   "block.enchant_revised.pedestal": "Pedestal",
   "block.enchant_revised.enchant_altar": "Enchanting Altar",
 
+  "misc.enchant_revised.lapis_tooltip": "Add Lapis",
+  "misc.enchant_revised.primary_tooltip": "Add Primary Ingredient",
+  "misc.enchant_revised.secondary_tooltip": "Add Secondary Ingredient",
+  "misc.enchant_revised.target_tooltip": "Add Enchantable Item",
+
   "enchantment.enchant_revised.lightning_striker": "Lightning Striker"
 }

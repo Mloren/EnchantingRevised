@@ -13,12 +13,14 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.mloren.enchant_revised.util.EnchantAltar;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public record EnchantAltarRecipe(SizedIngredient primaryIngredient, Optional<SizedIngredient> secondaryIngredient, int lapisCost, int bookshelvesRequired, Holder<Enchantment> enchantment, int enchantLevel) implements Recipe<EnchantAltarRecipeInput>
@@ -39,7 +41,7 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, Optional<Siz
         if(!supportsEnchantment)
             return false;
 
-        boolean enchantmentsCompatible = EnchantmentHelper.isEnchantmentCompatible(EnchantmentHelper.getEnchantmentsForCrafting(targetItem).keySet(), enchantment);
+        boolean enchantmentsCompatible = isEnchantmentCompatible(targetItem);
         if(!enchantmentsCompatible)
             return false;
 
@@ -53,6 +55,25 @@ public record EnchantAltarRecipe(SizedIngredient primaryIngredient, Optional<Siz
             secondaryResult = input.getItem(EnchantAltar.SECONDARY_INGREDIENT_SLOT).isEmpty();
 
         return lapisResult && primaryResult && secondaryResult;
+    }
+
+    private boolean isEnchantmentCompatible(ItemStack targetItem)
+    {
+        Collection<Holder<Enchantment>> currentEnchantmentList = EnchantmentHelper.getEnchantmentsForCrafting(targetItem).keySet();
+        boolean canReplace = false;
+
+        for (Holder<Enchantment> currentEnchantment : currentEnchantmentList)
+        {
+            if (currentEnchantment.equals(enchantment))
+            {
+                int currentLevel = targetItem.getEnchantmentLevel(currentEnchantment);
+                canReplace = enchantLevel > currentLevel;
+                break;
+            }
+        }
+
+        boolean enchantmentsCompatible = EnchantmentHelper.isEnchantmentCompatible(EnchantmentHelper.getEnchantmentsForCrafting(targetItem).keySet(), enchantment);
+        return enchantmentsCompatible || canReplace;
     }
 
     @Override

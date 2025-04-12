@@ -6,18 +6,26 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.CubicSpline;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.mloren.enchant_revised.MainMod;
+import net.mloren.enchant_revised.util.EnchantAltar;
 
 import java.awt.*;
+import java.util.Optional;
 
 public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu>
 {
     private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID, "textures/gui/enchant_altar/enchant_altar_gui.png");
     private static final ResourceLocation ERROR_ICON = ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID,"enchant_altar/error");
     private static final ItemStack BOOKSHELF = new ItemStack(Items.BOOKSHELF, 1);
+
+    private static final Component LAPIS_SLOT_TOOLTIP = Component.translatable("misc.enchant_revised.lapis_tooltip");
+    private static final Component PRIMARY_SLOT_TOOLTIP = Component.translatable("misc.enchant_revised.primary_tooltip");
+    private static final Component SECONDARY_SLOT_TOOLTIP = Component.translatable("misc.enchant_revised.secondary_tooltip");
+    private static final Component TARGET_SLOT_TOOLTIP = Component.translatable("misc.enchant_revised.target_tooltip");
 
     private final EnchantAltarMenu menu;
 
@@ -54,7 +62,26 @@ public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
     {
+        Optional<Component> optional = Optional.empty();
+        if (this.hoveredSlot != null)
+        {
+            ItemStack itemstack = this.hoveredSlot.getItem();
+            if (itemstack.isEmpty())
+            {
+                if (this.hoveredSlot.index == EnchantAltar.INVENTORY_SLOT_COUNT + EnchantAltar.LAPIS_SLOT)
+                    optional = Optional.of(LAPIS_SLOT_TOOLTIP);
+                else if (this.hoveredSlot.index == EnchantAltar.INVENTORY_SLOT_COUNT + EnchantAltar.PRIMARY_INGREDIENT_SLOT)
+                    optional = Optional.of(PRIMARY_SLOT_TOOLTIP);
+                else if (this.hoveredSlot.index == EnchantAltar.INVENTORY_SLOT_COUNT + EnchantAltar.SECONDARY_INGREDIENT_SLOT)
+                    optional = Optional.of(SECONDARY_SLOT_TOOLTIP);
+                else if (this.hoveredSlot.index == EnchantAltar.INVENTORY_SLOT_COUNT + EnchantAltar.TARGET_ITEM_SLOT)
+                    optional = Optional.of(TARGET_SLOT_TOOLTIP);
+            }
+        }
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
+
+        if(optional.isPresent())
+            guiGraphics.renderTooltip(this.font, this.font.split(optional.get(), 115), mouseX, mouseY);
     }
 }
