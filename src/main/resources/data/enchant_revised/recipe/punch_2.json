@@ -5,10 +5,10 @@
     "count": 1
   },
   "secondary": {
-    "item": "minecraft:gold_ingot",
+    "item": "minecraft:diamond",
     "count": 1
   },
-  "lapis_cost": 4,
+  "lapis_cost": 8,
   "bookshelves_required": 8,
   "enchantment": "minecraft:punch",
   "enchant_level": 2

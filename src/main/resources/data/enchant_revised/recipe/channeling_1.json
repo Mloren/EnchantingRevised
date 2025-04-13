@@ -4,8 +4,12 @@
     "item": "minecraft:lightning_rod",
     "count": 1
   },
-  "lapis_cost": 2,
-  "bookshelves_required": 0,
+  "secondary": {
+    "item": "minecraft:diamond",
+    "count": 1
+  },
+  "lapis_cost": 8,
+  "bookshelves_required": 8,
   "enchantment": "minecraft:channeling",
   "enchant_level": 1
 }

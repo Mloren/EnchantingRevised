@@ -17,6 +17,7 @@ import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
 import net.mloren.enchant_revised.recipe.ModRecipes;
 import net.mloren.enchant_revised.screen.custom.EnchantAltarScreen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @JeiPlugin
@@ -39,9 +40,31 @@ public class JEIEnchantAltarPlugin implements IModPlugin
     {
         RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
 
-        List<EnchantAltarRecipe> enchantAltarRecipes = recipeManager
-                .getAllRecipesFor(ModRecipes.ENCHANT_ALTAR_TYPE.get()).stream().map(RecipeHolder::value).toList();
+        ArrayList<EnchantAltarRecipe> enchantAltarRecipes = new ArrayList<>();
+        List<RecipeHolder<EnchantAltarRecipe>> recipeList = recipeManager.getAllRecipesFor(ModRecipes.ENCHANT_ALTAR_TYPE.get());
+
+        for(RecipeHolder<EnchantAltarRecipe> recipeHolder : recipeList)
+        {
+            enchantAltarRecipes.add(recipeHolder.value());
+        }
+
+        SortRecipes(enchantAltarRecipes);
         registration.addRecipes(EnchantAltarRecipeCategory.ENCHANT_ALTAR_RECIPE_RECIPE_TYPE, enchantAltarRecipes);
+    }
+
+    private void SortRecipes(ArrayList<EnchantAltarRecipe> enchantAltarRecipes)
+    {
+        enchantAltarRecipes.sort((a, b) ->
+        {
+            String descriptionA = a.enchantment().value().description().getString();
+            String descriptionB = b.enchantment().value().description().getString();
+
+            int compareResult = descriptionA.compareTo(descriptionB);
+            if(compareResult == 0)
+                return Integer.compare(a.enchantLevel(), b.enchantLevel());
+
+            return compareResult;
+        });
     }
 
     @Override

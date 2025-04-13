@@ -9,11 +9,13 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
@@ -30,9 +32,9 @@ public class EnchantAltarRecipeCategory implements IRecipeCategory<EnchantAltarR
             new RecipeType<>(UID, EnchantAltarRecipe.class);
 
     private static final int BACKGROUND_X = 26;
-    private static final int BACKGROUND_Y = 16;
+    private static final int BACKGROUND_Y = 6;
     private static final int BACKGROUND_WIDTH = 125;
-    private static final int BACKGROUND_HEIGHT = 54;
+    private static final int BACKGROUND_HEIGHT = 64;
 
     public final IDrawable background;
     public final IDrawable icon;
@@ -64,15 +66,15 @@ public class EnchantAltarRecipeCategory implements IRecipeCategory<EnchantAltarR
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, EnchantAltarRecipe recipe, IFocusGroup focuses)
     {
-        builder.addSlot(RecipeIngredientRole.INPUT, 1, 1).addItemStack(new ItemStack(Items.LAPIS_LAZULI, recipe.lapisCost()));
-        builder.addSlot(RecipeIngredientRole.INPUT, 1, 19).addItemStack(itemStackFromIngredient(recipe.primaryIngredient()));
+        builder.addSlot(RecipeIngredientRole.INPUT, 1, 11).addItemStack(new ItemStack(Items.LAPIS_LAZULI, recipe.lapisCost()));
+        builder.addSlot(RecipeIngredientRole.INPUT, 1, 29).addItemStack(itemStackFromIngredient(recipe.primaryIngredient()));
 
         if(recipe.secondaryIngredient().isPresent())
-            builder.addSlot(RecipeIngredientRole.INPUT, 1, 37).addItemStack(itemStackFromIngredient(recipe.secondaryIngredient().get()));
+            builder.addSlot(RecipeIngredientRole.INPUT, 1, 47).addItemStack(itemStackFromIngredient(recipe.secondaryIngredient().get()));
 
-        builder.addSlot(RecipeIngredientRole.INPUT, 46, 19).addItemStack(new ItemStack(Items.BOOK, 1));
+        builder.addSlot(RecipeIngredientRole.INPUT, 46, 29).addItemStack(new ItemStack(Items.BOOK, 1));
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 104, 19).addItemStack(recipe.getExampleResult());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 104, 29).addItemStack(recipe.getExampleResult());
     }
 
     private ItemStack itemStackFromIngredient(SizedIngredient ingredient)
@@ -104,5 +106,8 @@ public class EnchantAltarRecipeCategory implements IRecipeCategory<EnchantAltarR
     {
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         background.draw(guiGraphics);
+
+        String recipeName = Enchantment.getFullname(recipe.enchantment(), recipe.enchantLevel()).getString();
+        guiGraphics.drawString(Minecraft.getInstance().font, recipeName, 0, 0, 0xFF3F3F3F, false);
     }
 }

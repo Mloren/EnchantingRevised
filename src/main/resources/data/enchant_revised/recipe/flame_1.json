@@ -5,11 +5,11 @@
     "count": 1
   },
   "secondary": {
-    "item": "minecraft:gold_ingot",
+    "item": "minecraft:diamond",
     "count": 1
   },
-  "lapis_cost": 4,
-  "bookshelves_required": 4,
+  "lapis_cost": 8,
+  "bookshelves_required": 8,
   "enchantment": "minecraft:flame",
   "enchant_level": 1
 }
