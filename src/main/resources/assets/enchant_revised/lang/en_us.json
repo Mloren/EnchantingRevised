@@ -6,5 +6,8 @@
   "misc.enchant_revised.secondary_tooltip": "Add Secondary Ingredient",
   "misc.enchant_revised.target_tooltip": "Add Enchantable Item",
 
-  "enchantment.enchant_revised.lightning_striker": "Lightning Striker"
+  "enchantment.enchant_revised.lightning_striker": "Lightning Striker",
+
+  "enchant_revised.configuration.enableEnchantAltar" : "Enchanting Altar",
+  "enchant_revised.configuration.enableEnchantTable" : "Vanilla Enchanting Table"
 }

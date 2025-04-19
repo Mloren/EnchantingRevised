@@ -4,7 +4,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.block.entity.ModBlockEntities;
 import net.mloren.enchant_revised.block.entity.renderer.EnchantAltarRenderer;
-import net.mloren.enchant_revised.enchantment.ModEnchantmentEffects;
+import net.mloren.enchant_revised.condition.ModConditions;
 import net.mloren.enchant_revised.item.ModItems;
 import net.mloren.enchant_revised.recipe.ModRecipes;
 import net.mloren.enchant_revised.screen.ModMenuTypes;
@@ -45,10 +45,9 @@ public class MainMod
 
         NeoForge.EVENT_BUS.register(this);
 
+        ModConditions.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
-
-        ModEnchantmentEffects.register(modEventBus);
 
         ModBlockEntities.register(modEventBus);
 

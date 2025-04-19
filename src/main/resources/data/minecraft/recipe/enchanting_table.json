@@ -1,29 +1,29 @@
 {
   "type": "minecraft:crafting_shaped",
-  "Category": "misc",
+  "category": "misc",
   "neoforge:conditions": [
     {
-      "type": "enchant_revised:enchant_altar_enabled"
+      "type": "enchant_revised:enchant_table_enabled"
     }
   ],
   "key": {
     "#": {
-      "item": "minecraft:cobbled_deepslate"
+      "item": "minecraft:obsidian"
     },
     "B": {
       "item": "minecraft:book"
     },
-    "L": {
-      "item": "minecraft:lapis_lazuli"
+    "D": {
+      "item": "minecraft:diamond"
     }
   },
   "pattern": [
     " B ",
-    "L#L",
+    "D#D",
     "###"
   ],
   "result": {
     "count": 1,
-    "id": "enchant_revised:enchant_altar"
+    "id": "minecraft:enchanting_table"
   }
 }
