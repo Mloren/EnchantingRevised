@@ -8,17 +8,18 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.StateSwitchingButton;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
 import net.mloren.enchant_revised.recipe.ModRecipes;
+import net.mloren.enchant_revised.util.SearchBar;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
 import javax.annotation.Nullable;
@@ -26,7 +27,6 @@ import java.util.*;
 
 public class RecipeBookScreen implements Renderable, GuiEventListener
 {
-    public static final int RECIPES_PER_PAGE = 4;
     private static final ResourceLocation RECIPE_BOOK_BG = ResourceLocation.withDefaultNamespace("textures/gui/recipe_book.png");
     private static final Component SEARCH_HINT = Component.translatable("gui.recipebook.search_hint")
             .withStyle(ChatFormatting.ITALIC)
@@ -59,14 +59,17 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
     private int leftPos;
     private int topPos;
     private boolean widthTooNarrow;
-    private boolean visible;
+    private static boolean visible = false;
 
     @Nullable
-    private EditBox searchBox;
+    private SearchBar searchBox;
     private String lastSearch = "";
     private boolean ignoreTextInput;
 
     private TreeMap<String, List<EnchantAltarRecipe>> recipeMap = new TreeMap<>();
+    private TreeMap<String, List<EnchantAltarRecipe>> searchResults = new TreeMap<>();
+
+    private ItemStack hoveredItem;
 
     private StateSwitchingButton forwardButton;
     private StateSwitchingButton backButton;
@@ -79,13 +82,13 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
         this.width = width;
         this.height = height;
         this.widthTooNarrow = widthTooNarrow;
-        this.visible = false;
+        //this.visible = false;
         this.xOffset = this.widthTooNarrow ? 0 : 86;
         this.leftPos = (this.width - 147) / 2 - this.xOffset;
         this.topPos = (this.height - 166) / 2;
 
         String s = this.searchBox != null ? this.searchBox.getValue() : "";
-        this.searchBox = new EditBox(this.minecraft.font, this.leftPos + SEARCH_BOX_LEFT_OFFSET, this.topPos + SEARCH_BOX_TOP_OFFSET, 81, 14, Component.translatable("itemGroup.search"));
+        this.searchBox = new SearchBar(this.minecraft.font, this.leftPos + SEARCH_BOX_LEFT_OFFSET, this.topPos + SEARCH_BOX_TOP_OFFSET, 81, 14, Component.translatable("itemGroup.search"));
         this.searchBox.setMaxLength(50);
         this.searchBox.setVisible(true);
         this.searchBox.setTextColor(16777215);
@@ -98,7 +101,8 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
         this.backButton.initTextureValues(PAGE_BACKWARD_SPRITES);
 
         BuildRecipeMap(level.getRecipeManager());
-        update();
+        this.checkSearchStringUpdate(true);
+        updatePages();
     }
 
     private void BuildRecipeMap(RecipeManager recipeManager)
@@ -120,10 +124,10 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
         }
     }
 
-    public void update()
+    public void updatePages()
     {
-        this.totalPages = recipeMap.size(); //(int)Math.ceil((double)recipeMap.size() / RECIPES_PER_PAGE);
-        if (this.totalPages <= this.currentPage)
+        this.totalPages = searchResults.size(); //(int)Math.ceil((double)recipeMap.size() / RECIPES_PER_PAGE);
+        if (this.currentPage > this.totalPages)
         {
             this.currentPage = 0;
         }
@@ -133,6 +137,8 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
     {
+        hoveredItem = null;
+
         if (this.isVisible())
         {
             guiGraphics.pose().pushPose();
@@ -146,7 +152,7 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
 
             // Recipes
             //int y = this.topPos + SEARCH_BOX_TOP_OFFSET + this.searchBox.getHeight() + TOP_MARGIN;
-            RenderRecipePage(guiGraphics, this.currentPage);
+            RenderRecipePage(guiGraphics, mouseX, mouseY, this.currentPage);
 
 //            int pageStart = this.currentPage * RECIPES_PER_PAGE;
 //            for(int i = pageStart; i < pageStart + RECIPES_PER_PAGE; ++i)
@@ -175,13 +181,13 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
         }
     }
 
-    private void RenderRecipePage(GuiGraphics guiGraphics, int page)
+    private void RenderRecipePage(GuiGraphics guiGraphics, int mouseX, int mouseY, int page)
     {
         // Find the page
         int i = 0;
         String enchantName = "";
         List<EnchantAltarRecipe> recipeList = null;
-        for(Map.Entry<String, List<EnchantAltarRecipe>> entry : recipeMap.entrySet())
+        for(Map.Entry<String, List<EnchantAltarRecipe>> entry : searchResults.entrySet())
         {
             if(i == page)
             {
@@ -203,12 +209,12 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
             y += 9;
             for (EnchantAltarRecipe recipe : recipeList)
             {
-                renderRecipe(guiGraphics, recipe, y + (recipe.enchantLevel() - 1) * ITEM_SIZE);
+                renderRecipe(guiGraphics, mouseX, mouseY, recipe, y + (recipe.enchantLevel() - 1) * ITEM_SIZE);
             }
         }
     }
 
-    private void renderRecipe(GuiGraphics guiGraphics, EnchantAltarRecipe recipe, int y)
+    private void renderRecipe(GuiGraphics guiGraphics, int mouseX, int mouseY, EnchantAltarRecipe recipe, int y)
     {
         //int y = this.topPos + SEARCH_BOX_TOP_OFFSET + this.searchBox.getHeight() + TOP_MARGIN + 10;
 
@@ -233,33 +239,38 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
         //y += 10;
         //x += 15;
         LAPIS_STACK.setCount(recipe.lapisCost());
-        x = renderItem(guiGraphics, LAPIS_STACK, x, y);
-        x = renderIngredient(guiGraphics, Optional.ofNullable(recipe.primaryIngredient()), x, y);
-        renderIngredient(guiGraphics, recipe.secondaryIngredient(), x, y);
+        x = renderItem(guiGraphics, mouseX, mouseY, LAPIS_STACK, x, y);
+        x = renderIngredient(guiGraphics, mouseX, mouseY, Optional.ofNullable(recipe.primaryIngredient()), x, y);
+        renderIngredient(guiGraphics, mouseX, mouseY, recipe.secondaryIngredient(), x, y);
     }
 
-    private int renderItem(GuiGraphics guiGraphics, ItemStack item, int x, int y)
+    private int renderItem(GuiGraphics guiGraphics, int mouseX, int mouseY, ItemStack item, int x, int y)
     {
-        guiGraphics.renderItem(item, x, y);
+        guiGraphics.renderFakeItem(item, x, y);
         guiGraphics.renderItemDecorations(this.minecraft.font, item, x, y);
+
+        if(mouseX > x && mouseX < x + (ITEM_SIZE - 3) && mouseY > y && mouseY < y + (ITEM_SIZE - 3))
+            hoveredItem = item;
+
         return x + ITEM_SIZE;
     }
 
-    private int renderIngredient(GuiGraphics guiGraphics, Optional<SizedIngredient> ingredient, int x, int y)
+    private int renderIngredient(GuiGraphics guiGraphics, int mouseX, int mouseY, Optional<SizedIngredient> ingredient, int x, int y)
     {
         if(ingredient.isEmpty())
             return x;
 
         for(ItemStack item : ingredient.get().getItems())
         {
-            x = renderItem(guiGraphics, item, x, y);
+            x = renderItem(guiGraphics, mouseX, mouseY, item, x, y);
         }
         return x;
     }
 
     public void renderTooltips(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
     {
-
+        if(hoveredItem != null)
+            guiGraphics.renderComponentTooltip(this.minecraft.font, Screen.getTooltipFromItem(minecraft, this.hoveredItem), mouseX, mouseY);
     }
 
     @Override
@@ -270,18 +281,26 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
             if (this.searchBox.mouseClicked(mouseX, mouseY, button))
             {
                 this.searchBox.setFocused(true);
+                if (button == 1)
+                {
+                    this.searchBox.setValue("");
+                    if (this.checkSearchStringUpdate(false))
+                        this.currentPage = 0;
+                }
                 return true;
             }
             else if (this.forwardButton.mouseClicked(mouseX, mouseY, button))
             {
+                this.searchBox.setFocused(false);
                 this.currentPage++;
-                this.update();
+                this.updatePages();
                 return true;
             }
             else if (this.backButton.mouseClicked(mouseX, mouseY, button))
             {
+                this.searchBox.setFocused(false);
                 this.currentPage--;
-                this.update();
+                this.updatePages();
                 return true;
             }
             else
@@ -306,7 +325,7 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
         }
         else if (this.searchBox.keyPressed(keyCode, scanCode, modifiers))
         {
-            this.checkSearchStringUpdate();
+            this.checkSearchStringUpdate(false);
             return true;
         }
         else if (this.searchBox.isFocused() && this.searchBox.isVisible() && keyCode != 256)
@@ -345,7 +364,7 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
         }
         else if (this.searchBox.charTyped(codePoint, modifiers))
         {
-            this.checkSearchStringUpdate();
+            this.checkSearchStringUpdate(false);
             return true;
         }
         else
@@ -354,14 +373,25 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
         }
     }
 
-    private void checkSearchStringUpdate()
+    private boolean checkSearchStringUpdate(boolean force)
     {
-        String s = this.searchBox.getValue().toLowerCase(Locale.ROOT);
-        if (!s.equals(this.lastSearch))
+        String search = this.searchBox.getValue().toLowerCase(Locale.ROOT);
+        if (force || !search.equals(this.lastSearch))
         {
-            update();
-            this.lastSearch = s;
+            searchResults.clear();
+            for(Map.Entry<String, List<EnchantAltarRecipe>> entry : recipeMap.entrySet())
+            {
+                if(search.isEmpty() || entry.getKey().toLowerCase().contains(search))
+                {
+                    searchResults.put(entry.getKey(), entry.getValue());
+                }
+            }
+
+            this.lastSearch = search;
+            updatePages();
+            return true;
         }
+        return false;
     }
 
     public boolean hasClickedOutside(double mouseX, double mouseY, int x, int y, int width, int height, int mouseButton)
@@ -418,7 +448,6 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
     @Override
     public void setFocused(boolean focused)
     {
-
     }
 
     @Override
