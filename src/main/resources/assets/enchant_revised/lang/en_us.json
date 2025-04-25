@@ -9,5 +9,6 @@
   "enchantment.enchant_revised.lightning_striker": "Lightning Striker",
 
   "enchant_revised.configuration.enableEnchantAltar" : "Enchanting Altar",
-  "enchant_revised.configuration.enableEnchantTable" : "Vanilla Enchanting Table"
+  "enchant_revised.configuration.enableEnchantTable" : "Vanilla Enchanting Table",
+  "enchant_revised.configuration.enableRecipeBook" : "Show Recipe Book"
 }

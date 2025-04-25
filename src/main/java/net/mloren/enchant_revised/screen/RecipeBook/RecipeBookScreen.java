@@ -404,6 +404,11 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
         return visible;
     }
 
+    public void setVisible(boolean isVisible)
+    {
+        visible = isVisible;
+    }
+
     @Override
     public void setFocused(boolean focused)
     {

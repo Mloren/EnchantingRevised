@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.mloren.enchant_revised.Config;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.screen.RecipeBook.RecipeBookScreen;
 import net.mloren.enchant_revised.util.EnchantAltar;
@@ -31,6 +32,7 @@ public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu
 
     private final EnchantAltarMenu menu;
     private final Level level;
+
     private final RecipeBookScreen recipeBook = new RecipeBookScreen();
     private boolean widthTooNarrow;
 
@@ -48,12 +50,21 @@ public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu
         this.widthTooNarrow = this.width < 379;
         this.recipeBook.init(this.width, this.height, this.minecraft, this.widthTooNarrow, level);
         this.leftPos = this.recipeBook.updateScreenPosition(this.width, this.imageWidth);
-        this.addRenderableWidget(new ImageButton(leftPos + 5, height / 2 - 49, 20, 18, RecipeBookComponent.RECIPE_BUTTON_SPRITES, button ->
+
+        if (Config.enableRecipeBook)
         {
-            this.recipeBook.toggleVisibility();
+            this.addRenderableWidget(new ImageButton(leftPos + 5, height / 2 - 49, 20, 18, RecipeBookComponent.RECIPE_BUTTON_SPRITES, button ->
+            {
+                this.recipeBook.toggleVisibility();
+                this.leftPos = this.recipeBook.updateScreenPosition(this.width, this.imageWidth);
+                button.setPosition(leftPos + 5, height / 2 - 49);
+            }));
+        }
+        else if(recipeBook.isVisible())
+        {
+            recipeBook.setVisible(false);
             this.leftPos = this.recipeBook.updateScreenPosition(this.width, this.imageWidth);
-            button.setPosition(leftPos + 5, height / 2 - 49);
-        }));
+        }
     }
 
     @Override

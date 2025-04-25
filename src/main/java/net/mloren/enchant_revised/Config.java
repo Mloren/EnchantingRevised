@@ -18,15 +18,21 @@ public class Config
             .comment("Should the vanilla Enchanting Table be enabled? (Requires reload)")
             .define("enableEnchantTable", false);
 
+    private static final ModConfigSpec.BooleanValue ENABLE_RECIPE_BOOK = BUILDER
+            .comment("Should the Enchanting Altar recipe book button be shown?")
+            .define("enableRecipeBook", true);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
     public static boolean enableEnchantAltar;
     public static boolean enableEnchantTable;
+    public static boolean enableRecipeBook;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
     {
         enableEnchantAltar = ENABLE_ENCHANT_ALTAR.get();
         enableEnchantTable = ENABLE_ENCHANT_TABLE.get();
+        enableRecipeBook = ENABLE_RECIPE_BOOK.get();
     }
 }
