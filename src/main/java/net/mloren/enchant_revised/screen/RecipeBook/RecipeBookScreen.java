@@ -19,11 +19,14 @@ import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
 import net.mloren.enchant_revised.recipe.ModRecipes;
 import net.mloren.enchant_revised.util.SearchBar;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
+@OnlyIn(Dist.CLIENT)
 public class RecipeBookScreen implements Renderable, GuiEventListener
 {
     private static final ResourceLocation RECIPE_BOOK_BG = ResourceLocation.withDefaultNamespace("textures/gui/recipe_book.png");

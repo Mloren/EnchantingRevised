@@ -16,9 +16,12 @@ import net.mloren.enchant_revised.Config;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.screen.RecipeBook.RecipeBookScreen;
 import net.mloren.enchant_revised.util.EnchantAltar;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.Optional;
 
+@OnlyIn(Dist.CLIENT)
 public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu>
 {
     private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID, "textures/gui/enchant_altar/enchant_altar_gui.png");
