@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.mloren.enchant_revised.Config;
+import net.mloren.enchant_revised.config.ConfigClient;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.screen.RecipeBook.RecipeBookScreen;
 import net.mloren.enchant_revised.util.EnchantAltar;
@@ -54,7 +54,7 @@ public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu
         this.recipeBook.init(this.width, this.height, this.minecraft, this.widthTooNarrow, level);
         this.leftPos = this.recipeBook.updateScreenPosition(this.width, this.imageWidth);
 
-        if (Config.enableRecipeBook)
+        if (ConfigClient.enableRecipeBook)
         {
             this.addRenderableWidget(new ImageButton(leftPos + 5, height / 2 - 49, 20, 18, RecipeBookComponent.RECIPE_BUTTON_SPRITES, button ->
             {

@@ -5,14 +5,13 @@ import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.block.entity.ModBlockEntities;
 import net.mloren.enchant_revised.block.entity.renderer.EnchantAltarRenderer;
 import net.mloren.enchant_revised.condition.ModConditions;
+import net.mloren.enchant_revised.config.ConfigCommon;
 import net.mloren.enchant_revised.item.ModItems;
 import net.mloren.enchant_revised.recipe.ModRecipes;
 import net.mloren.enchant_revised.screen.ModMenuTypes;
 import net.mloren.enchant_revised.screen.custom.EnchantAltarScreen;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.client.gui.ConfigurationScreen;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -57,8 +56,8 @@ public class MainMod
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
-        // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        // Register configs
+        modContainer.registerConfig(ModConfig.Type.COMMON, ConfigCommon.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

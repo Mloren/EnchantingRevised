@@ -1,7 +1,7 @@
 package net.mloren.enchant_revised.condition;
 
 import com.mojang.serialization.MapCodec;
-import net.mloren.enchant_revised.Config;
+import net.mloren.enchant_revised.config.ConfigCommon;
 import net.neoforged.neoforge.common.conditions.ICondition;
 
 public record EnchantTableEnabledCondition() implements ICondition
@@ -12,7 +12,7 @@ public record EnchantTableEnabledCondition() implements ICondition
     @Override
     public boolean test(IContext context)
     {
-        return Config.enableEnchantTable;
+        return ConfigCommon.getEnchantTableEnabled();
     }
 
     @Override
