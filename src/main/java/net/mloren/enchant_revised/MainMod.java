@@ -1,6 +1,8 @@
 package net.mloren.enchant_revised;
 
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.block.entity.ModBlockEntities;
 import net.mloren.enchant_revised.block.entity.renderer.EnchantAltarRenderer;
@@ -12,6 +14,7 @@ import net.mloren.enchant_revised.screen.ModMenuTypes;
 import net.mloren.enchant_revised.screen.custom.EnchantAltarScreen;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.event.AnvilUpdateEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -70,6 +73,10 @@ public class MainMod
         if(event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
         {
             event.accept(ModBlocks.ENCHANT_ALTAR);
+        }
+        else if(event.getTabKey() == CreativeModeTabs.INGREDIENTS)
+        {
+            event.accept(ModItems.EMPTY_ENCHANTED_BOOK);
         }
     }
 

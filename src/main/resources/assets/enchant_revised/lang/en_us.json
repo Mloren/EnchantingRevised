@@ -1,4 +1,7 @@
 {
+  "item.enchant_revised.empty_enchanted_book": "Empty Enchanted Book",
+  "item.enchant_revised.empty_enchanted_book.desc": "Copies enchanted book in anvil",
+
   "block.enchant_revised.enchant_altar": "Enchanting Altar",
 
   "misc.enchant_revised.lapis_tooltip": "Add Lapis",
