@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.mloren.enchant_revised.config.Config;
 import net.mloren.enchant_revised.item.ModItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -86,18 +87,22 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu
     @Inject(method = "createResult", at = @At("TAIL"), cancellable = true)
     public void enchant_revised$createResult(CallbackInfo callback)
     {
-        this.cost.set(0);
+        if(Config.SERVER.enableAnvilNoXPCosts.get())
+        {
+            this.cost.set(0);
 
-        ItemStack result = this.resultSlots.getItem(0);
-        if(!result.isEmpty())
-            result.set(DataComponents.REPAIR_COST, 0);
+            ItemStack result = this.resultSlots.getItem(0);
+            if (!result.isEmpty())
+                result.set(DataComponents.REPAIR_COST, 0);
+        }
     }
 
     //Make the AnvilMenu always return an XP cost of zero
     @Inject(method = "getCost", at = @At("HEAD"), cancellable = true)
     public void enchant_revised$getCost(CallbackInfoReturnable<Integer> callback)
     {
-        callback.setReturnValue(0);
+        if(Config.SERVER.enableAnvilNoXPCosts.get())
+            callback.setReturnValue(0);
     }
 
     //Overwrite the value of j2 at line 182 of AnvilMenu
@@ -108,7 +113,12 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu
             target = "Lnet/minecraft/world/item/ItemStack;supportsEnchantment(Lnet/minecraft/core/Holder;)Z"), ordinal=3)
     public int enchant_revised$replaceEnchantLevel(int value, @Local(ordinal=0) Object2IntMap.Entry<Holder<Enchantment>> entry, @Local(ordinal=2) int i2)
     {
-        int j2 = entry.getIntValue();
-        return Math.max(j2, i2);
+        if(Config.SERVER.enableNoBookCombining.get())
+        {
+            int j2 = entry.getIntValue();
+            return Math.max(j2, i2);
+        }
+        else
+            return value;
     }
 }

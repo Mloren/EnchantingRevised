@@ -9,9 +9,43 @@
   "misc.enchant_revised.secondary_tooltip": "Add Secondary Ingredient",
   "misc.enchant_revised.target_tooltip": "Add Enchantable Item",
 
-  "enchantment.enchant_revised.lightning_striker": "Lightning Striker",
 
+  "enchant_revised.configuration.title": "Enchanting Revised Configuration",
+
+  "enchant_revised.configuration.section.enchant.revised.server.toml": "Server settings",
+  "enchant_revised.configuration.section.enchant.revised.server.toml.title": "Enchanting Revised Server Configuration",
+
+  "enchant_revised.configuration.anvil": "Anvil Settings",
+  "enchant_revised.configuration.anvil.button": "Edit",
+  "enchant_revised.configuration.anvil.tooltip": "Edit anvil settings",
+  "enchant_revised.configuration.enableAnvilNoXPCosts" : "No XP Costs",
+  "enchant_revised.configuration.enableAnvilNoXPCosts.tooltip": "Remove XP costs from anvil recipes.",
+  "enchant_revised.configuration.enableNoBookCombining" : "Keep Enchanted Book Levels",
+  "enchant_revised.configuration.enableNoBookCombining.tooltip": "Don't increase enchantment level when combining two identical enchantments.\n\nTurning this off will make high level enchantments too easy to acquire through the Enchanting Altar.",
+
+  "enchant_revised.configuration.section.enchant.revised.common.toml": "Common settings",
+  "enchant_revised.configuration.section.enchant.revised.common.toml.title": "Enchanting Revised Common Configuration",
+
+  "enchant_revised.configuration.enchanting": "Enchanting Settings",
+  "enchant_revised.configuration.enchanting.button": "Edit",
+  "enchant_revised.configuration.enchanting.tooltip": "Edit enchanting settings",
   "enchant_revised.configuration.enableEnchantAltar" : "Enchanting Altar",
+  "enchant_revised.configuration.enableEnchantAltar.tooltip": "Enable the Enchanting Altar recipe?\n\n(Server only. Reload required.)",
   "enchant_revised.configuration.enableEnchantTable" : "Vanilla Enchanting Table",
-  "enchant_revised.configuration.enableRecipeBook" : "Show Recipe Book"
+  "enchant_revised.configuration.enableEnchantTable.tooltip": "Enable the vanilla Enchanting Table recipe?\n\n(Server only. Reload required.)",
+
+  "enchant_revised.configuration.villager": "Villager Settings",
+  "enchant_revised.configuration.villager.button": "Edit",
+  "enchant_revised.configuration.villager.tooltip": "Edit villager settings",
+  "enchant_revised.configuration.enableVillagerEmptyBookTrade" : "Empty Enchanted Book Trade",
+  "enchant_revised.configuration.enableVillagerEmptyBookTrade.tooltip": "Add Empty Enchanted Book trade to librarians.\n\n(Server only. Reload required.)",
+  "enchant_revised.configuration.enableLapisTrade" : "Lapis Trade",
+  "enchant_revised.configuration.enableLapisTrade.tooltip": "Add Lapis Lazuli trade to librarians.\n\n(Server only. Reload required.)",
+  "enchant_revised.configuration.disableEnchantedBookTrade" : "Disable Enchanted Book Trade",
+  "enchant_revised.configuration.disableEnchantedBookTrade.tooltip": "Disable vanilla Enchanted Book trade on librarians.\n\n(Server only. Reload required.)",
+
+  "enchant_revised.configuration.section.enchant.revised.client.toml": "Client settings",
+  "enchant_revised.configuration.section.enchant.revised.client.toml.title": "Enchanting Revised Client Configuration",
+  "enchant_revised.configuration.enableRecipeBook" : "Show Recipe Book",
+  "enchant_revised.configuration.enableRecipeBook.tooltip": "Show the recipe book button for the Enchanting Altar?"
 }
