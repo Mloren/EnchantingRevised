@@ -7,6 +7,7 @@ import net.mloren.enchant_revised.block.entity.renderer.EnchantAltarRenderer;
 import net.mloren.enchant_revised.condition.ModConditions;
 import net.mloren.enchant_revised.config.types.CommonConfig;
 import net.mloren.enchant_revised.config.Config;
+import net.mloren.enchant_revised.enchantment.ModEnchantmentEffects;
 import net.mloren.enchant_revised.item.ModItems;
 import net.mloren.enchant_revised.recipe.ModRecipes;
 import net.mloren.enchant_revised.screen.ModMenuTypes;
@@ -53,6 +54,8 @@ public class MainMod
 
         ModMenuTypes.register(modEventBus);
         ModRecipes.register(modEventBus);
+
+        ModEnchantmentEffects.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

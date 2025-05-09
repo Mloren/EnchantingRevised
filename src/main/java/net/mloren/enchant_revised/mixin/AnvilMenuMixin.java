@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = AnvilMenu.class, priority = 1900)
+@Mixin(value = AnvilMenu.class, priority = 1800)
 abstract class AnvilMenuMixin extends ItemCombinerMenu
 {
     @Shadow private final DataSlot cost = DataSlot.standalone();

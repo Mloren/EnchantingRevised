@@ -23,6 +23,22 @@
   "enchant_revised.configuration.enableNoBookCombining" : "Keep Enchanted Book Levels",
   "enchant_revised.configuration.enableNoBookCombining.tooltip": "Don't increase enchantment level when combining two identical enchantments.\n\nTurning this off will make high level enchantments too easy to acquire through the Enchanting Altar.",
 
+  "enchant_revised.configuration.netherite_tools": "Netherite Settings",
+  "enchant_revised.configuration.netherite_tools.button": "Edit",
+  "enchant_revised.configuration.netherite_tools.tooltip": "Edit netherite settings",
+  "enchant_revised.configuration.repairNetheriteWithDiamonds" : "Repair With Diamonds",
+  "enchant_revised.configuration.repairNetheriteWithDiamonds.tooltip": "Repair netherite armor and tools with diamonds.",
+  "enchant_revised.configuration.repairNetheriteWithScrap" : "Repair With Netherite Scrap",
+  "enchant_revised.configuration.repairNetheriteWithScrap.tooltip": "Repair netherite armor and tools with netherite scrap.",
+
+  "enchant_revised.configuration.mending": "Mending Settings",
+  "enchant_revised.configuration.mending.button": "Edit",
+  "enchant_revised.configuration.mending.tooltip": "Edit mending settings",
+  "enchant_revised.configuration.repairDelayTicks" : "Repair Delay",
+  "enchant_revised.configuration.repairDelayTicks.tooltip": "Delay in ticks before 1 durability is repaired.",
+  "enchant_revised.configuration.repairDelayTicksPerLevel" : "Delay Per Level",
+  "enchant_revised.configuration.repairDelayTicksPerLevel.tooltip": "Repair Delay is reduced by this many ticks for each level of Mending above 1.\n\nThis mod doesn't provide higher levels of Mending but other mods might.",
+
   "enchant_revised.configuration.section.enchant.revised.common.toml": "Common settings",
   "enchant_revised.configuration.section.enchant.revised.common.toml.title": "Enchanting Revised Common Configuration",
 

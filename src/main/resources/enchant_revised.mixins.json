@@ -3,7 +3,9 @@
   "compatibilityLevel": "JAVA_21",
   "package": "net.mloren.enchant_revised.mixin",
   "mixins": [
-    "AnvilMenuMixin"
+    "AnvilMenuMixin",
+    "ItemExtensionMixin",
+    "ItemMixin"
   ],
   "client": [
   ],

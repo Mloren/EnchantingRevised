@@ -7,6 +7,7 @@ public class CommonConfig
 {
     public final ModConfigSpec.BooleanValue enableEnchantAltar;
     public final ModConfigSpec.BooleanValue enableEnchantTable;
+    public final ModConfigSpec.BooleanValue replaceMending;
 
     public final ModConfigSpec.BooleanValue enableEmptyBookTrade;
     public final ModConfigSpec.BooleanValue enableLapisTrade;
@@ -17,6 +18,7 @@ public class CommonConfig
         builder.push("enchanting");
         enableEnchantAltar = builder.worldRestart().define("enableEnchantAltar", true);
         enableEnchantTable = builder.worldRestart().define("enableEnchantTable", false);
+        replaceMending = builder.worldRestart().define("replaceMending", true);
         builder.pop();
 
         builder.push("villager");
