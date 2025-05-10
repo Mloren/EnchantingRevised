@@ -8,7 +8,9 @@
     "ItemMixin",
     "ExperienceOrbMixin",
     "EnchantmentHelperMixin",
-    "ServerLevelMixin"
+    "ServerLevelMixin",
+    "MultiPlayerGameModeMixin",
+    "GuiMixin"
   ],
   "client": [
   ],

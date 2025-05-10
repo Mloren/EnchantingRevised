@@ -70,5 +70,9 @@
   "enchant_revised.configuration.section.enchant.revised.client.toml": "Client settings",
   "enchant_revised.configuration.section.enchant.revised.client.toml.title": "Enchanting Revised Client Configuration",
   "enchant_revised.configuration.enableRecipeBook" : "Show Recipe Book",
-  "enchant_revised.configuration.enableRecipeBook.tooltip": "Show the recipe book button for the Enchanting Altar?"
+  "enchant_revised.configuration.enableRecipeBook.tooltip": "Show the recipe book button for the Enchanting Altar?",
+  "enchant_revised.configuration.hideXPBar" : "Hide Vanilla XP Bar",
+  "enchant_revised.configuration.hideXPBar.tooltip": "Hide the vanilla XP bar on the UI",
+  "enchant_revised.configuration.guiHeight" : "Health Bar Height",
+  "enchant_revised.configuration.guiHeight.tooltip": "Change the height of the health, armour, and food bars on the GUI.\n\nRecommended: 39 if XP bar is shown, 33 if it's hidden."
 }
