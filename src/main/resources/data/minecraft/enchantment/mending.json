@@ -8,6 +8,23 @@
       {
         "effect": {
           "type": "enchant_revised:repair_over_time"
+        },
+        "requirements": {
+          "condition": "enchant_revised:mending_replaced"
+        }
+      }
+    ],
+    "minecraft:repair_with_xp": [
+      {
+        "effect": {
+          "type": "minecraft:multiply",
+          "factor": 2.0
+        },
+        "requirements": {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "enchant_revised:mending_replaced"
+          }
         }
       }
     ]

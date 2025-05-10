@@ -49,6 +49,8 @@
   "enchant_revised.configuration.enableEnchantAltar.tooltip": "Enable the Enchanting Altar recipe?\n\n(Server only. Reload required.)",
   "enchant_revised.configuration.enableEnchantTable" : "Vanilla Enchanting Table",
   "enchant_revised.configuration.enableEnchantTable.tooltip": "Enable the vanilla Enchanting Table recipe?\n\n(Server only. Reload required.)",
+  "enchant_revised.configuration.replaceMending" : "Mending Over Time",
+  "enchant_revised.configuration.replaceMending.tooltip": "Replace the Mending enchantment with a repair-over-time effect.",
 
   "enchant_revised.configuration.villager": "Villager Settings",
   "enchant_revised.configuration.villager.button": "Edit",

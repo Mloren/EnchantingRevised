@@ -5,7 +5,9 @@
   "mixins": [
     "AnvilMenuMixin",
     "ItemExtensionMixin",
-    "ItemMixin"
+    "ItemMixin",
+    "ExperienceOrbMixin",
+    "EnchantmentHelperMixin"
   ],
   "client": [
   ],

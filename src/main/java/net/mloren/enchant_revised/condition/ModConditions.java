@@ -20,14 +20,14 @@ public class ModConditions
     public static final DeferredRegister<MapCodec<? extends ICondition>> CONDITION_CODECS =
             DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, MainMod.MOD_ID);
 
-    public static final DeferredRegister<LootItemConditionType> LOOT_CONDITION_TYPES =
-            DeferredRegister.create(Registries.LOOT_CONDITION_TYPE, MainMod.MOD_ID);
-
     public static final Supplier<MapCodec<EnchantAltarEnabledCondition>> ENCHANT_ALTAR_ENABLED =
             CONDITION_CODECS.register("enchant_altar_enabled", () -> EnchantAltarEnabledCondition.CODEC);
 
     public static final Supplier<MapCodec<EnchantTableEnabledCondition>> ENCHANT_TABLE_ENABLED =
             CONDITION_CODECS.register("enchant_table_enabled", () -> EnchantTableEnabledCondition.CODEC);
+
+    public static final DeferredRegister<LootItemConditionType> LOOT_CONDITION_TYPES =
+            DeferredRegister.create(Registries.LOOT_CONDITION_TYPE, MainMod.MOD_ID);
 
     public static final Supplier<LootItemConditionType> MENDING_REPLACED =
             LOOT_CONDITION_TYPES.register("mending_replaced", () -> new LootItemConditionType(MendingReplacedCondition.CODEC));
@@ -35,5 +35,6 @@ public class ModConditions
     public static void register(IEventBus eventBus)
     {
         CONDITION_CODECS.register(eventBus);
+        LOOT_CONDITION_TYPES.register(eventBus);
     }
 }
