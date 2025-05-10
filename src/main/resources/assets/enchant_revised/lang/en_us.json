@@ -40,6 +40,8 @@
   "enchant_revised.configuration.repairDelayTicksPerLevel.tooltip": "Repair Delay is reduced by this many ticks for each level of Mending above 1.\n\nThis mod doesn't provide higher levels of Mending but other mods might.",
   "enchant_revised.configuration.disableXP" : "Disable Vanilla XP",
   "enchant_revised.configuration.disableXP.tooltip": "Removes vanilla XP from the game.",
+  "enchant_revised.configuration.disableBottleOfEnchant" : "Disable Bottle O' Enchanting",
+  "enchant_revised.configuration.disableBottleOfEnchant.tooltip": "Removes the Bottle O' Enchanting from loot tables. Existing bottles are unaffected.",
 
 
   "enchant_revised.configuration.section.enchant.revised.common.toml": "Common settings",

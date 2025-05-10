@@ -13,6 +13,8 @@ public class CommonConfig
     public final ModConfigSpec.BooleanValue enableLapisTrade;
     public final ModConfigSpec.BooleanValue disableEnchantedBookTrade;
 
+    public final ModConfigSpec.BooleanValue disableBottleOfEnchant;
+
     public CommonConfig(ModConfigSpec.@NotNull Builder builder)
     {
         builder.push("enchanting");
@@ -26,5 +28,7 @@ public class CommonConfig
         enableLapisTrade = builder.worldRestart().define("enableLapisTrade", true);
         disableEnchantedBookTrade = builder.worldRestart().define("disableEnchantedBookTrade", true);
         builder.pop();
+
+        disableBottleOfEnchant = builder.worldRestart().define("disableBottleOfEnchant", true);
     }
 }

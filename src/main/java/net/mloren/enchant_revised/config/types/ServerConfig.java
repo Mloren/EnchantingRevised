@@ -16,6 +16,7 @@ public class ServerConfig
 
     public final ModConfigSpec.BooleanValue disableXP;
 
+
     public ServerConfig(ModConfigSpec.@NotNull Builder builder)
     {
         builder.push("anvil");
@@ -35,5 +36,6 @@ public class ServerConfig
         builder.pop();
 
         disableXP = builder.define("disableXP", true);
+
     }
 }

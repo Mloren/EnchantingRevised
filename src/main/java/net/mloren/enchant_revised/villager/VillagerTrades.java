@@ -23,14 +23,16 @@ public class VillagerTrades
             //Removes all enchanted book trades from the librarian
             if(Config.COMMON.disableEnchantedBookTrade.get())
             {
-                for (int i = 0; i < villagerTrades.size(); ++i) {
+                for (int i = 0; i < villagerTrades.size(); ++i)
+                {
                     List<net.minecraft.world.entity.npc.VillagerTrades.ItemListing> tradesByLevel = villagerTrades.get(i);
-                    if (tradesByLevel != null) {
-                        for (int j = tradesByLevel.size() - 1; j >= 0; --j) {
+                    if (tradesByLevel != null)
+                    {
+                        for (int j = tradesByLevel.size() - 1; j >= 0; --j)
+                        {
                             net.minecraft.world.entity.npc.VillagerTrades.ItemListing trade = tradesByLevel.get(j);
-                            if (trade.getClass().getName().equals(net.minecraft.world.entity.npc.VillagerTrades.class.getName() + "$EnchantBookForEmeralds")) {
+                            if (trade.getClass().getName().equals(net.minecraft.world.entity.npc.VillagerTrades.class.getName() + "$EnchantBookForEmeralds"))
                                 tradesByLevel.remove(j);
-                            }
                         }
                     }
                 }
@@ -50,6 +52,21 @@ public class VillagerTrades
                 villagerTrades.get(4).add((trader, random) -> new MerchantOffer(
                         new ItemCost(Items.EMERALD, random.nextIntBetweenInclusive(20, 64)),
                         new ItemStack(ModItems.EMPTY_ENCHANTED_BOOK.get(), 1), 3, 15, 0.2f));
+            }
+        }
+        else if(event.getType() == VillagerProfession.CLERIC)
+        {
+            Int2ObjectMap<List<net.minecraft.world.entity.npc.VillagerTrades.ItemListing>> villagerTrades = event.getTrades();
+
+            //Removes bottle o' enchanting trades from the cleric
+            if(Config.COMMON.disableBottleOfEnchant.get())
+            {
+                if(villagerTrades.containsKey(5))
+                {
+                    List<net.minecraft.world.entity.npc.VillagerTrades.ItemListing> tradesByLevel = villagerTrades.get(5);
+                    if(tradesByLevel.size() >= 2)
+                        tradesByLevel.remove(1);
+                }
             }
         }
     }

@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.mloren.enchant_revised.config.Config;
-import net.mloren.enchant_revised.config.types.ClientConfig;
 import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.screen.RecipeBook.RecipeBookScreen;
 import net.mloren.enchant_revised.util.EnchantAltar;

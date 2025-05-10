@@ -1,11 +1,7 @@
 package net.mloren.enchant_revised.condition;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import net.mloren.enchant_revised.MainMod;
 import net.neoforged.bus.api.IEventBus;
