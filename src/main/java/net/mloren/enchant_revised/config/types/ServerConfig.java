@@ -14,6 +14,8 @@ public class ServerConfig
     public final ModConfigSpec.IntValue repairDelayTicks;
     public final ModConfigSpec.IntValue repairDelayTicksPerLevel;
 
+    public final ModConfigSpec.BooleanValue disableXP;
+
     public ServerConfig(ModConfigSpec.@NotNull Builder builder)
     {
         builder.push("anvil");
@@ -31,5 +33,7 @@ public class ServerConfig
         repairDelayTicks = builder.defineInRange("repairDelayTicks", 200, 1, 9999999);
         repairDelayTicksPerLevel = builder.defineInRange("repairDelayTicksPerLevel", 40, 1, 9999999);
         builder.pop();
+
+        disableXP = builder.define("disableXP", true);
     }
 }
