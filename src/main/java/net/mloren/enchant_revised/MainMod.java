@@ -10,8 +10,8 @@ import net.mloren.enchant_revised.enchantment.ModEnchantmentEffects;
 import net.mloren.enchant_revised.item.ModItems;
 import net.mloren.enchant_revised.loot_modifiers.ModLootModifier;
 import net.mloren.enchant_revised.recipe.ModRecipes;
-import net.mloren.enchant_revised.screen.ModMenuTypes;
-import net.mloren.enchant_revised.screen.custom.EnchantAltarScreen;
+import net.mloren.enchant_revised.inventory.ModMenuTypes;
+import net.mloren.enchant_revised.gui.EnchantAltarScreen;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.slf4j.Logger;
@@ -77,7 +77,7 @@ public class MainMod
         }
         else if(event.getTabKey() == CreativeModeTabs.INGREDIENTS)
         {
-            event.accept(ModItems.EMPTY_ENCHANTED_BOOK);
+            event.accept(ModItems.ECHOING_BOOK);
         }
     }
 

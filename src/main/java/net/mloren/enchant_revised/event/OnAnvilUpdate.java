@@ -16,7 +16,7 @@ public class OnAnvilUpdate
     {
         ItemStack left = event.getLeft();
         ItemStack right = event.getRight();
-        if (left.is(Items.ENCHANTED_BOOK) && right.is(ModItems.EMPTY_ENCHANTED_BOOK))
+        if (left.is(Items.ENCHANTED_BOOK) && right.is(ModItems.ECHOING_BOOK))
         {
             event.setOutput(left.copy());
             event.setMaterialCost(1);

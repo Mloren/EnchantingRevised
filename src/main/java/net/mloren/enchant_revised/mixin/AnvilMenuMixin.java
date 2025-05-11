@@ -43,7 +43,7 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu
     @Inject(method = "onTake", at = @At("HEAD"), cancellable = true)
     protected void enchant_revised$onTake(Player player, ItemStack stack, CallbackInfo callback)
     {
-        if(this.inputSlots.getItem(1).getItem() == ModItems.EMPTY_ENCHANTED_BOOK.get())
+        if(this.inputSlots.getItem(1).getItem() == ModItems.ECHOING_BOOK.get())
         {
             float breakChance = net.neoforged.neoforge.common.CommonHooks.onAnvilRepair(player, stack, this.inputSlots.getItem(0), this.inputSlots.getItem(1));
 

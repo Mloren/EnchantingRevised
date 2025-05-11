@@ -15,6 +15,7 @@ public class ServerConfig
     public final ModConfigSpec.IntValue repairDelayTicksPerLevel;
 
     public final ModConfigSpec.BooleanValue disableXP;
+    public final ModConfigSpec.BooleanValue enableEnchantTableXPCosts;
 
 
     public ServerConfig(ModConfigSpec.@NotNull Builder builder)
@@ -36,6 +37,6 @@ public class ServerConfig
         builder.pop();
 
         disableXP = builder.define("disableXP", true);
-
+        enableEnchantTableXPCosts = builder.define("enableEnchantTableXPCosts", false);
     }
 }

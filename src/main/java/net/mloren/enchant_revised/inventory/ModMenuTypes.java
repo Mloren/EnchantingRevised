@@ -1,10 +1,10 @@
-package net.mloren.enchant_revised.screen;
+package net.mloren.enchant_revised.inventory;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.mloren.enchant_revised.MainMod;
-import net.mloren.enchant_revised.screen.custom.EnchantAltarMenu;
+import net.mloren.enchant_revised.inventory.custom.EnchantAltarMenu;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.network.IContainerFactory;

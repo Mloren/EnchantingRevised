@@ -47,11 +47,11 @@ public class VillagerTrades
             }
 
             //Add empty enchanted book trade to the librarian
-            if(Config.COMMON.enableEmptyBookTrade.get())
+            if(Config.COMMON.enableEchoingBookTrade.get())
             {
                 villagerTrades.get(4).add((trader, random) -> new MerchantOffer(
                         new ItemCost(Items.EMERALD, random.nextIntBetweenInclusive(20, 64)),
-                        new ItemStack(ModItems.EMPTY_ENCHANTED_BOOK.get(), 1), 3, 15, 0.2f));
+                        new ItemStack(ModItems.ECHOING_BOOK.get(), 1), 3, 15, 0.2f));
             }
         }
         else if(event.getType() == VillagerProfession.CLERIC)

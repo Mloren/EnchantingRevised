@@ -1,4 +1,4 @@
-package net.mloren.enchant_revised.screen.custom;
+package net.mloren.enchant_revised.inventory.custom;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -22,7 +22,7 @@ import net.mloren.enchant_revised.block.entity.EnchantAltarBlockEntity;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipeInput;
 import net.mloren.enchant_revised.recipe.ModRecipes;
-import net.mloren.enchant_revised.screen.ModMenuTypes;
+import net.mloren.enchant_revised.inventory.ModMenuTypes;
 import net.mloren.enchant_revised.util.EnchantAltar;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.items.ItemStackHandler;

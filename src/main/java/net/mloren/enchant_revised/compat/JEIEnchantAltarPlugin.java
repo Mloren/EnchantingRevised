@@ -15,7 +15,7 @@ import net.mloren.enchant_revised.MainMod;
 import net.mloren.enchant_revised.block.ModBlocks;
 import net.mloren.enchant_revised.recipe.EnchantAltarRecipe;
 import net.mloren.enchant_revised.recipe.ModRecipes;
-import net.mloren.enchant_revised.screen.custom.EnchantAltarScreen;
+import net.mloren.enchant_revised.gui.EnchantAltarScreen;
 
 import java.util.ArrayList;
 import java.util.List;

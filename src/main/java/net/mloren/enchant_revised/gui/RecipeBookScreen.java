@@ -1,4 +1,4 @@
-package net.mloren.enchant_revised.screen.RecipeBook;
+package net.mloren.enchant_revised.gui;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "enchant_revised:item/empty_enchanted_book"
+    "layer0": "enchant_revised:item/echoing_book"
   }
 }

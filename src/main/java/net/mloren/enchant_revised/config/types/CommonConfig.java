@@ -9,7 +9,7 @@ public class CommonConfig
     public final ModConfigSpec.BooleanValue enableEnchantTable;
     public final ModConfigSpec.BooleanValue replaceMending;
 
-    public final ModConfigSpec.BooleanValue enableEmptyBookTrade;
+    public final ModConfigSpec.BooleanValue enableEchoingBookTrade;
     public final ModConfigSpec.BooleanValue enableLapisTrade;
     public final ModConfigSpec.BooleanValue disableEnchantedBookTrade;
 
@@ -24,7 +24,7 @@ public class CommonConfig
         builder.pop();
 
         builder.push("villager");
-        enableEmptyBookTrade = builder.worldRestart().define("enableVillagerEmptyBookTrade", true);
+        enableEchoingBookTrade = builder.worldRestart().define("enableEchoingBookTrade", true);
         enableLapisTrade = builder.worldRestart().define("enableLapisTrade", true);
         disableEnchantedBookTrade = builder.worldRestart().define("disableEnchantedBookTrade", true);
         builder.pop();

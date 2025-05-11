@@ -1,6 +1,6 @@
 {
-  "item.enchant_revised.empty_enchanted_book": "Empty Enchanted Book",
-  "item.enchant_revised.empty_enchanted_book.desc": "Copies enchanted book in anvil",
+  "item.enchant_revised.echoing_book": "Echoing Book",
+  "item.enchant_revised.echoing_book.desc": "Copies enchanted book in anvil",
 
   "block.enchant_revised.enchant_altar": "Enchanting Altar",
 
@@ -38,11 +38,11 @@
   "enchant_revised.configuration.repairDelayTicks.tooltip": "Delay in ticks before 1 durability is repaired.",
   "enchant_revised.configuration.repairDelayTicksPerLevel" : "Delay Per Level",
   "enchant_revised.configuration.repairDelayTicksPerLevel.tooltip": "Repair Delay is reduced by this many ticks for each level of Mending above 1.\n\nThis mod doesn't provide higher levels of Mending but other mods might.",
+
   "enchant_revised.configuration.disableXP" : "Disable Vanilla XP",
   "enchant_revised.configuration.disableXP.tooltip": "Removes vanilla XP from the game.",
-  "enchant_revised.configuration.disableBottleOfEnchant" : "Disable Bottle O' Enchanting",
-  "enchant_revised.configuration.disableBottleOfEnchant.tooltip": "Removes the Bottle O' Enchanting from loot tables. Existing bottles are unaffected.",
-
+  "enchant_revised.configuration.enableEnchantTableXPCosts" : "Enchanting Table XP Cost",
+  "enchant_revised.configuration.enableEnchantTableXPCosts.tooltip": "Should the vanilla Enchanting Table cost XP to use?",
 
   "enchant_revised.configuration.section.enchant.revised.common.toml": "Common settings",
   "enchant_revised.configuration.section.enchant.revised.common.toml.title": "Enchanting Revised Common Configuration",
@@ -60,12 +60,15 @@
   "enchant_revised.configuration.villager": "Villager Settings",
   "enchant_revised.configuration.villager.button": "Edit",
   "enchant_revised.configuration.villager.tooltip": "Edit villager settings",
-  "enchant_revised.configuration.enableVillagerEmptyBookTrade" : "Empty Enchanted Book Trade",
-  "enchant_revised.configuration.enableVillagerEmptyBookTrade.tooltip": "Add Empty Enchanted Book trade to librarians.\n\n(Server only. Reload required.)",
+  "enchant_revised.configuration.enableEchoingBookTrade" : "Echoing Book Trade",
+  "enchant_revised.configuration.enableEchoingBookTrade.tooltip": "Add Echoing Book trade to librarians.\n\n(Server only. Reload required.)",
   "enchant_revised.configuration.enableLapisTrade" : "Lapis Trade",
   "enchant_revised.configuration.enableLapisTrade.tooltip": "Add Lapis Lazuli trade to librarians.\n\n(Server only. Reload required.)",
   "enchant_revised.configuration.disableEnchantedBookTrade" : "Disable Enchanted Book Trade",
   "enchant_revised.configuration.disableEnchantedBookTrade.tooltip": "Disable vanilla Enchanted Book trade on librarians.\n\n(Server only. Reload required.)",
+
+  "enchant_revised.configuration.disableBottleOfEnchant" : "Disable Bottle O' Enchanting",
+  "enchant_revised.configuration.disableBottleOfEnchant.tooltip": "Removes the Bottle O' Enchanting from loot tables. Existing bottles are unaffected.",
 
   "enchant_revised.configuration.section.enchant.revised.client.toml": "Client settings",
   "enchant_revised.configuration.section.enchant.revised.client.toml.title": "Enchanting Revised Client Configuration",

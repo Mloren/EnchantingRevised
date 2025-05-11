@@ -9,9 +9,9 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
-public class EmptyEnchantedBook extends Item
+public class EchoingBook extends Item
 {
-    public EmptyEnchantedBook(Properties properties)
+    public EchoingBook(Properties properties)
     {
         super(properties);
     }

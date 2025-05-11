@@ -1,4 +1,4 @@
-package net.mloren.enchant_revised.screen.custom;
+package net.mloren.enchant_revised.inventory.custom;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class ModdedContainerMenu extends AbstractContainerMenu
 {
-    protected final Level level;
+    public final Level level;
     protected final BlockEntity blockEntity;
 
     protected ModdedContainerMenu(@Nullable MenuType<?> menuType, int containerId, Inventory playerInventory, BlockEntity blockEntity)

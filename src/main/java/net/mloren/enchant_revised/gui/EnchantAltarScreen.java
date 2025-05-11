@@ -1,4 +1,4 @@
-package net.mloren.enchant_revised.screen.custom;
+package net.mloren.enchant_revised.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,7 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.mloren.enchant_revised.config.Config;
 import net.mloren.enchant_revised.MainMod;
-import net.mloren.enchant_revised.screen.RecipeBook.RecipeBookScreen;
+import net.mloren.enchant_revised.inventory.custom.EnchantAltarMenu;
 import net.mloren.enchant_revised.util.EnchantAltar;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
