@@ -66,8 +66,8 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
     private String lastSearch = "";
     private boolean ignoreTextInput;
 
-    private final TreeMap<String, List<EnchantAltarRecipe>> recipeMap = new TreeMap<>();
-    private final TreeMap<String, List<EnchantAltarRecipe>> searchResults = new TreeMap<>();
+    private final ArrayList<RecipeBookPage> recipeBookPages = new ArrayList<>();
+    private final ArrayList<RecipeBookPage> searchResults = new ArrayList<>();
 
     private ItemStack hoveredItem;
 
@@ -96,15 +96,18 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
         this.backButton = new StateSwitchingButton(this.leftPos + 38, this.topPos + 137, 12, 17, true);
         this.backButton.initTextureValues(PAGE_BACKWARD_SPRITES);
 
-        BuildRecipeMap(level.getRecipeManager());
+        generateRecipePages(level.getRecipeManager());
         this.checkSearchStringUpdate(true);
         updatePages();
     }
 
-    private void BuildRecipeMap(RecipeManager recipeManager)
+    private void generateRecipePages(RecipeManager recipeManager)
     {
-        List<RecipeHolder<EnchantAltarRecipe>> recipeList = recipeManager.getAllRecipesFor(ModRecipes.ENCHANT_ALTAR_TYPE.get());
-        for(RecipeHolder<EnchantAltarRecipe> recipeHolder : recipeList)
+        TreeMap<String, List<EnchantAltarRecipe>> recipeMap = new TreeMap<>();
+
+        //Build lists of recipes in alphabetical order
+        List<RecipeHolder<EnchantAltarRecipe>> recipeManagerList = recipeManager.getAllRecipesFor(ModRecipes.ENCHANT_ALTAR_TYPE.get());
+        for(RecipeHolder<EnchantAltarRecipe> recipeHolder : recipeManagerList)
         {
             EnchantAltarRecipe recipe = recipeHolder.value();
             String name = recipe.enchantment().value().description().getString();
@@ -117,6 +120,33 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
             }
 
             levelList.add(recipe);
+        }
+
+        //Convert into pages
+        recipeBookPages.clear();
+        for(Map.Entry<String, List<EnchantAltarRecipe>> entry : recipeMap.entrySet())
+        {
+            String enchantName = entry.getKey();
+            List<EnchantAltarRecipe> recipeList = entry.getValue();
+            int pageStart = recipeBookPages.size();
+
+            int pageCount = Math.ceilDiv(recipeList.size(), 5);
+            for(int i = 0; i < pageCount; ++i)
+            {
+                recipeBookPages.add(new RecipeBookPage(recipeBookPages.size() + i, enchantName));
+            }
+
+            for(int i = 0; i < recipeList.size(); ++i)
+            {
+                EnchantAltarRecipe recipe = recipeList.get(i);
+
+                int pageIndex = pageStart + (Math.ceilDiv(recipe.enchantLevel(), 5) - 1);
+                if(pageIndex < recipeBookPages.size())
+                {
+                    RecipeBookPage page = recipeBookPages.get(pageIndex);
+                    page.addRecipe(recipe);
+                }
+            }
         }
     }
 
@@ -140,13 +170,13 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
             guiGraphics.pose().translate(0.0F, 0.0F, 100.0F);
 
             // Background
-            guiGraphics.blit(RECIPE_BOOK_BG, leftPos, topPos, -11, 1, 1, 147, 166, 256, 256);
+            guiGraphics.blit(RECIPE_BOOK_BG, this.leftPos, this.topPos, -11, 1, 1, 147, 166, 256, 256);
 
             // Search box
             this.searchBox.render(guiGraphics, mouseX, mouseY, partialTick);
 
             // Recipes
-            RenderRecipePage(guiGraphics, mouseX, mouseY, this.currentPage);
+            renderRecipePage(guiGraphics, mouseX, mouseY, this.currentPage);
 
             // Forward and Back buttons
             this.backButton.render(guiGraphics, mouseX, mouseY, partialTick);
@@ -157,40 +187,30 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
             {
                 Component component = Component.translatable("gui.recipebook.page", this.currentPage + 1, this.totalPages);
                 int fontWidth = this.minecraft.font.width(component);
-                guiGraphics.drawString(this.minecraft.font, component, leftPos - fontWidth / 2 + 73, topPos + 141, 0xFFFFFFFF, false);
+                guiGraphics.drawString(this.minecraft.font, component, this.leftPos - fontWidth / 2 + 73, this.topPos + 141, 0xFFFFFFFF, false);
             }
 
             guiGraphics.pose().popPose();
         }
     }
 
-    private void RenderRecipePage(GuiGraphics guiGraphics, int mouseX, int mouseY, int page)
+    private void renderRecipePage(GuiGraphics guiGraphics, int mouseX, int mouseY, int pageIndex)
     {
-        // Find the page
-        int i = 0;
-        String enchantName = "";
-        List<EnchantAltarRecipe> recipeList = null;
-        for(Map.Entry<String, List<EnchantAltarRecipe>> entry : searchResults.entrySet())
+        if(pageIndex < searchResults.size())
         {
-            if(i == page)
-            {
-                enchantName = entry.getKey();
-                recipeList = entry.getValue();
-                break;
-            }
-            i++;
-        }
+            RecipeBookPage page = searchResults.get(pageIndex);
 
-        if(recipeList != null)
-        {
-            int x = leftPos + LEFT_MARGIN;
+            int x = this.leftPos + LEFT_MARGIN;
             int y = this.topPos + SEARCH_BOX_TOP_OFFSET + this.searchBox.getHeight() + TOP_MARGIN;
-            guiGraphics.drawString(this.minecraft.font, enchantName, x, y, 0xFFFFFFFF, false);
+            guiGraphics.drawString(this.minecraft.font, page.getEnchantName(), x, y, 0xFFFFFFFF, false);
 
             y += 9;
-            for (EnchantAltarRecipe recipe : recipeList)
+            int recipeCount = page.getRecipeCount();
+            for(int i = 0; i < recipeCount; ++i)
             {
-                renderRecipe(guiGraphics, mouseX, mouseY, recipe, y + (recipe.enchantLevel() - 1) * ITEM_SIZE);
+                EnchantAltarRecipe recipe = page.getRecipe(i);
+                int offsetY = ((recipe.enchantLevel() - 1) % 5) * ITEM_SIZE;
+                renderRecipe(guiGraphics, mouseX, mouseY, recipe, y + offsetY);
             }
         }
     }
@@ -198,14 +218,14 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
     private void renderRecipe(GuiGraphics guiGraphics, int mouseX, int mouseY, EnchantAltarRecipe recipe, int y)
     {
         int enchantLevel = recipe.enchantLevel();
-        int x = leftPos + LEFT_MARGIN;
+        int x = this.leftPos + LEFT_MARGIN;
         guiGraphics.blitSprite(SLOT_BACKGROUND, x, y, -10 + enchantLevel, RECIPE_BUTTON_WIDTH, RECIPE_BUTTON_HEIGHT);
 
         String enchantLevelText = Component.translatable("enchantment.level." + enchantLevel).getString();
         guiGraphics.drawString(this.minecraft.font, enchantLevelText, x + 6, y + 6, 0xFFFFFFFF, true);
 
         // The three item icons are aligned to the right edge of the panel
-        x = (leftPos + LEFT_MARGIN + RECIPE_BUTTON_WIDTH) - (ITEM_SIZE * 3) - 5;
+        x = (this.leftPos + LEFT_MARGIN + RECIPE_BUTTON_WIDTH) - (ITEM_SIZE * 3) - 5;
         y += 2;
 
         LAPIS_STACK.setCount(recipe.lapisCost());
@@ -347,10 +367,10 @@ public class RecipeBookScreen implements Renderable, GuiEventListener
         if (force || !search.equals(this.lastSearch))
         {
             searchResults.clear();
-            for(Map.Entry<String, List<EnchantAltarRecipe>> entry : recipeMap.entrySet())
+            for(RecipeBookPage entry : recipeBookPages)
             {
-                if(search.isEmpty() || entry.getKey().toLowerCase().contains(search))
-                    searchResults.put(entry.getKey(), entry.getValue());
+                if(search.isEmpty() || entry.getEnchantName().toLowerCase().contains(search))
+                    searchResults.add(entry);
             }
 
             this.lastSearch = search;
