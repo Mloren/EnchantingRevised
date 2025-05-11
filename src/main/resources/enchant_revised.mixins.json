@@ -10,7 +10,9 @@
     "EnchantmentHelperMixin",
     "ServerLevelMixin",
     "MultiPlayerGameModeMixin",
-    "GuiMixin"
+    "GuiMixin",
+    "EnchantmentScreenMixin",
+    "EnchantmentMenuMixin"
   ],
   "client": [
   ],
