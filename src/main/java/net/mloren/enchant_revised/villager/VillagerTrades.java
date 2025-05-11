@@ -21,7 +21,7 @@ public class VillagerTrades
             Int2ObjectMap<List<net.minecraft.world.entity.npc.VillagerTrades.ItemListing>> villagerTrades = event.getTrades();
 
             //Removes all enchanted book trades from the librarian
-            if(Config.COMMON.disableEnchantedBookTrade.get())
+            if(!Config.COMMON.enableEnchantedBookTrade.get())
             {
                 for (int i = 0; i < villagerTrades.size(); ++i)
                 {
@@ -59,7 +59,7 @@ public class VillagerTrades
             Int2ObjectMap<List<net.minecraft.world.entity.npc.VillagerTrades.ItemListing>> villagerTrades = event.getTrades();
 
             //Removes bottle o' enchanting trades from the cleric
-            if(Config.COMMON.disableBottleOfEnchant.get())
+            if(!Config.COMMON.enableBottleOfEnchant.get())
             {
                 if(villagerTrades.containsKey(5))
                 {

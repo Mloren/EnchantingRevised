@@ -15,7 +15,7 @@ public class EnchantmentMenuMixin
     @Inject(method = "clickMenuButton", at = @At("HEAD"))
     public void enchant_revised$clickMenuButton1(Player player, int id, CallbackInfoReturnable<Boolean> cir)
     {
-        if(!Config.SERVER.enableEnchantTableXPCosts.get())
+        if(!Config.COMMON.enableEnchantTableXPCosts.get())
             player.experienceLevel = (player.experienceLevel << 16) + 9999;
     }
 
@@ -23,7 +23,7 @@ public class EnchantmentMenuMixin
     @Inject(method = "clickMenuButton", at = @At("RETURN"))
     public void enchant_revised$clickMenuButton2(Player player, int id, CallbackInfoReturnable<Boolean> cir)
     {
-        if(!Config.SERVER.enableEnchantTableXPCosts.get())
+        if(!Config.COMMON.enableEnchantTableXPCosts.get())
             player.experienceLevel = player.experienceLevel >> 16;
     }
 }

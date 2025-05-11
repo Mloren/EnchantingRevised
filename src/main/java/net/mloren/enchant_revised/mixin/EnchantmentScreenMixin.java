@@ -29,7 +29,7 @@ public class EnchantmentScreenMixin extends Screen
     @Inject(method = "render", at = @At("HEAD"))
     public void enchant_revised$render1(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo callback)
     {
-        if(!Config.SERVER.enableEnchantTableXPCosts.get())
+        if(!Config.COMMON.enableEnchantTableXPCosts.get())
             this.minecraft.player.experienceLevel = (this.minecraft.player.experienceLevel << 16) + 9999;
     }
 
@@ -37,7 +37,7 @@ public class EnchantmentScreenMixin extends Screen
     @Inject(method = "render", at = @At("RETURN"))
     public void enchant_revised$render2(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo callback)
     {
-        if(!Config.SERVER.enableEnchantTableXPCosts.get())
+        if(!Config.COMMON.enableEnchantTableXPCosts.get())
             this.minecraft.player.experienceLevel = this.minecraft.player.experienceLevel >> 16;
     }
 
@@ -45,26 +45,26 @@ public class EnchantmentScreenMixin extends Screen
     @WrapWithCondition(method = "render", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 6, remap = false))
     private boolean enchant_revised$render3(List instance, Object e)
     {
-        return !Config.SERVER.enableEnchantTableXPCosts.get();
+        return !Config.COMMON.enableEnchantTableXPCosts.get();
     }
 
     //Hide UI that displays levels required
     @WrapWithCondition(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V", ordinal = 2, remap = false))
     private boolean enchant_revised$renderBg_blitSprite1(GuiGraphics instance, ResourceLocation sprite, int x, int y, int width, int height)
     {
-        return !Config.SERVER.enableEnchantTableXPCosts.get();
+        return !Config.COMMON.enableEnchantTableXPCosts.get();
     }
 
     @WrapWithCondition(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V", ordinal = 5, remap = false))
     private boolean enchant_revised$renderBg_blitSprite2(GuiGraphics instance, ResourceLocation sprite, int x, int y, int width, int height)
     {
-        return !Config.SERVER.enableEnchantTableXPCosts.get();
+        return !Config.COMMON.enableEnchantTableXPCosts.get();
     }
 
     @WrapWithCondition(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Ljava/lang/String;III)I", remap = false))
     private boolean enchant_revised$renderBg_drawString(GuiGraphics instance, Font font, String text, int x, int y, int color)
     {
-        return !Config.SERVER.enableEnchantTableXPCosts.get();
+        return !Config.COMMON.enableEnchantTableXPCosts.get();
     }
 
     //Move the text on the enchanting table buttons to fill the space left by removed XP icons
@@ -74,7 +74,7 @@ public class EnchantmentScreenMixin extends Screen
             ordinal = 7)
     public int enchant_revised$renderBg_moveText(int value, @Local(ordinal = 6) int i1)
     {
-        if(!Config.SERVER.enableEnchantTableXPCosts.get())
+        if(!Config.COMMON.enableEnchantTableXPCosts.get())
             return i1 + 8;
         else
             return value;

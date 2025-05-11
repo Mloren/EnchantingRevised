@@ -16,6 +16,6 @@ public class ServerLevelMixin
     @WrapWithCondition(method = "addEntity", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;Ljava/lang/Object;)V", remap = false))
     private boolean enchant_revised$addEntity(Logger instance, String s, Object o, Entity entity)
     {
-        return !Config.SERVER.disableXP.get() || !(entity instanceof ExperienceOrb);
+        return !Config.COMMON.disableXP.get() || !(entity instanceof ExperienceOrb);
     }
 }

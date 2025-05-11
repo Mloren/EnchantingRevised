@@ -24,7 +24,7 @@ public class RemoveEnchantBottles extends LootModifier
     @Override
     protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context)
     {
-        if(Config.COMMON.disableBottleOfEnchant.get())
+        if(!Config.COMMON.enableBottleOfEnchant.get())
         {
             //Remove Bottle of Enchanting from loot tables
             for (int i = generatedLoot.size() - 1; i >= 0; i--)

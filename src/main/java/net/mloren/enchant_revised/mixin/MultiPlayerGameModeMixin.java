@@ -14,7 +14,7 @@ public class MultiPlayerGameModeMixin
     @Inject(method = "hasExperience", at = @At("HEAD"), cancellable = true)
     private void enchant_revised$hasExperience(CallbackInfoReturnable<Boolean> callback)
     {
-        if(Config.CLIENT.hideXPBar.get())
+        if(!Config.CLIENT.enableXPBar.get())
             callback.setReturnValue(false);
     }
 }

@@ -87,7 +87,7 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu
     @Inject(method = "createResult", at = @At("TAIL"), cancellable = true)
     public void enchant_revised$createResult(CallbackInfo callback)
     {
-        if(Config.SERVER.enableAnvilNoXPCosts.get())
+        if(!Config.COMMON.enableAnvilXPCosts.get())
         {
             this.cost.set(0);
 
@@ -101,7 +101,7 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu
     @Inject(method = "getCost", at = @At("HEAD"), cancellable = true)
     public void enchant_revised$getCost(CallbackInfoReturnable<Integer> callback)
     {
-        if(Config.SERVER.enableAnvilNoXPCosts.get())
+        if(!Config.COMMON.enableAnvilXPCosts.get())
             callback.setReturnValue(0);
     }
 
@@ -113,7 +113,7 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu
             target = "Lnet/minecraft/world/item/ItemStack;supportsEnchantment(Lnet/minecraft/core/Holder;)Z"), ordinal=3)
     public int enchant_revised$replaceEnchantLevel(int value, @Local(ordinal=0) Object2IntMap.Entry<Holder<Enchantment>> entry, @Local(ordinal=2) int i2)
     {
-        if(Config.SERVER.enableNoBookCombining.get())
+        if(!Config.COMMON.enableBookUpgrading.get())
         {
             int j2 = entry.getIntValue();
             return Math.max(j2, i2);

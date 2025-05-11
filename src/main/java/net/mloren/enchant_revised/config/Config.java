@@ -2,7 +2,6 @@ package net.mloren.enchant_revised.config;
 
 import net.mloren.enchant_revised.config.types.ClientConfig;
 import net.mloren.enchant_revised.config.types.CommonConfig;
-import net.mloren.enchant_revised.config.types.ServerConfig;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -10,19 +9,11 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class Config
 {
-    public static final ServerConfig SERVER;
     public static final CommonConfig COMMON;
     public static final ClientConfig CLIENT;
 
-    private static final ModConfigSpec serverSpec;
     private static final ModConfigSpec commonSpec;
     private static final ModConfigSpec clientSpec;
-
-    static {
-        final Pair<ServerConfig, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(ServerConfig::new);
-        SERVER = specPair.getLeft();
-        serverSpec = specPair.getRight();
-    }
 
     static {
         final Pair<CommonConfig, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(CommonConfig::new);
@@ -38,7 +29,6 @@ public class Config
 
     public static void register(ModContainer modContainer)
     {
-        modContainer.registerConfig(ModConfig.Type.SERVER, serverSpec);
         modContainer.registerConfig(ModConfig.Type.COMMON, commonSpec);
         modContainer.registerConfig(ModConfig.Type.CLIENT, clientSpec);
     }

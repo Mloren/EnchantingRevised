@@ -17,9 +17,9 @@ public class ItemMixin
     {
         if(enchantingRevised$IsNetherite(toRepair))
         {
-            if(Config.SERVER.repairNetheriteWithDiamonds.get() && repair.getItem() == Items.DIAMOND)
+            if(Config.COMMON.repairNetheriteWithDiamonds.get() && repair.getItem() == Items.DIAMOND)
                 callback.setReturnValue(true);
-            if(Config.SERVER.repairNetheriteWithScrap.get() && repair.getItem() == Items.NETHERITE_SCRAP)
+            if(Config.COMMON.repairNetheriteWithScrap.get() && repair.getItem() == Items.NETHERITE_SCRAP)
                 callback.setReturnValue(true);
         }
     }

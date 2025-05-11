@@ -16,7 +16,7 @@ public class ExperienceOrbMixin
     @Inject(method = "<init>(Lnet/minecraft/world/level/Level;DDDI)V", at = @At("RETURN"))
     private void enchant_revised$Init1(Level level, double x, double y, double z, int value, CallbackInfo callback)
     {
-        if(Config.SERVER.disableXP.get())
+        if(Config.COMMON.disableXP.get())
         {
             ExperienceOrb experienceOrb = (ExperienceOrb)(Object)this;
             experienceOrb.discard();
@@ -27,7 +27,7 @@ public class ExperienceOrbMixin
     @Inject(method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V", at = @At("RETURN"))
     private void enchant_revised$Init2(EntityType entityType, Level level, CallbackInfo callback)
     {
-        if(Config.SERVER.disableXP.get())
+        if(Config.COMMON.disableXP.get())
         {
             ExperienceOrb experienceOrb = (ExperienceOrb)(Object)this;
             experienceOrb.discard();

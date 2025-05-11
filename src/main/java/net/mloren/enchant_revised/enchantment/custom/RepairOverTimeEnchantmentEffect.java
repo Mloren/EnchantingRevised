@@ -19,8 +19,8 @@ public record RepairOverTimeEnchantmentEffect() implements EnchantmentEntityEffe
         if(item.owner() instanceof ServerPlayer serverPlayer)
         {
             //Repair tools over time
-            int tickDelay = Config.SERVER.repairDelayTicks.get();
-            int tickDelayPerLevel = Config.SERVER.repairDelayTicksPerLevel.get();
+            int tickDelay = Config.COMMON.repairDelayTicks.get();
+            int tickDelayPerLevel = Config.COMMON.repairDelayTicksPerLevel.get();
             int ticksPerRepair = Math.max(tickDelay - ((enchantmentLevel - 1) * tickDelayPerLevel), 1);
             if(serverPlayer.tickCount % ticksPerRepair == 0)
             {
