@@ -9,12 +9,12 @@
     "ExperienceOrbMixin",
     "EnchantmentHelperMixin",
     "ServerLevelMixin",
-    "MultiPlayerGameModeMixin",
-    "GuiMixin",
-    "EnchantmentScreenMixin",
     "EnchantmentMenuMixin"
   ],
   "client": [
+    "MultiPlayerGameModeMixin",
+    "GuiMixin",
+    "EnchantmentScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
