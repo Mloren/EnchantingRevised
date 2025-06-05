@@ -1,0 +1,33 @@
+{
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:written_book",
+          "functions": [
+            {
+              "function": "minecraft:set_book_cover",
+              "title": "Welcome to Enchanting Revised"
+            },
+            {
+              "function": "minecraft:set_written_book_pages",
+              "pages": [
+                "Welcome to Enchanting Revised.\n\nThis mod reworks the enchanting system to remove RNG and XP while still maintaining a vanilla feel.\n\nThis mod is heavily customizable through configs. This book assumes you're using the default settings.",
+                "Enchanting Altar\n\nThis new work station allows you to craft enchantments through recipes.\n\nThey can be applied to a book or directly to a tool, weapon, or armour.\n\nThe vanilla enchanting table is removed.",
+                "Villager Trading\n\nLibrarians no longer provide enchanted books, instead they provide Echoing Books which can be used to duplicate an enchanted book in the anvil.",
+                "Mending Enchantment\n\nThe mending enchantment has been changed, it now provides a slow repair-over-time, extending the lifetime of your tools without requiring XP.",
+                "Anvil\n\nThe anvil is your main way to repair tools.\n\nIt no longer costs XP, there is no limit to the number of repairs, and you can repair netherite with diamonds.",
+                "Vanilla XP\n\nSince enchanting, repairing, and mending no longer cost XP, it has been removed completely.",
+                "Misc\n\nThe anvil no longer creates stronger enchantments when combining two weaker ones.\n\nLibrarians now sell lapis."
+              ],
+              "mode": "replace_all"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

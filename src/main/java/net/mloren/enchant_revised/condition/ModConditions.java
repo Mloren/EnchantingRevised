@@ -16,6 +16,9 @@ public class ModConditions
     public static final DeferredRegister<MapCodec<? extends ICondition>> CONDITION_CODECS =
             DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, MainMod.MOD_ID);
 
+    public static final Supplier<MapCodec<StartingLootEnabledCondition>> STARTER_LOOT_ENABLED =
+            CONDITION_CODECS.register("starter_loot_enabled", () -> StartingLootEnabledCondition.CODEC);
+
     public static final Supplier<MapCodec<EnchantAltarEnabledCondition>> ENCHANT_ALTAR_ENABLED =
             CONDITION_CODECS.register("enchant_altar_enabled", () -> EnchantAltarEnabledCondition.CODEC);
 

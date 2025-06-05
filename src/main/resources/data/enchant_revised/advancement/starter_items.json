@@ -1,0 +1,17 @@
+{
+  "criteria": {
+    "give_initial_items": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "rewards": {
+    "loot": [
+      "enchant_revised:starter_items"
+    ]
+  },
+  "neoforge:conditions": [
+    {
+      "type": "enchant_revised:starter_loot_enabled"
+    }
+  ]
+}

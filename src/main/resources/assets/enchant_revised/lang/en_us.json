@@ -9,6 +9,8 @@
   "misc.enchant_revised.secondary_tooltip": "Add Secondary Ingredient",
   "misc.enchant_revised.target_tooltip": "Add Enchantable Item",
 
+  "misc.enchant_revised.start_book_title": "Welcome to Enchanting Revised",
+
 
   "enchant_revised.configuration.title": "Enchanting Revised Configuration",
 
@@ -69,6 +71,8 @@
   "enchant_revised.configuration.repairNetheriteWithScrap" : "Repair With Netherite Scrap",
   "enchant_revised.configuration.repairNetheriteWithScrap.tooltip": "Repair netherite armor and tools with netherite scrap.\n\n(Server only.)",
 
+  "enchant_revised.configuration.provideStartingLoot" : "Give Instruction Book",
+  "enchant_revised.configuration.provideStartingLoot.tooltip": "Give players an instruction book on joining for the first time.\n\n(Server only. Reload required.)",
 
   "enchant_revised.configuration.section.enchant.revised.client.toml": "Client settings",
   "enchant_revised.configuration.section.enchant.revised.client.toml.title": "Enchanting Revised Client Configuration",

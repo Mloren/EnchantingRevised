@@ -26,6 +26,8 @@ public class CommonConfig
     public final ModConfigSpec.BooleanValue repairNetheriteWithDiamonds;
     public final ModConfigSpec.BooleanValue repairNetheriteWithScrap;
 
+    public final ModConfigSpec.BooleanValue provideStartingLoot;
+
     public CommonConfig(ModConfigSpec.@NotNull Builder builder)
     {
         builder.push("experience");
@@ -61,5 +63,7 @@ public class CommonConfig
         repairNetheriteWithDiamonds = builder.define("repairNetheriteWithDiamonds", true);
         repairNetheriteWithScrap = builder.define("repairNetheriteWithScrap", false);
         builder.pop();
+
+        provideStartingLoot = builder.worldRestart().define("provideStartingLoot", true);
     }
 }
