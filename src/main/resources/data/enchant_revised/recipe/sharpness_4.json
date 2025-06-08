@@ -1,7 +1,7 @@
 {
   "type": "enchant_revised:enchant_altar",
   "primary": {
-    "item": "minecraft:diamond_sword",
+    "item": "minecraft:grindstone",
     "count": 1
   },
   "secondary": {
