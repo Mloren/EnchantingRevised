@@ -15,7 +15,7 @@ public class ItemMixin
     @Inject(method = "isValidRepairItem", at = @At("HEAD"), cancellable = true)
     public void enchant_revised$isValidRepairItem(ItemStack toRepair, ItemStack repair, CallbackInfoReturnable<Boolean> callback)
     {
-        if(enchantingRevised$IsNetherite(toRepair))
+        if(enchantingRevised$IsNetherite(toRepair) || Config.COMMON.repairAnyWithDiamondOrScrap.get())
         {
             if(Config.COMMON.repairNetheriteWithDiamonds.get() && repair.getItem() == Items.DIAMOND)
                 callback.setReturnValue(true);

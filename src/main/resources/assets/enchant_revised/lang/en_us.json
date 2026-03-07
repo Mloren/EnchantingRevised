@@ -70,6 +70,8 @@
   "enchant_revised.configuration.repairNetheriteWithDiamonds.tooltip": "Repair netherite armor and tools with diamonds.\n\n(Server only.)",
   "enchant_revised.configuration.repairNetheriteWithScrap" : "Repair With Netherite Scrap",
   "enchant_revised.configuration.repairNetheriteWithScrap.tooltip": "Repair netherite armor and tools with netherite scrap.\n\n(Server only.)",
+  "enchant_revised.configuration.repairAnyWithDiamondOrScrap" : "Apply To All Items",
+  "enchant_revised.configuration.repairAnyWithDiamondOrScrap.tooltip": "Allow any item (not just netherite) to be repaired according to the above settings.\n\n(Server only.)",
 
   "enchant_revised.configuration.provideStartingLoot" : "Give Instruction Book",
   "enchant_revised.configuration.provideStartingLoot.tooltip": "Give players an instruction book on joining for the first time.\n\n(Server only. Reload required.)",
