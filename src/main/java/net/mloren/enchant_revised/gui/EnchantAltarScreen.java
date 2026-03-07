@@ -3,6 +3,7 @@ package net.mloren.enchant_revised.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.renderer.GameRenderer;
@@ -26,6 +27,12 @@ public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu
 {
     private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID, "textures/gui/enchant_altar/enchant_altar_gui.png");
     private static final ResourceLocation ERROR_ICON = ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID,"enchant_altar/error");
+
+    public static final WidgetSprites BOOK_BUTTON_SPRITE = new WidgetSprites(
+            ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID, "enchant_altar/recipe_book_button"),
+            ResourceLocation.fromNamespaceAndPath(MainMod.MOD_ID, "enchant_altar/recipe_book_button_highlighted")
+    );
+
     private static final ItemStack BOOKSHELF = new ItemStack(Items.BOOKSHELF, 1);
 
     private static final Component LAPIS_SLOT_TOOLTIP = Component.translatable("misc.enchant_revised.lapis_tooltip");
@@ -56,7 +63,7 @@ public class EnchantAltarScreen extends AbstractContainerScreen<EnchantAltarMenu
 
         if (Config.CLIENT.enableRecipeBook.get())
         {
-            this.addRenderableWidget(new ImageButton(leftPos + 5, height / 2 - 49, 20, 18, RecipeBookComponent.RECIPE_BUTTON_SPRITES, button ->
+            this.addRenderableWidget(new ImageButton(leftPos + 5, height / 2 - 49, 20, 18, BOOK_BUTTON_SPRITE, button ->
             {
                 this.recipeBook.toggleVisibility();
                 this.leftPos = this.recipeBook.updateScreenPosition(this.width, this.imageWidth);
